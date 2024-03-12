@@ -33,111 +33,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d73b95c-a672-401e-9f31-5ad3c5cdee49" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/audio/receiver/CfMediaButtonReceiver.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/audio/receiver/ModeService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/assets/bdcf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/vehicle-app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/libs/carlife-sdk-release.aar" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/libs/carlife-sdk-release.aar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/ControlTestWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/ControlTestWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleControlHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleControlHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/AuthorizationRequestHelpFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/AuthorizationRequestHelpFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/BaseFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/BaseFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/CarLifeFragmentManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/CarLifeFragmentManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/ExceptionFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/ExceptionFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpAndroidAOAFragment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpAndroidUSBFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpAndroidUSBFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpAppleFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpAppleFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpAppleNCMFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpAppleNCMFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpMainFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/HelpMainFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/LaunchFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/LaunchFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/NCMRequestHelpFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/NCMRequestHelpFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/NewUserGuideFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/NewUserGuideFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/TouchFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/TouchFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/UsbHelpFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/UsbHelpFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/WifiHelpFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/WifiHelpFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/message/MsgBaseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/message/MsgBaseHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/message/MsgHandlerCenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/message/MsgHandlerCenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CarlifeConfUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CarlifeConfUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CarlifeUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CarlifeUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CommonParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CommonParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/DigitalTrans.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/DigitalTrans.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/PreferenceUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/PreferenceUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/CarlifeDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/CarlifeDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/CarlifeMessageDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/CarlifeMessageDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/LoadingProgressBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/LoadingProgressBar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/progress_round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/progress_round.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/progress_small_round.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/progress_small_round.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/push_left_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/push_left_in.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/push_left_out.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/push_left_out.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/push_right_in.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/push_right_in.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/push_right_out.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/anim/push_right_out.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bg_btn_c_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bg_btn_c_selector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bg_btn_circle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bg_btn_circle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bg_btn_d_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bg_btn_d_selector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bottom_bar_connect.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bottom_bar_connect.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bottom_bar_connect_default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bottom_bar_connect_default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bottom_bar_connect_pressed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bottom_bar_connect_pressed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bottom_bar_connect_selected.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_bottom_bar_connect_selected.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_common_btn_white_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_common_btn_white_selector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_diagnose_back_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_diagnose_back_selector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_dialog_bg.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_dialog_bg.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_exitapp_btn_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_exitapp_btn_selector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_diagnose_default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_diagnose_default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_diagnose_pressed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_diagnose_pressed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_diagnose_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_diagnose_selector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_retry_default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_retry_default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_retry_pressed.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_retry_pressed.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_retry_selector.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/com_main_fragment_btn_retry_selector.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/selector_btn_retry.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/selector_btn_retry.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/shape_btn_normal.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/shape_btn_normal.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/shape_btn_press.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/shape_btn_press.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/update_progress_bar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/drawable/update_progress_bar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/carlife_common_title_bar_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/carlife_common_title_bar_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_authorization_request_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_authorization_request_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_exception.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_exception.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_help_android.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_help_android.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_help_apple.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_help_apple.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_help_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_help_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_ncm_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_ncm_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_usb_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_usb_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_wifi_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_wifi_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/carlife_common_title_bar_new.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/carlife_common_title_bar_new.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/control_test_window.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/control_test_window.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/dialog_carlife.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/dialog_carlife.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/dialog_carlife_message.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/dialog_carlife_message.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_authorization_request_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_authorization_request_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_exception.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_exception.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_help_android.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_help_android.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_help_apple.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_help_apple.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_help_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_help_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_incall.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_incall.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_launch.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_launch.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_ncm_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_ncm_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_setting.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_setting.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_setting_about.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_setting_about.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_touch.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_touch.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_usb_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_usb_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_wifi_help.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_wifi_help.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/fragment_user_guide.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/fragment_user_guide.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/layout_carlife_round_progress.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/layout_carlife_round_progress.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/layout_progress_bar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/layout_progress_bar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/list_item_setting.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/list_item_setting.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/values/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/values/styles.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/wangchangming01/.android/avd/Pixel_3a_API_31_arm64-v8a.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[0123456789ABCDEF]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -172,12 +80,7 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="CarLife-Android-Vehicle-V2.0" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -189,6 +92,7 @@
       <list>
         <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -206,6 +110,9 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/vehicle-app/build.gradle" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedIndex" value="1" />
   </component>
@@ -217,41 +124,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="DEBUGGABLE_DEVICE" value="xiaomi-mi_8-16799bc1" />
-    <property name="DEBUGGABLE_PROCESS" value="com.baidu.carlifevehicle" />
-    <property name="DEBUGGER_ID" value="Java" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="d772fde2" />
-    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2021-06-09T06:22:19.506249Z" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
-    <property name="SHOW_ALL_PROCESSES" value="false" />
-    <property name="android-custom-view/Users/wangchangming01/Documents/code/baidu/personal-code/CarLifeSDK/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/view/RemoteDisplayGLView.kt_RemoteDisplayGLView_DIMENSIONS" value="1080&#10;1920" />
-    <property name="android-custom-view/Users/wangchangming01/Documents/code/baidu/personal-code/CarLifeSDK/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/view/RemoteDisplayGLView.kt_SELECTED" value="RemoteDisplayGLView" />
-    <property name="android-custom-view/Users/wangchangming01/Documents/code/baidu/personal-code/CarLifeSDK/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/view/RemoteDisplayView.kt_SELECTED" value="RemoteDisplayView" />
-    <property name="android-custom-view/Users/wangchangming01/Documents/code/baidu/personal-code/CarLifeSDK/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/DirectionViewPager.java_SELECTED" value="DirectionViewPager" />
-    <property name="android-custom-view/Users/wangchangming01/Documents/code/baidu/personal-code/CarLifeSDK/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/LoadingProgressBar.java_LoadingProgressBar_DIMENSIONS" value="1080&#10;1920" />
-    <property name="android-custom-view/Users/wangchangming01/Documents/code/baidu/personal-code/CarLifeSDK/vehicle-app/src/main/java/com/baidu/carlifevehicle/view/LoadingProgressBar.java_SELECTED" value="LoadingProgressBar" />
-    <property name="android-custom-view/Users/wangchangming01/Library/Android/sdk/sources/android-30/android/opengl/GLSurfaceView.java_SELECTED" value="GLSurfaceView" />
-    <property name="android-custom-view/Users/wangchangming01/Library/Android/sdk/sources/android-30/android/view/View.java_SELECTED" value="View" />
-    <property name="android-custom-view/Users/wangchangming01/Library/Android/sdk/sources/android-30/android/view/View.java_View_DIMENSIONS" value="1080&#10;1920" />
-    <property name="android-custom-view/Users/wangchangming01/Library/Android/sdk/sources/android-30/android/view/ViewGroup.java_SELECTED" value="ViewGroup" />
-    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
-    <property name="cidr.known.project.marker" value="true" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/vehicle-app/src" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/vehicle-app/libs" />
-    <property name="memory.settings.postsync.last.time.stamp" value="1635936480647" />
-    <property name="multi-representation-preview/Users/wangchangming01/Documents/code/baidu/personal-code/CarLifeSDK/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/view/RemoteDisplayGLView.kt_selected" value="Custom views" />
-    <property name="multi-representation-preview/Users/wangchangming01/Documents/code/baidu/personal-code/CarLifeSDK/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/view/RemoteDisplayView.kt_selected" value="Custom views" />
-    <property name="multi-representation-preview/Users/wangchangming01/Library/Android/sdk/sources/android-30/android/opengl/GLSurfaceView.java_selected" value="Custom views" />
-    <property name="multi-representation-preview/Users/wangchangming01/Library/Android/sdk/sources/android-30/android/view/View.java_selected" value="Custom views" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.17" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="emulator" />
-    <property name="show.do.not.copy.http.proxy.settings.to.gradle" value="false" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DEBUGGABLE_DEVICE": "alps-ac8257_demo_1g_32-0123456789ABCDEF",
+    "DEBUGGABLE_PROCESS": "com.baidu.carlifevehicle",
+    "DEBUGGER_ID": "Auto",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHOW_ALL_PROCESSES": "false",
+    "android-custom-view/home/liu/.gradle/caches/modules-2/files-2.1/com.google.android.material/material/1.3.0/b42a5159ef2c670d26ce08246ec5aaf8f92e5a42/material-1.3.0-sources.jar!/com/google/android/material/timepicker/ClockFaceView.java_SELECTED": "ClockFaceView",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "/home/liu/AndroidStudioProjects/apollo-DuerOS-1/CarLife-Android-Vehicle-V2.0"
+  }
+}]]></component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
@@ -304,13 +190,13 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
@@ -362,13 +248,13 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
@@ -420,13 +306,13 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
@@ -469,8 +355,8 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="vehicle-app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
-      <module name="CarLife-Android-Vehicle-V2.0.vehicle-app" />
+    <configuration name="vehicle-app" type="AndroidRunConfigurationType" factoryName="Android App">
+      <module name="CarLife-Android-Vehicle-V2.0.vehicle-app.main" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
       <option name="DEPLOY_AS_INSTANT" value="false" />
@@ -478,13 +364,13 @@
       <option name="PM_INSTALL_OPTIONS" value="" />
       <option name="ALL_USERS" value="false" />
       <option name="ALWAYS_INSTALL_WITH_PM" value="false" />
+      <option name="CLEAR_APP_STORAGE" value="false" />
       <option name="DYNAMIC_FEATURES_DISABLED_LIST" value="" />
       <option name="ACTIVITY_EXTRA_FLAGS" value="" />
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="SKIP_NOOP_APK_INSTALLATIONS" value="true" />
-      <option name="FORCE_STOP_RUNNING_APP" value="true" />
+      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
@@ -515,7 +401,7 @@
         <option name="ADVANCED_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_PROFILING_ENABLED" value="false" />
         <option name="STARTUP_CPU_PROFILING_ENABLED" value="false" />
-        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Sample Java Methods" />
+        <option name="STARTUP_CPU_PROFILING_CONFIGURATION_NAME" value="Java/Kotlin Method Sample (legacy)" />
         <option name="STARTUP_NATIVE_MEMORY_PROFILING_ENABLED" value="false" />
         <option name="NATIVE_MEMORY_SAMPLE_RATE_BYTES" value="2048" />
       </Profilers>
@@ -676,7 +562,6 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -694,7 +579,7 @@
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-field">
           <url>file://$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/internal/protocol/ServiceTypes.kt</url>
           <line>158</line>
-          <properties myFieldName="MSG_CMD_START_BT_AUTO_PAIR_REQUEST" myClassName="com.baidu.carlife.sdk.internal.protocol.ServiceTypes" />
+          <properties myFieldName="MSG_CMD_HU_AUTH_REQUEST" myClassName="com.baidu.carlife.sdk.internal.protocol.ServiceTypes" />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>

@@ -2,12 +2,16 @@ package com.baidu.carlifevehicle
 
 import android.Manifest
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Message
+import android.support.v4.media.session.MediaControllerCompat
+import android.support.v4.media.session.MediaSessionCompat
 import android.text.TextUtils
+import android.util.Log
+import android.view.KeyEvent
 import android.view.Surface
-import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -16,19 +20,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
 import com.baidu.carlife.protobuf.CarlifeBTHfpCallStatusCoverProto.CarlifeBTHfpCallStatusCover
+import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
 import com.baidu.carlife.protobuf.CarlifeConnectExceptionProto.CarlifeConnectException
 import com.baidu.carlife.sdk.*
+import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_TOUCH
 import com.baidu.carlife.sdk.Constants.TAG
 import com.baidu.carlife.sdk.Constants.VALUE_PROGRESS_100
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
+import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage.Companion.obtain
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlife.sdk.internal.transport.TransportListener
 import com.baidu.carlife.sdk.receiver.CarLife
+import com.baidu.carlife.sdk.receiver.CarLife.receiver
 import com.baidu.carlife.sdk.receiver.ConnectProgressListener
 import com.baidu.carlife.sdk.receiver.FileTransferListener
 import com.baidu.carlife.sdk.receiver.OnPhoneStateChangeListener
 import com.baidu.carlife.sdk.receiver.view.RemoteDisplayGLView
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.audio.receiver.CfMediaButtonReceiver
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.fragment.*
 import com.baidu.carlifevehicle.message.MsgBaseHandler
@@ -43,6 +52,7 @@ import com.baidu.carlifevehicle.util.CommonParams
 import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.baidu.carlifevehicle.view.CarlifeMessageDialog
 import com.permissionx.guolindev.PermissionX
+
 
 class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     TransportListener, View.OnClickListener, OnPhoneStateChangeListener, WirlessStatusListener {
@@ -68,6 +78,10 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private var mIsCalling: Boolean = false
     private var mIsCallComing: Boolean = false
     private var mIsInitConfig: Boolean = false
+
+    private val mediaSessionCompat by lazy {
+        MediaSessionCompat(this, "CarlifeActivity")
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,6 +128,62 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             500
         )
 
+        mediaSessionCompat.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+
+        mediaSessionCompat.isActive = true
+        MediaControllerCompat.setMediaController(this, mediaSessionCompat.controller)
+
+        mediaSessionCompat.setCallback(object : MediaSessionCompat.Callback(){
+            override fun onMediaButtonEvent(intent: Intent?): Boolean {
+                Log.d(TAG,"intent=$intent")
+                var keyEvent: KeyEvent? = null
+                if(intent!=null){
+                    if ("android.intent.action.MEDIA_BUTTON" == intent.action) {
+                        keyEvent =  intent.getParcelableExtra(
+                            "android.intent.extra.KEY_EVENT"
+                        ) as KeyEvent?
+                        if (keyEvent!=null){
+                            val action = keyEvent.action
+                            val keyCode = keyEvent.keyCode
+                            if (action == KeyEvent.ACTION_UP){
+                                if (keyCode == KeyEvent.KEYCODE_MEDIA_NEXT){
+                                    sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_ADD)
+                                }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS){
+                                    sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_SUB)
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+
+                return super.onMediaButtonEvent(intent)
+            }
+
+        },null)
+
+
+    }
+
+    fun sendHardKeyCodeEvent(keycode: Int) {
+        try {
+            Log.d(TAG, "sendHardKeyCodeEvent: keycode = $keycode")
+            val message = obtain(
+                MSG_CHANNEL_TOUCH,
+                ServiceTypes.MSG_TOUCH_CAR_HARD_KEY_CODE,
+                0
+            )
+            message.serviceType = CommonParams.MSG_TOUCH_CAR_HARD_KEY_CODE
+            message.payload(
+                CarlifeCarHardKeyCodeProto.CarlifeCarHardKeyCode.newBuilder()
+                    .setKeycode(keycode)
+                    .build()
+            )
+            receiver().postMessage(message)
+        } catch (ex: java.lang.Exception) {
+            ex.printStackTrace()
+        }
     }
 
     fun getCarLifeVehicleFragmentManager(): CarLifeFragmentManager? {
