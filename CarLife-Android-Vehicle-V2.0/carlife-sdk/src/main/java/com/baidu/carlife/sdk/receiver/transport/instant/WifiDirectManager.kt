@@ -4,12 +4,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.wifi.p2p.WifiP2pDevice
 import android.net.wifi.p2p.WifiP2pGroup
 import android.net.wifi.p2p.WifiP2pInfo
 import android.net.wifi.p2p.WifiP2pManager
+import android.net.wifi.p2p.WifiP2pManager.EXTRA_WIFI_P2P_DEVICE
+import android.os.Build
 import android.os.Looper
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.CarLifeContext.Companion.CONNECTION_TYPE_WIFIDIRECT
+import com.baidu.carlife.sdk.Configs
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.util.Logger
 
@@ -29,7 +33,17 @@ class WifiDirectManager(
 
     var isConnected = false
         private set
+    private fun reqDirInfo(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            wifiP2pManager.requestDeviceInfo(channel) {
+                Logger.d(Constants.TAG, "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION it: $it")
+                it?.let {
+                    context.setConfig(Configs.CONFIG_WIFI_DIRECT_NAME,it.deviceName)
+                }
+            }
+        }
 
+    }
     init {
         channel = wifiP2pManager.initialize(
             context.applicationContext,
@@ -42,8 +56,10 @@ class WifiDirectManager(
                         Looper.getMainLooper(),
                         this
                     )
+                    reqDirInfo()
                 }
             })
+        reqDirInfo()
         discoverableTask = WifiDirectDiscoverableTask(wifiP2pManager, channel)
 
         val filter = IntentFilter()
@@ -73,6 +89,13 @@ class WifiDirectManager(
     override fun onReceive(context1: Context, intent: Intent) {
         Logger.d(Constants.TAG, "onReceive intent.action: ", intent.action)
         when (intent.action) {
+            WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION ->{
+                val device = intent.getParcelableExtra<WifiP2pDevice>(EXTRA_WIFI_P2P_DEVICE)
+                Logger.d(Constants.TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION device: $device")
+
+                context.setConfig(Configs.CONFIG_WIFI_DIRECT_NAME,device?.deviceName?:"")
+
+            }
             WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION -> {
 
                 val info =
