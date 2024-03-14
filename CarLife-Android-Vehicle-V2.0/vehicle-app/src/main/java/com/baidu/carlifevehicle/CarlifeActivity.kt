@@ -195,7 +195,10 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             .permissions(
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                //Manifest.permission.BLUETOOTH_PRIVILEGED
             )
             .onExplainRequestReason { scope, deniedList ->
                 scope.showRequestReasonDialog(

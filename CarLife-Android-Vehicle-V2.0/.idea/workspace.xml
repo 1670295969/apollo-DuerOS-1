@@ -6,10 +6,8 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="CarLife_SDK" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
-    <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
@@ -34,15 +32,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d73b95c-a672-401e-9f31-5ad3c5cdee49" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/bt/CarBtConnector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/bt/CarBtInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CustomSettingsActivity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/settings_activity.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carlife-sdk/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/carlife-sdk/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/BluetoothDeviceDiscover.kt" beforeDir="false" afterPath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/BluetoothDeviceDiscover.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/InstantConnectionSetup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/InstantConnectionSetup.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/WifiDirectManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/WifiDirectManager.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleApplication.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[0123456789ABCDEF]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[b9776b02]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -129,17 +137,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="cidr.known.project.marker" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/vehicle-app/src/main/res/layout" />
   </component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\work\app\apollo-DuerOS-1\CarLife-Android-Vehicle-V2.0\vehicle-app\src\main\res\layout" />
       <recent name="$PROJECT_DIR$/vehicle-app/libs" />
       <recent name="$PROJECT_DIR$/vehicle-app/assets" />
       <recent name="$PROJECT_DIR$/vehicle-app" />
       <recent name="$PROJECT_DIR$/carlife-sdk" />
-      <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/vehicle-app/libs" />

@@ -13,6 +13,7 @@ import com.baidu.carlife.sdk.Configs.CONFIG_TARGET_BLUETOOTH_NAME
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.internal.transport.communicator.BluetoothCommunicator
 import com.baidu.carlife.sdk.internal.transport.communicator.Communicator
+import com.baidu.carlife.sdk.receiver.transport.instant.bt.CarBtConnector
 import com.baidu.carlife.sdk.util.Logger
 import java.io.IOException
 import java.lang.Exception
@@ -27,11 +28,25 @@ class BluetoothDeviceDiscover(
         fun onDeviceConnected(communicator: BluetoothCommunicator)
     }
 
+    private val carBtConnector by lazy {
+        CarBtConnector(context.applicationContext
+        ) { i, device ->
+
+        }
+    }
+
+    init {
+       carBtConnector
+    }
+
     private val bluetoothAdapter by lazy {
         (context.applicationContext
             .getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager)
             .adapter
     }
+
+
+
 
     private val targetName by lazy { context.getConfig<String>(CONFIG_TARGET_BLUETOOTH_NAME) }
 
@@ -89,8 +104,11 @@ class BluetoothDeviceDiscover(
                 }
             }
         } else {
-            val connectedDevices =
-                bluetoothAdapter?.bondedDevices?.filter { isConnected(it) }.orEmpty()
+            var connectedDevices = carBtConnector.connectedBluetoothDevices
+            Logger.d(Constants.TAG, "connectedDevices.size: ", connectedDevices.size)
+            if (connectedDevices.size == 0){
+            connectedDevices = bluetoothAdapter?.bondedDevices?.filter { isConnected(it) }.orEmpty()
+            }
             for (connectedDevice in connectedDevices) {
                 try {
                     Logger.d(Constants.TAG, "start connect to bondedDevices: ", connectedDevice.name)
@@ -107,7 +125,7 @@ class BluetoothDeviceDiscover(
                 callback?.onDeviceConnected(connectedCommunicator!!)
             } else if (connectedDevices.isNotEmpty() && isReady) {
                 // 如果存在已连接设备，则5s之后重新尝试连接
-                context.main().postDelayed(discoverRunnable, 5000)
+                context.main().postDelayed(discoverRunnable, 3000)
             }
         }
     }

@@ -42,7 +42,8 @@ class InstantConnectionSetup(private val context: CarLifeContext,
 
     private val wifiDirectManager = WifiDirectManager(context, this)
 
-    private val wifiDirectName: String? = context.getConfig(CONFIG_WIFI_DIRECT_NAME)
+    private val wifiDirectName: String?
+    get() = context.getConfig(CONFIG_WIFI_DIRECT_NAME)
     private val isProcessing = AtomicBoolean(false)
 
     private var communicator: BluetoothCommunicator? = null
@@ -110,14 +111,14 @@ class InstantConnectionSetup(private val context: CarLifeContext,
         val response = CarLifeMessage.obtain(MSG_CHANNEL_CMD, MSG_WIRELESS_INFO_RESPONSE)
 
         response.payload(CarlifeWirlessInfoProto.CarlifeWirlessInfo.newBuilder()
-            .setWirlessType(context.getConfig(CONFIG_WIRLESS_TYPE, TYPE_NONE))
-            .setWifiFrequency(context.getConfig(CONFIG_WIRLESS_FREQUENCY, FREQUENCY_2_4G))
+            .setWirlessType(context.getConfig(CONFIG_WIRLESS_TYPE, TYPE_WIFI_DIRECT))
+            .setWifiFrequency(context.getConfig(CONFIG_WIRLESS_FREQUENCY, FREQUENCY_5G))
             .build())
         communicator.write(response)
     }
 
     private fun handleTargetInfoRequest(communicator: BluetoothCommunicator, message: CarLifeMessage) {
-        Logger.d(Constants.BLUETOOH_TAG, "handleTargetInfoRequest: MSG_WIRELESS_TARGET_INFO_RESPONSE")
+        Logger.d(Constants.BLUETOOH_TAG, "handleTargetInfoRequest: MSG_WIRELESS_TARGET_INFO_RESPONSE:$wifiDirectName")
         wifiDirectName ?: return
 
         val response = CarLifeMessage.obtain(MSG_CHANNEL_CMD, MSG_WIRELESS_TARGET_INFO_RESPONSE)

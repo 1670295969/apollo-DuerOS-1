@@ -62,14 +62,14 @@ class VehicleApplication : Application() {
             this,
             screenWidth.coerceAtLeast(screenHeight).coerceAtMost(1920),
             screenWidth.coerceAtMost(screenHeight).coerceAtMost(1080),
-            30
+            60
         )
 
         /**
          * 连接方式默认AOA连接
          */
         val type = PreferenceUtil.getInstance()
-            .getInt(CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_AOA)
+            .getInt(CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT)
 
         /**
          * 车机端的支持的Feature，会通过协议传给手机端
@@ -79,7 +79,7 @@ class VehicleApplication : Application() {
             FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
             FEATURE_CONFIG_CONNECT_TYPE to type,
             FEATURE_CONFIG_AAC_SUPPORT to 1,
-            FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 1,
+            FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 0,
             FEATURE_CONFIG_MUSIC_HUD to 1
         )
 
