@@ -33,17 +33,17 @@ class WifiDirectManager(
 
     var isConnected = false
         private set
-    private fun reqDirInfo(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            wifiP2pManager.requestDeviceInfo(channel) {
-                Logger.d(Constants.TAG, "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION it: $it")
-                it?.let {
-                    context.setConfig(Configs.CONFIG_WIFI_DIRECT_NAME,it.deviceName)
-                }
-            }
-        }
-
-    }
+//    private fun reqDirInfo(){
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+//            wifiP2pManager.requestDeviceInfo(channel) {
+//                Logger.d(Constants.TAG, "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION it: $it")
+//                it?.let {
+//                    context.setConfig(Configs.CONFIG_WIFI_DIRECT_NAME,it.deviceName)
+//                }
+//            }
+//        }
+//
+//    }
     init {
         channel = wifiP2pManager.initialize(
             context.applicationContext,

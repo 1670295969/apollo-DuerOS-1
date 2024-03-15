@@ -196,7 +196,6 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.BLUETOOTH,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 //Manifest.permission.BLUETOOTH_PRIVILEGED
             )
@@ -274,6 +273,17 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         super.onStop()
         VoiceManager.onActivityStop()
         CarLife.receiver().onActivityStopped()
+    }
+
+    override fun onBackPressed() {
+      //  super.onBackPressed()
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            return true
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
     override fun onConnectionAuthenFailed(context: CarLifeContext) {

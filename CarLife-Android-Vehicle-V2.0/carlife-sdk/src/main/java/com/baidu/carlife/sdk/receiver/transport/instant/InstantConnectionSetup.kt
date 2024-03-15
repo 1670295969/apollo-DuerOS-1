@@ -111,7 +111,7 @@ class InstantConnectionSetup(private val context: CarLifeContext,
         val response = CarLifeMessage.obtain(MSG_CHANNEL_CMD, MSG_WIRELESS_INFO_RESPONSE)
 
         response.payload(CarlifeWirlessInfoProto.CarlifeWirlessInfo.newBuilder()
-            .setWirlessType(context.getConfig(CONFIG_WIRLESS_TYPE, TYPE_WIFI_DIRECT))
+            .setWirlessType(context.getConfig(CONFIG_WIRLESS_TYPE, TYPE_ALL))
             .setWifiFrequency(context.getConfig(CONFIG_WIRLESS_FREQUENCY, FREQUENCY_5G))
             .build())
         communicator.write(response)

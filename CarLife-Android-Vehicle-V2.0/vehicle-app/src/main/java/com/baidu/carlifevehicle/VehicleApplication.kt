@@ -60,8 +60,8 @@ class VehicleApplication : Application() {
         val screenHeight = resources.displayMetrics.heightPixels
         val displaySpec = DisplaySpec(
             this,
-            screenWidth.coerceAtLeast(screenHeight).coerceAtMost(1920),
-            screenWidth.coerceAtMost(screenHeight).coerceAtMost(1080),
+            screenWidth.coerceAtLeast(screenHeight).coerceAtMost(1024),
+            screenWidth.coerceAtMost(screenHeight).coerceAtMost(600),
             60
         )
 
@@ -76,7 +76,7 @@ class VehicleApplication : Application() {
          */
         val features = mapOf(
             FEATURE_CONFIG_USB_MTU to 16 * 1024,
-            FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
+            FEATURE_CONFIG_I_FRAME_INTERVAL to 100,
             FEATURE_CONFIG_CONNECT_TYPE to type,
             FEATURE_CONFIG_AAC_SUPPORT to 1,
             FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 0,
