@@ -124,7 +124,7 @@ class AudioPlayer(
     }
 
     fun duck() {
-        setVolume(0.2f)
+        setVolume(0.5f)
     }
 
     fun unduck() {

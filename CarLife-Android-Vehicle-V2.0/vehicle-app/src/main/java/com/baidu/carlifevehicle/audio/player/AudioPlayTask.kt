@@ -130,7 +130,7 @@ class AudioPlayTask(
         }
 
         if (newState == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
-            setVolume(0.2f)
+            setVolume(0.5f)
         } else {
             setVolume(1.0f)
         }

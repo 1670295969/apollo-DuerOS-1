@@ -37,7 +37,6 @@ import com.baidu.carlife.sdk.receiver.FileTransferListener
 import com.baidu.carlife.sdk.receiver.OnPhoneStateChangeListener
 import com.baidu.carlife.sdk.receiver.view.RemoteDisplayGLView
 import com.baidu.carlife.sdk.util.Logger
-import com.baidu.carlifevehicle.audio.receiver.CfMediaButtonReceiver
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.fragment.*
 import com.baidu.carlifevehicle.message.MsgBaseHandler
@@ -49,6 +48,7 @@ import com.baidu.carlifevehicle.module.VRModule
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
 import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
+import com.baidu.carlifevehicle.util.CommonParams.KEYCODE_MAIN
 import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.baidu.carlifevehicle.view.CarlifeMessageDialog
 import com.permissionx.guolindev.PermissionX
@@ -86,6 +86,16 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
+        // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+
+        //View.SYSTEM_UI_FLAG_IMMERSIVE
         setContentView(R.layout.activity_main)
         mSurfaceView = findViewById(R.id.video_surface_view)
 
@@ -281,6 +291,17 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK){
+            val message = obtain(
+                MSG_CHANNEL_TOUCH,
+                ServiceTypes.MSG_TOUCH_CAR_HARD_KEY_CODE,
+                0
+            )
+            message.payload(
+                CarlifeCarHardKeyCodeProto.CarlifeCarHardKeyCode.newBuilder()
+                    .setKeycode(KEYCODE_MAIN)
+                    .build()
+            )
+            receiver().postMessage(message)
             return true
         }
         return super.onKeyUp(keyCode, event)

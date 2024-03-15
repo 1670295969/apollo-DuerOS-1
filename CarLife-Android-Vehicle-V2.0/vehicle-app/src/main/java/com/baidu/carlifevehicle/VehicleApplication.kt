@@ -60,8 +60,8 @@ class VehicleApplication : Application() {
         val screenHeight = resources.displayMetrics.heightPixels
         val displaySpec = DisplaySpec(
             this,
-            screenWidth.coerceAtLeast(screenHeight).coerceAtMost(1024),
-            screenWidth.coerceAtMost(screenHeight).coerceAtMost(600),
+            screenWidth.coerceAtLeast(screenHeight).coerceAtMost(screenWidth),
+            screenWidth.coerceAtMost(screenHeight).coerceAtMost(screenHeight),
             60
         )
 

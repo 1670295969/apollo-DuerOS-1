@@ -32,21 +32,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d73b95c-a672-401e-9f31-5ad3c5cdee49" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/InstantConnectionSetup.kt" beforeDir="false" afterPath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/InstantConnectionSetup.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/WifiDirectManager.kt" beforeDir="false" afterPath="$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/transport/instant/WifiDirectManager.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/assets/bdcf" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/assets/bdcf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/activity_main.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\HQ-X-021-619\.android\avd\Nexus_4_Edited_API_30.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[IB7HFISKHYIZ6TLZ]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -132,6 +127,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="android-custom-viewD:/tools/android/sdk/sources/android-30/android/view/View.java_SELECTED" value="View" />
     <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/vehicle-app/src/main/res/layout" />
   </component>
