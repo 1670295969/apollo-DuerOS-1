@@ -313,6 +313,8 @@ public class CarlifeConfUtil {
      * 本工程的文件是放置在assets中，车厂开始时也可以放置在sdcard中，从sdcard中获取，路径可自定义
      */
     public void init() {
+        channelId = "20352101";
+        CommonParams.vehicleChannel = channelId;
         updateProperty();
     }
 
