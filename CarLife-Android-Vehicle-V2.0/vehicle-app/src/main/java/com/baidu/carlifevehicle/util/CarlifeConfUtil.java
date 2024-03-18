@@ -16,6 +16,7 @@
 package com.baidu.carlifevehicle.util;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.text.TextUtils;
 
@@ -46,7 +47,7 @@ public class CarlifeConfUtil {
     private static final int CONF_FILE_NOT_EXISTS = 1;
     private static final int CONF_FILE_READ_EXCEPTION = 2;
 
-    private static boolean isReadConfSuccess = false;
+    private static boolean isReadConfSuccess = true;
 
     private static final int MAX_TIME_READ_CONF = 5;
     private int readConfCnt = 0;
@@ -55,7 +56,7 @@ public class CarlifeConfUtil {
     private Condition mCondition = mLock.newCondition();
 
     /**
-     *  How many audio tracks Carlife Vehicle will apply for Music and TTS playback
+     * How many audio tracks Carlife Vehicle will apply for Music and TTS playback
      */
     public static int valueIntAudioTrackNum = 2;
     /**
@@ -78,6 +79,8 @@ public class CarlifeConfUtil {
      * 0 head unit mic <br/>
      * 1 mobile device mic<br/>
      * 2 not supported <br/>
+     * 3 回声消除，先左声道，后右
+     * 4 回声消除，先右，后左
      */
     public static int valueIntVoiceMic = 0;
     /**
@@ -95,7 +98,7 @@ public class CarlifeConfUtil {
     /**
      * whether support bluetooth auto pair
      */
-    public static int valueIntBluetoothAutoPair = 0;
+    public static int valueIntBluetoothAutoPair = 1;
     /**
      * whether send touch event to mobile device
      */
@@ -175,14 +178,14 @@ public class CarlifeConfUtil {
      * 2 直连 <br/>
      * 3 都支持 <br/>
      */
-    public static int valueIntWirlessType = 0;
+    public static int valueIntWirlessType = 2;
 
     /**
      * 车机端支持的无线连接频率
      * 0 2.4G <br/>
      * 1 5G <br/>
      */
-    public static int valueIntWirlessFrequency = 0;
+    public static int valueIntWirlessFrequency = 1;
 
     /**
      * 蓝牙音频是否支持
@@ -209,7 +212,6 @@ public class CarlifeConfUtil {
      * true 保存 <br/>
      */
     public static boolean valueBoolSaveAudioFile = false;
-
 
 
     public static final String KEY_INT_AUDIO_TRACK_NUM = "AUDIO_TRACK_NUM";
@@ -290,7 +292,7 @@ public class CarlifeConfUtil {
     private Context mContext = null;
 
     private String channelId = null;
-    private HashMap<String, String> propertyMap = null;
+    //  private HashMap<String, String> propertyMap = null;
 
     public static CarlifeConfUtil getInstance() {
         if (null == mInstance) {
@@ -309,300 +311,194 @@ public class CarlifeConfUtil {
     /**
      * 从本地读取一些配置文件到缓存中
      * 本工程的文件是放置在assets中，车厂开始时也可以放置在sdcard中，从sdcard中获取，路径可自定义
-     * @throws InterruptedException
      */
-    public void init() throws InterruptedException {
-        readConfCnt++;
-        new Thread() {
-            @Override
-            public void run() {
-                Logger.e(TAG, "begin to read bdcf");
-                isReadConfSuccess = false;
-                int readStatus = readBdcf();
-                if (readStatus == CONF_FILE_READ_SUCCESS) {
-                    Logger.e(TAG, "read conf form bdcf success");
-                } else if (readStatus == CONF_FILE_NOT_EXISTS) {
-                    Logger.e(TAG, "read conf form bdcf fail: file not exist");
-                    isReadConfSuccess = false;
-                    return;
-                } else if (readStatus == CONF_FILE_READ_EXCEPTION) {
-                    Logger.e(TAG, "read conf form bdcf fail: get exception");
-                    isReadConfSuccess = false;
-                    return;
-                }
-                if (!TextUtils.isEmpty(channelId)) {
-                    Logger.e(TAG, "read channel id form bdcf: " + channelId);
-                    CommonParams.vehicleChannel = channelId;
-                } else {
-                    Logger.e(TAG, "read channel id form bdcf fail");
-                    isReadConfSuccess = false;
-                    return;
-                }
-                Logger.e(TAG, "channel = " + CommonParams.vehicleChannel);
-
-                if (updateProperty()) {
-                    Logger.d(TAG, "update property success");
-                } else {
-                    Logger.d(TAG, "update property fail");
-                    isReadConfSuccess = false;
-                    return;
-                }
-                isReadConfSuccess = true;
-                Logger.e(TAG, "end to read bdcf");
-            }
-        }.start();
+    public void init() {
+        updateProperty();
     }
 
-    private int readBdcf() {
-        int readStatus = CONF_FILE_READ_SUCCESS;
-        File bdcf = null;
-        BufferedReader reader = null;
-        String line = null;
-        String[] keyValue = null;
-        int linenum = 1;
 
-        try {
-            InputStream ip = VehicleApplication.app.getResources().getAssets().open(CONF_FILE);
-            reader = new BufferedReader(new InputStreamReader(ip));
-            propertyMap = new HashMap<String, String>();
-
-            while ((line = reader.readLine()) != null) {
-                Logger.d(TAG, "line " + linenum + ": " + line);
-                linenum++;
-                if (!line.startsWith("#")) {
-                    channelId = line.trim();
-                    break;
-                }
-            }
-            while ((line = reader.readLine()) != null) {
-                Logger.d(TAG, "line " + linenum + ": " + line);
-                linenum++;
-                line = line.trim().replace(" ", "");
-                if (!line.isEmpty() && !line.startsWith("#")) {
-                    keyValue = line.split("=");
-                    propertyMap.put(keyValue[0], keyValue[1]);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            Logger.e(TAG, "[ERROR]read to file exception 1");
-            e.printStackTrace();
-            readStatus = CONF_FILE_NOT_EXISTS;
-        } catch (Exception e) {
-            Logger.e(TAG, "[ERROR]read file exception");
-            e.printStackTrace();
-            readStatus = CONF_FILE_READ_EXCEPTION;
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-        return readStatus;
+    private PreferenceUtil getPreferenceUtil() {
+        return PreferenceUtil.getInstance();
     }
 
-    private boolean updateProperty() {
+    private void updateProperty() {
 
-        if (propertyMap == null) {
-            Logger.e(TAG, "propertyMap is null");
-            return false;
+        SharedPreferences sp = PreferenceUtil.getInstance().getPreferences();
+
+        if (sp.contains(KEY_INT_CONNECT_TYPE_ANDROID)) {
+            Logger.e(TAG, "Android phones only support AOA connections");
+        }
+//            if (propertyMap.containsKey(KEY_INT_CONNECT_TYPE_IPHONE)) {
+//                valueIntConnectTypeIphone = getIntFromMap(KEY_INT_CONNECT_TYPE_IPHONE);
+//                Logger.e(TAG, "VALUE_INT_CONNECT_TYPE_IPHONE = " + valueIntConnectTypeIphone);
+//            }
+//            if (propertyMap.containsKey(KEY_INT_IPHONE_USB_CONNECT_TYPE)) {
+//                valueIntIphoneUsbConnectType = getIntFromMap(KEY_INT_IPHONE_USB_CONNECT_TYPE);
+//                Logger.e(TAG, "VALUE_INT_IPHONE_USB_CONNECT_TYPE = " + valueIntIphoneUsbConnectType);
+//            }
+//            if (propertyMap.containsKey(KEY_STRING_IPHONE_NCM_ETHERNET_NAME)) {
+//                valueStringIphoneNcmEthernetName = getStringFromMap(KEY_STRING_IPHONE_NCM_ETHERNET_NAME);
+//                Logger.e(TAG, "VALUE_STRING_IPHONE_NCM_ETHERNET_NAME = " + valueStringIphoneNcmEthernetName);
+//            }
+        if (sp.contains(KEY_INT_AUDIO_TRACK_NUM)) {
+            valueIntAudioTrackNum = getIntFromMap(KEY_INT_AUDIO_TRACK_NUM);
+            Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_NUM = " + valueIntAudioTrackNum);
         }
 
-        try {
-            if (propertyMap.containsKey(KEY_INT_CONNECT_TYPE_ANDROID)) {
-                Logger.e(TAG, "Android phones only support AOA connections");
-            }
-            if (propertyMap.containsKey(KEY_INT_CONNECT_TYPE_IPHONE)) {
-                valueIntConnectTypeIphone = getIntFromMap(KEY_INT_CONNECT_TYPE_IPHONE);
-                Logger.e(TAG, "VALUE_INT_CONNECT_TYPE_IPHONE = " + valueIntConnectTypeIphone);
-            }
-            if (propertyMap.containsKey(KEY_INT_IPHONE_USB_CONNECT_TYPE)) {
-                valueIntIphoneUsbConnectType = getIntFromMap(KEY_INT_IPHONE_USB_CONNECT_TYPE);
-                Logger.e(TAG, "VALUE_INT_IPHONE_USB_CONNECT_TYPE = " + valueIntIphoneUsbConnectType);
-            }
-            if (propertyMap.containsKey(KEY_STRING_IPHONE_NCM_ETHERNET_NAME)) {
-                valueStringIphoneNcmEthernetName = getStringFromMap(KEY_STRING_IPHONE_NCM_ETHERNET_NAME);
-                Logger.e(TAG, "VALUE_STRING_IPHONE_NCM_ETHERNET_NAME = " + valueStringIphoneNcmEthernetName);
-            }
-            if (propertyMap.containsKey(KEY_INT_AUDIO_TRACK_NUM)) {
-                valueIntAudioTrackNum = getIntFromMap(KEY_INT_AUDIO_TRACK_NUM);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_NUM = " + valueIntAudioTrackNum);
-            }
-
-            if (propertyMap.containsKey(KEY_INT_AUDIO_TRACK_TYPE)) {
-                valueIntAudioTrackType = getIntFromMap(KEY_INT_AUDIO_TRACK_TYPE);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_TYPE = " + valueIntAudioTrackType);
-            }
-            if (propertyMap.containsKey(KEY_INT_AUDIO_TRACK_NUM)) {
-                valueIntAudioTrackNum = getIntFromMap(KEY_INT_AUDIO_TRACK_NUM);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_NUM = " + valueIntAudioTrackNum);
-            }
-            if (propertyMap.containsKey(KEY_INT_AUDIO_TRACK_STREAM_TYPE)) {
-                valueIntAudioTrackStreamType = getIntFromMap(KEY_INT_AUDIO_TRACK_STREAM_TYPE);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_STREAM_TYPE = " + valueIntAudioTrackStreamType);
-            }
-            if (propertyMap.containsKey(KEY_BOOL_TTS_REQUEST_AUDIO_FOCUS)) {
-                valueBoolAudioFocusRequired = getBooleanFromMap(KEY_BOOL_TTS_REQUEST_AUDIO_FOCUS);
-                Logger.d(TAG, "VALUE_BOOL_AUDIO_FOCUS_REQUIRED = " + valueBoolAudioFocusRequired);
-            }
-
-            if (propertyMap.containsKey(Configs.FEATURE_CONFIG_VOICE_MIC)) {
-                valueIntVoiceMic = getIntFromMap(Configs.FEATURE_CONFIG_VOICE_MIC);
-                Logger.d(TAG, "VALUE_INT_VOICE_MIC = " + valueIntVoiceMic);
-            }
-            if (propertyMap.containsKey(Configs.FEATURE_CONFIG_VOICE_WAKEUP)) {
-                valueIntVoiceWakeup = getIntFromMap(Configs.FEATURE_CONFIG_VOICE_WAKEUP);
-                Logger.d(TAG, "VALUE_INT_VOICE_WAKEUP = " + valueIntVoiceWakeup);
-            }
-            if (propertyMap.containsKey(KEY_BOOL_NEED_MORE_DECODE_TIME)) {
-                valueBoolNeedMoreDecodeTime = getBooleanFromMap(KEY_BOOL_NEED_MORE_DECODE_TIME);
-                Logger.d(TAG, "VALUE_BOOL_NEED_MORE_DECODE_TIME = " + valueBoolNeedMoreDecodeTime);
-            }
-            if (propertyMap.containsKey(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI)) {
-                valueIntBluetoothInternalUi = getIntFromMap(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI);
-                Logger.d(TAG, "VALUE_INT_BLUETOOTH_INTERNAL_UI = " + valueIntBluetoothInternalUi);
-            }
-            if (propertyMap.containsKey(Configs.FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR)) {
-                valueIntBluetoothAutoPair = getIntFromMap(Configs.FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR);
-                Logger.d(TAG, "VALUE_INT_BLUETOOTH_AUTO_PAIR = " + valueIntBluetoothAutoPair);
-            }
-            if (propertyMap.containsKey(KEY_BOOL_TRANSPARENT_SEND_TOUCH_EVENT)) {
-                valueBoolTransparentSendTouchEvent = getBooleanFromMap(KEY_BOOL_TRANSPARENT_SEND_TOUCH_EVENT);
-                Logger.d(TAG, "VALUE_BOOL_TRANSPARENT_SEND_TOUCH_EVENT = " + valueBoolTransparentSendTouchEvent);
-            }
-            if (propertyMap.containsKey(KEY_BOOL_SEND_ACTION_DOWN)) {
-                valueBoolSendActionDown = getBooleanFromMap(KEY_BOOL_SEND_ACTION_DOWN);
-                Logger.d(TAG, "VALUE_BOOL_SEND_ACTION_DOWN = " + valueBoolSendActionDown);
-            }
-            if (propertyMap.containsKey(KEY_BOOL_VEHICLE_GPS)) {
-                valueBoolVehicleGps = getBooleanFromMap(KEY_BOOL_VEHICLE_GPS);
-                Logger.d(TAG, "VALUE_BOOL_VEHICLE_GPS = " + valueBoolVehicleGps);
-            }
-
-            if (propertyMap.containsKey(KEY_INT_GPS_FORMAT)) {
-                valueIntGpsFormat = getIntFromMap(KEY_INT_GPS_FORMAT);
-                Logger.d(TAG, "VALUE_INT_GPS_FORMAT = " + valueIntGpsFormat);
-            }
-
-            if (propertyMap.containsKey(Configs.FEATURE_CONFIG_FOCUS_UI)) {
-                valueIntFocusUi = getIntFromMap(Configs.FEATURE_CONFIG_FOCUS_UI);
-                Logger.d(TAG, "VALUE_INT_FOCUS_UI = " + valueIntFocusUi);
-            }
-            if (propertyMap.containsKey(KEY_INT_MEDIA_SAMPLE_RATE)) {
-                valueIntMediaSampleRate = getIntFromMap(KEY_INT_MEDIA_SAMPLE_RATE);
-                Logger.d(TAG, "VALUE_INT_MEDIA_SAMPLE_RATE = " + valueIntMediaSampleRate);
-            }
-            if (propertyMap.containsKey(KEY_INT_AUDIO_TRANSMISSION_MODE)) {
-                valueIntAudioTransmissionMode = getIntFromMap(KEY_INT_AUDIO_TRANSMISSION_MODE);
-                Logger.d(TAG, "VALUE_INT_AUDIO_TRANSMISSION_MODE = " + valueIntAudioTransmissionMode);
-            }
-
-            if (propertyMap.containsKey(KEY_CONTENT_ENCRYPTION)) {
-                valueContentEncryption = getBooleanFromMap(KEY_CONTENT_ENCRYPTION);
-                Logger.d(TAG, "VALUE_CONTENT_ENCRYPTION = " + valueContentEncryption);
-            }
-
-            if (propertyMap.containsKey(KEY_ENGINE_TYPE)) {
-                valueEngineType = getIntFromMap(KEY_ENGINE_TYPE);
-                Logger.d(TAG, "VALUE_ENGINE_TYPE = " + valueEngineType);
-            }
-
-            if (propertyMap.containsKey(KEY_BOOL_INPUT_DISABLE)) {
-                valueIsInputDisable = getIntFromMap(KEY_BOOL_INPUT_DISABLE);
-                Logger.d(TAG, "VALUE_IS_INPUT_DISABLE = " + valueIsInputDisable);
-            }
-
-            if (propertyMap.containsKey(Configs.CONFIG_WIRLESS_TYPE)) {
-                valueIntWirlessType = getIntFromMap(Configs.CONFIG_WIRLESS_TYPE);
-                Logger.d(TAG, "VALUE_INT_WIRLESS_TYPE = " + valueIntWirlessType);
-            }
-
-            if (propertyMap.containsKey(Configs.CONFIG_WIRLESS_FREQUENCY)) {
-                valueIntWirlessFrequency = getIntFromMap(Configs.CONFIG_WIRLESS_FREQUENCY);
-                Logger.d(TAG, "VALUE_INT_WIRLESS_FREQUENCY = " + valueIntWirlessFrequency);
-            }
-
-            if (propertyMap.containsKey(Configs.CONFIG_WIFI_DIRECT_NAME)) {
-                valueStringWifiDirectName = getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME);
-                Logger.d(TAG, "VALUE_STRING_USE_BT_AUDIO = " + valueStringWifiDirectName);
-            }
-
-            if (propertyMap.containsKey(Configs.CONFIG_TARGET_BLUETOOTH_NAME)) {
-                valueStringTargetBluetoothName = getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME);
-                Logger.d(TAG, "VALUE_STRING_TARGET_BLUETOOTH_NAME = " + valueStringTargetBluetoothName);
-            }
-
-            if (propertyMap.containsKey(Configs.CONFIG_SAVE_AUDIO_FILE)) {
-                valueBoolSaveAudioFile = getBooleanFromMap(Configs.CONFIG_SAVE_AUDIO_FILE);
-                Logger.d(TAG, "VALUE_BOOL_SAVE_AUDIO_FILE = " + valueBoolSaveAudioFile);
-            }
-
-        } catch (Exception ex) {
-            Logger.d(TAG, "update property get exception");
-            return false;
+        if (sp.contains(KEY_INT_AUDIO_TRACK_TYPE)) {
+            valueIntAudioTrackType = getIntFromMap(KEY_INT_AUDIO_TRACK_TYPE);
+            Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_TYPE = " + valueIntAudioTrackType);
+        }
+        if (sp.contains(KEY_INT_AUDIO_TRACK_NUM)) {
+            valueIntAudioTrackNum = getIntFromMap(KEY_INT_AUDIO_TRACK_NUM);
+            Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_NUM = " + valueIntAudioTrackNum);
+        }
+        if (sp.contains(KEY_INT_AUDIO_TRACK_STREAM_TYPE)) {
+            valueIntAudioTrackStreamType = Integer.valueOf(getStringFromMap(KEY_INT_AUDIO_TRACK_STREAM_TYPE));
+            Logger.d(TAG, "VALUE_INT_AUDIO_TRACK_STREAM_TYPE = " + valueIntAudioTrackStreamType);
+        }
+        if (sp.contains(KEY_BOOL_TTS_REQUEST_AUDIO_FOCUS)) {
+            valueBoolAudioFocusRequired = getBooleanFromMap(KEY_BOOL_TTS_REQUEST_AUDIO_FOCUS);
+            Logger.d(TAG, "VALUE_BOOL_AUDIO_FOCUS_REQUIRED = " + valueBoolAudioFocusRequired);
         }
 
-        return true;
+        if (sp.contains(Configs.FEATURE_CONFIG_VOICE_MIC)) {
+            valueIntVoiceMic = Integer.valueOf(getStringFromMap(Configs.FEATURE_CONFIG_VOICE_MIC));
+            Logger.d(TAG, "VALUE_INT_VOICE_MIC = " + valueIntVoiceMic);
+        }
+        if (sp.contains(Configs.FEATURE_CONFIG_VOICE_WAKEUP)) {
+            boolean voice = getBooleanProperty(Configs.FEATURE_CONFIG_VOICE_WAKEUP);
+            if (true == voice){
+                valueIntVoiceWakeup = 1;
+            }else{
+                valueIntVoiceWakeup = 0;
+            }
+
+            Logger.d(TAG, "VALUE_INT_VOICE_WAKEUP = " + valueIntVoiceWakeup);
+        }
+        if (sp.contains(KEY_BOOL_NEED_MORE_DECODE_TIME)) {
+            valueBoolNeedMoreDecodeTime = getBooleanFromMap(KEY_BOOL_NEED_MORE_DECODE_TIME);
+            Logger.d(TAG, "VALUE_BOOL_NEED_MORE_DECODE_TIME = " + valueBoolNeedMoreDecodeTime);
+        }
+        if (sp.contains(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI)) {
+            //蓝牙电话
+            boolean blueInnerUI = getBooleanFromMap(Configs.FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI);
+            if (blueInnerUI){
+                valueIntBluetoothInternalUi = 1;
+            }else {
+                valueIntBluetoothInternalUi = 0;
+            }
+            Logger.d(TAG, "VALUE_INT_BLUETOOTH_INTERNAL_UI = " + valueIntBluetoothInternalUi);
+        }
+        if (sp.contains(Configs.FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR)) {
+            boolean autoPair = getBooleanFromMap(Configs.FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR);
+            if (autoPair) {
+                valueIntBluetoothAutoPair = 1;
+            } else {
+                valueIntBluetoothAutoPair = 0;
+            }
+            Logger.d(TAG, "VALUE_INT_BLUETOOTH_AUTO_PAIR = " + valueIntBluetoothAutoPair);
+        }
+        if (sp.contains(KEY_BOOL_TRANSPARENT_SEND_TOUCH_EVENT)) {
+            valueBoolTransparentSendTouchEvent = getBooleanFromMap(KEY_BOOL_TRANSPARENT_SEND_TOUCH_EVENT);
+            Logger.d(TAG, "VALUE_BOOL_TRANSPARENT_SEND_TOUCH_EVENT = " + valueBoolTransparentSendTouchEvent);
+        }
+        if (sp.contains(KEY_BOOL_SEND_ACTION_DOWN)) {
+            valueBoolSendActionDown = getBooleanFromMap(KEY_BOOL_SEND_ACTION_DOWN);
+            Logger.d(TAG, "VALUE_BOOL_SEND_ACTION_DOWN = " + valueBoolSendActionDown);
+        }
+        if (sp.contains(KEY_BOOL_VEHICLE_GPS)) {
+            valueBoolVehicleGps = getBooleanFromMap(KEY_BOOL_VEHICLE_GPS);
+            Logger.d(TAG, "VALUE_BOOL_VEHICLE_GPS = " + valueBoolVehicleGps);
+        }
+
+        if (sp.contains(KEY_INT_GPS_FORMAT)) {
+            valueIntGpsFormat = getIntFromMap(KEY_INT_GPS_FORMAT);
+            Logger.d(TAG, "VALUE_INT_GPS_FORMAT = " + valueIntGpsFormat);
+        }
+
+        if (sp.contains(Configs.FEATURE_CONFIG_FOCUS_UI)) {
+            boolean focusUi = getBooleanFromMap(Configs.FEATURE_CONFIG_FOCUS_UI);
+            if (focusUi) {
+                valueIntFocusUi = 1;
+            } else {
+                valueIntFocusUi = 0;
+            }
+            Logger.d(TAG, "VALUE_INT_FOCUS_UI = " + valueIntFocusUi);
+        }
+        if (sp.contains(KEY_INT_MEDIA_SAMPLE_RATE)) {
+            valueIntMediaSampleRate = getIntFromMap(KEY_INT_MEDIA_SAMPLE_RATE);
+            Logger.d(TAG, "VALUE_INT_MEDIA_SAMPLE_RATE = " + valueIntMediaSampleRate);
+        }
+        if (sp.contains(KEY_INT_AUDIO_TRANSMISSION_MODE)) {
+            //蓝牙音频还是通道音频
+            boolean audioMode = getBooleanFromMap(KEY_INT_AUDIO_TRANSMISSION_MODE);
+            if (audioMode){
+                valueIntAudioTransmissionMode = 1;
+            }else{
+                valueIntAudioTransmissionMode = 0;
+            }
+            Logger.d(TAG, "VALUE_INT_AUDIO_TRANSMISSION_MODE = " + valueIntAudioTransmissionMode);
+        }
+
+        if (sp.contains(KEY_CONTENT_ENCRYPTION)) {
+            valueContentEncryption = getBooleanFromMap(KEY_CONTENT_ENCRYPTION);
+            Logger.d(TAG, "VALUE_CONTENT_ENCRYPTION = " + valueContentEncryption);
+        }
+
+        if (sp.contains(KEY_ENGINE_TYPE)) {
+            boolean engType = getBooleanFromMap(KEY_ENGINE_TYPE);
+            if (engType){
+                valueEngineType = 1;
+            }else{
+                valueEngineType = 0;
+            }
+            Logger.d(TAG, "VALUE_ENGINE_TYPE = " + valueEngineType);
+        }
+
+        if (sp.contains(KEY_BOOL_INPUT_DISABLE)) {
+            valueIsInputDisable = getIntFromMap(KEY_BOOL_INPUT_DISABLE);
+            Logger.d(TAG, "VALUE_IS_INPUT_DISABLE = " + valueIsInputDisable);
+        }
+
+        if (sp.contains(Configs.CONFIG_WIRLESS_TYPE)) {
+            valueIntWirlessType = getIntFromMap(Configs.CONFIG_WIRLESS_TYPE);
+            Logger.d(TAG, "VALUE_INT_WIRLESS_TYPE = " + valueIntWirlessType);
+        }
+
+        if (sp.contains(Configs.CONFIG_WIRLESS_FREQUENCY)) {
+            valueIntWirlessFrequency = getIntFromMap(Configs.CONFIG_WIRLESS_FREQUENCY);
+            Logger.d(TAG, "VALUE_INT_WIRLESS_FREQUENCY = " + valueIntWirlessFrequency);
+        }
+
+        if (sp.contains(Configs.CONFIG_WIFI_DIRECT_NAME)) {
+            valueStringWifiDirectName = getStringFromMap(Configs.CONFIG_WIFI_DIRECT_NAME);
+            Logger.d(TAG, "VALUE_STRING_USE_BT_AUDIO = " + valueStringWifiDirectName);
+        }
+
+        if (sp.contains(Configs.CONFIG_TARGET_BLUETOOTH_NAME)) {
+            valueStringTargetBluetoothName = getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME);
+            Logger.d(TAG, "VALUE_STRING_TARGET_BLUETOOTH_NAME = " + valueStringTargetBluetoothName);
+        }
+
+        if (sp.contains(Configs.CONFIG_SAVE_AUDIO_FILE)) {
+            valueBoolSaveAudioFile = getBooleanFromMap(Configs.CONFIG_SAVE_AUDIO_FILE);
+            Logger.d(TAG, "VALUE_BOOL_SAVE_AUDIO_FILE = " + valueBoolSaveAudioFile);
+        }
+
+
     }
 
     private boolean getBooleanFromMap(String key) {
-        if (propertyMap == null) {
-            Logger.e(TAG, "propertyMap is null");
-            return false;
-        }
-
-        String value = null;
-        try {
-            value = propertyMap.get(key);
-            if ("true".equals(value)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception ex) {
-            Logger.d(TAG, "get property fail: " + key);
-            ex.printStackTrace();
-            return false;
-        }
+        return getPreferenceUtil().getBoolean(key, false);
     }
 
     private int getIntFromMap(String key) {
-        if (propertyMap == null) {
-            Logger.e(TAG, "propertyMap is null");
-            return Integer.MIN_VALUE;
-        }
-
-        String value = null;
-        // try {
-        value = propertyMap.get(key);
-        if (value != null) {
-            return Integer.valueOf(value);
-        } else {
-            return Integer.MIN_VALUE;
-        }
+        return getPreferenceUtil().getInt(key, Integer.MIN_VALUE);
     }
 
     public String getStringFromMap(String key) {
-        if (propertyMap == null) {
-            Logger.e(TAG, "propertyMap is null");
-            return null;
-        }
-
-        String value = null;
-        try {
-            value = propertyMap.get(key);
-            if (value != null) {
-                return value;
-            } else {
-                return null;
-            }
-        } catch (Exception ex) {
-            Logger.d(TAG, "get property fail: " + key);
-            ex.printStackTrace();
-            return null;
-        }
+        return getPreferenceUtil().getString(key, null);
     }
 
     public int getHardKeyCode(String key) {
@@ -710,49 +606,49 @@ public class CarlifeConfUtil {
         return -1;
     }
 
-    public boolean dispatchHardKeyEvent(int keyCode) {
-        if (propertyMap == null) {
-            Logger.e(TAG, "propertyMap is null");
-            return false;
-        }
-
-        try {
-            Iterator<Entry<String, String>> iter = propertyMap.entrySet().iterator();
-            Entry<String, String> entry = null;
-            String key = null;
-            String value = null;
-            int valueInt = -1;
-            int keyCodeCarlife = -1;
-            while (iter.hasNext()) {
-                entry = iter.next();
-                key = entry.getKey();
-
-                if (!key.startsWith(KEY_PREFIX_HARD_KEY)) {
-                    continue;
-                }
-
-                value = entry.getValue();
-                valueInt = Integer.valueOf(value);
-                if (valueInt == keyCode) {
-                    keyCodeCarlife = getHardKeyCode(key);
-                    if (keyCodeCarlife > 0) {
-//                        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
-//                        command.setServiceType(CommonParams.MSG_TOUCH_CAR_HARD_KEY_CODE);
-//                        TouchListenerManager.getInstance().sendHardKeyCodeEvent(keyCodeCarlife);
-                        return true;
-                    }
-                }
-            }
-
-        } catch (Exception ex) {
-            Logger.e(TAG, "dispatch hard key event fail");
-            ex.printStackTrace();
-            return false;
-        }
-
-        Logger.e(TAG, "can not support this keycode: " + keyCode);
-        return false;
-    }
+//    public boolean dispatchHardKeyEvent(int keyCode) {
+//        if (propertyMap == null) {
+//            Logger.e(TAG, "propertyMap is null");
+//            return false;
+//        }
+//
+//        try {
+//            Iterator<Entry<String, String>> iter = propertyMap.entrySet().iterator();
+//            Entry<String, String> entry = null;
+//            String key = null;
+//            String value = null;
+//            int valueInt = -1;
+//            int keyCodeCarlife = -1;
+//            while (iter.hasNext()) {
+//                entry = iter.next();
+//                key = entry.getKey();
+//
+//                if (!key.startsWith(KEY_PREFIX_HARD_KEY)) {
+//                    continue;
+//                }
+//
+//                value = entry.getValue();
+//                valueInt = Integer.valueOf(value);
+//                if (valueInt == keyCode) {
+//                    keyCodeCarlife = getHardKeyCode(key);
+//                    if (keyCodeCarlife > 0) {
+////                        CarlifeCmdMessage command = new CarlifeCmdMessage(true);
+////                        command.setServiceType(CommonParams.MSG_TOUCH_CAR_HARD_KEY_CODE);
+////                        TouchListenerManager.getInstance().sendHardKeyCodeEvent(keyCodeCarlife);
+//                        return true;
+//                    }
+//                }
+//            }
+//
+//        } catch (Exception ex) {
+//            Logger.e(TAG, "dispatch hard key event fail");
+//            ex.printStackTrace();
+//            return false;
+//        }
+//
+//        Logger.e(TAG, "can not support this keycode: " + keyCode);
+//        return false;
+//    }
 
     public int getIntProperty(String key) {
         if (key.equals(Configs.FEATURE_CONFIG_VOICE_WAKEUP)) {

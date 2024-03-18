@@ -5,6 +5,7 @@ import android.media.AudioAttributes.*
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import android.net.rtp.AudioStream
 import android.os.Build
 import android.util.Log
 import com.baidu.carlife.protobuf.CarlifeMusicInitProto
@@ -13,6 +14,7 @@ import com.baidu.carlife.sdk.Configs.CONFIG_SAVE_AUDIO_FILE
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_AUDIO
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_AUDIO_TTS
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_AUDIO_VR
+import com.baidu.carlife.sdk.Constants.TAG
 import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlifevehicle.audio.player.source.AudioParams
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
@@ -21,6 +23,8 @@ import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
 import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlife.sdk.util.formatISO8601
+import com.baidu.carlifevehicle.util.CommonParams
+import com.baidu.carlifevehicle.util.PreferenceUtil
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -130,7 +134,11 @@ class AudioPlayTask(
         }
 
         if (newState == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK) {
-            setVolume(0.5f)
+            val duck = PreferenceUtil.getInstance().getInt(CommonParams.MEDIA_DUCT_PERCENTAGE,30)
+            val duckF = duck/100f
+            Log.i("audioplayerTask","duck=$duckF")
+
+            setVolume(duckF)
         } else {
             setVolume(1.0f)
         }
@@ -466,10 +474,24 @@ class AudioPlayTask(
                 params.channelConfig,
                 params.audioFormat
             )
+        val changeMediaChannel = PreferenceUtil.getInstance().getBoolean("MUSIC_AUDIO_USE_LEGACY_API",false)
+        var mediaChanel = AudioManager.STREAM_MUSIC
+        mediaChanel = if(channel == Constants.MSG_CHANNEL_AUDIO_TTS){
+            val mediaChanelStr = PreferenceUtil.getInstance().getString("MUSIC_AUDIO_TRACK_STREAM_TYPE","${AudioManager.STREAM_MUSIC}")
+            mediaChanelStr.toInt()
+        }else{
+            val mediaChanelStr = PreferenceUtil.getInstance().getString("MUSIC_AUDIO_TRACK_STREAM_TYPE","${AudioManager.STREAM_MUSIC}")
+            mediaChanelStr.toInt()
+        }
+
+        Log.i(TAG,"MUSIC_AUDIO_USE_LEGACY_API=$changeMediaChannel;mediaChanel=$mediaChanel")
 
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             AudioTrack(
-                AudioManager.STREAM_MUSIC,
+                if (changeMediaChannel)
+                    mediaChanel
+                else
+                    AudioManager.STREAM_MUSIC,
                 params.sampleRate,
                 params.channelConfig,
                 params.audioFormat,
@@ -477,12 +499,15 @@ class AudioPlayTask(
                 mode
             )
         } else {
-            AudioTrack.Builder()
+           val audioParamsBuild = AudioAttributes.Builder()
+                .setUsage(getUsage())
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+            if (changeMediaChannel){
+                audioParamsBuild.setLegacyStreamType(mediaChanel)
+            }
+            val build = AudioTrack.Builder()
                 .setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setUsage(getUsage())
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .build()
+                    audioParamsBuild.build()
                 )
                 .setAudioFormat(
                     AudioFormat.Builder()
@@ -493,7 +518,8 @@ class AudioPlayTask(
                 )
                 .setTransferMode(mode)
                 .setBufferSizeInBytes(bufferSize)
-                .build()
+
+            build.build()
         }
     }
 

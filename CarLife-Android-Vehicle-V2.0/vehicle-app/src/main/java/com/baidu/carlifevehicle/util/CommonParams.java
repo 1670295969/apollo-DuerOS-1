@@ -428,6 +428,7 @@ public class CommonParams {
     public static final String CARLIFE_INSTALLED = "carlife_installed";
     public static final String MODULE_ID = "module_id";
     public static final String STATUS_ID = "status_id";
+    public static final String MEDIA_DUCT_PERCENTAGE = "MEDIA_DUCT_PERCENTAGE";
 
     /**
      * 音频模块

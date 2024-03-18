@@ -15,6 +15,7 @@
  *****************************************************************************/
 package com.baidu.carlifevehicle.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 import com.baidu.carlife.sdk.receiver.CarLife;
 import com.baidu.carlife.sdk.util.Logger;
 import com.baidu.carlife.sdk.util.TimerUtils;
+import com.baidu.carlifevehicle.CustomSettingsActivity;
 import com.baidu.carlifevehicle.R;
 import com.baidu.carlifevehicle.message.MsgBaseHandler;
 import com.baidu.carlifevehicle.message.MsgHandlerCenter;
@@ -109,6 +111,8 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         mConnectProgress = (LoadingProgressBar) mContentView.findViewById(R.id.main_load_round_progress);
         mConnectProgress.setVisibility(View.GONE);
 
+        mContentView.findViewById(R.id.main_btn_settings).setOnClickListener(this);
+
         mConnectInfo = (TextView) mContentView.findViewById(R.id.main_info_text_view);
         mRellayoutStatus = (RelativeLayout) mContentView.findViewById(R.id.main_rellayout_status);
         mRetryBtn = (Button) mContentView.findViewById(R.id.main_retry_btn);
@@ -125,8 +129,8 @@ public class MainFragment extends BaseFragment implements OnClickListener {
             mRetryBtn.setOnClickListener(this);
         }
 
-        connectTimeoutMs = CONNECT_TIMEOUT_MS_USB;
-        Logger.d(TAG, "set timeout: " + CONNECT_TIMEOUT_MS_USB);
+        connectTimeoutMs = CONNECT_TIMEOUT_MS_WIFI;
+        Logger.d(TAG, "set timeout: " + CONNECT_TIMEOUT_MS_WIFI);
         return mContentView;
     }
 
@@ -197,6 +201,9 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                 break;
             case R.id.main_btn_help:
                 mFragmentManager.showFragment(HelpMainFragment.getInstance());
+                break;
+            case R.id.main_btn_settings:
+                startActivity(new Intent(getContext(), CustomSettingsActivity.class));
                 break;
             case R.id.exit_img_btn:
                 if (mActivity != null) {

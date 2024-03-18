@@ -6,7 +6,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="AutoImportSettings">
@@ -32,16 +32,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d73b95c-a672-401e-9f31-5ad3c5cdee49" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/CommonSettingsFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/activity_common_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/values/arrays.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/xml/carlife.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/assets/bdcf" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/assets/bdcf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CustomSettingsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CustomSettingsActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleApplication.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/audio/player/AudioPlayTask.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/audio/player/AudioPlayTask.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/audio/player/AudioPlayer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/audio/player/AudioPlayer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CarlifeConfUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CarlifeConfUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CommonParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/util/CommonParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout-hdpi/frag_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/layout/frag_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[IB7HFISKHYIZ6TLZ]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[b9776b02]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -93,6 +108,7 @@
       <list>
         <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
+        <option value="layoutResourceFile" />
         <option value="Class" />
       </list>
     </option>
@@ -126,21 +142,25 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DEBUGGABLE_DEVICE" value="xiaomi-mi_6-b9776b02" />
+    <property name="DEBUGGABLE_PROCESS" value="com.baidu.carlifevehicle" />
+    <property name="DEBUGGER_ID" value="Auto" />
     <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHOW_ALL_PROCESSES" value="false" />
     <property name="android-custom-viewD:/tools/android/sdk/sources/android-30/android/view/View.java_SELECTED" value="View" />
     <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/vehicle-app/src/main/res/layout" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/vehicle-app/src/main/res/values" />
   </component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\work\app\apollo-DuerOS-1\CarLife-Android-Vehicle-V2.0\vehicle-app\src\main\res\values" />
+      <recent name="D:\work\app\apollo-DuerOS-1\CarLife-Android-Vehicle-V2.0\vehicle-app\src\main\res\xml" />
       <recent name="D:\work\app\apollo-DuerOS-1\CarLife-Android-Vehicle-V2.0\vehicle-app\src\main\res\layout" />
       <recent name="$PROJECT_DIR$/vehicle-app/libs" />
       <recent name="$PROJECT_DIR$/vehicle-app/assets" />
-      <recent name="$PROJECT_DIR$/vehicle-app" />
-      <recent name="$PROJECT_DIR$/carlife-sdk" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/vehicle-app/libs" />
@@ -573,6 +593,31 @@
           <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/ExceptionFragment.java</url>
           <line>121</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
+          <line>205</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
+          <line>204</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
+          <line>196</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/CommonSettingsFragment.java</url>
+          <line>34</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
+          <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/CommonSettingsFragment.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="kotlin-field">
           <url>file://$PROJECT_DIR$/carlife-sdk/src/main/java/com/baidu/carlife/sdk/internal/protocol/ServiceTypes.kt</url>

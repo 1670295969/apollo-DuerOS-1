@@ -1,6 +1,7 @@
 package com.baidu.carlifevehicle
 
 import android.Manifest
+import android.bluetooth.BluetoothAdapter
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -128,7 +129,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         })
 
         requestPermission()
-
+        initCarBluetoothInfo()
         ControlTestWindow.getInstance().init(this@CarlifeActivity, mRootView)
 
         mMainActivityHandler = MsgMainActivityHandler()
@@ -200,6 +201,16 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         return mCarLifeFragmentManager
     }
 
+    private fun initCarBluetoothInfo(){
+        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_NAME,bluetoothAdapter.name)
+        PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_MAC,bluetoothAdapter.address)
+        receiver().setConfig(Configs.CONFIG_HU_BT_NAME,bluetoothAdapter.name)
+        receiver().setConfig(Configs.CONFIG_HU_BT_MAC,bluetoothAdapter.address)
+//        bluetoothAdapter.name
+//        bluetoothAdapter.address
+    }
+
     private fun requestPermission() {
         PermissionX.init(this)
             .permissions(
@@ -207,7 +218,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                //Manifest.permission.BLUETOOTH_PRIVILEGED
+                Manifest.permission.BLUETOOTH
             )
             .onExplainRequestReason { scope, deniedList ->
                 scope.showRequestReasonDialog(

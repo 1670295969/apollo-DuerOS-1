@@ -58,15 +58,16 @@ class VehicleApplication : Application() {
          */
         val screenWidth = resources.displayMetrics.widthPixels
         val screenHeight = resources.displayMetrics.heightPixels
+        val frameRate = PreferenceUtil.getInstance().getString("CONFIG_VIDEO_FRAME_RATE","30")
         val displaySpec = DisplaySpec(
             this,
             screenWidth.coerceAtLeast(screenHeight).coerceAtMost(screenWidth),
             screenWidth.coerceAtMost(screenHeight).coerceAtMost(screenHeight),
-            60
+            frameRate.toInt()
         )
 
         /**
-         * 连接方式默认AOA连接
+         * 连接方式默认直连连接
          */
         val type = PreferenceUtil.getInstance()
             .getInt(CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT)
@@ -76,9 +77,9 @@ class VehicleApplication : Application() {
          */
         val features = mapOf(
             FEATURE_CONFIG_USB_MTU to 16 * 1024,
-            FEATURE_CONFIG_I_FRAME_INTERVAL to 100,
+            FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
             FEATURE_CONFIG_CONNECT_TYPE to type,
-            FEATURE_CONFIG_AAC_SUPPORT to 1,
+            FEATURE_CONFIG_AAC_SUPPORT to 0,
             FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 0,
             FEATURE_CONFIG_MUSIC_HUD to 1
         )

@@ -1,9 +1,12 @@
 package com.baidu.carlifevehicle.audio.player
 
+import android.util.Log
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlifevehicle.audio.player.source.AudioSource
+import com.baidu.carlifevehicle.util.CommonParams.MEDIA_DUCT_PERCENTAGE
+import com.baidu.carlifevehicle.util.PreferenceUtil
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -124,7 +127,11 @@ class AudioPlayer(
     }
 
     fun duck() {
-        setVolume(0.5f)
+        //MEDIA_DUCT_PERCENTAGE
+        val duck = PreferenceUtil.getInstance().getInt(MEDIA_DUCT_PERCENTAGE,30)
+        val duckF = duck/100f
+        Log.i("audioplayer","duck=$duckF")
+        setVolume(duckF)
     }
 
     fun unduck() {
