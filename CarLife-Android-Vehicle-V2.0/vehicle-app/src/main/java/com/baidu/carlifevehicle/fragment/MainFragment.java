@@ -15,6 +15,7 @@
  *****************************************************************************/
 package com.baidu.carlifevehicle.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -29,6 +30,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.baidu.carlife.sdk.receiver.CarLife;
 import com.baidu.carlife.sdk.util.Logger;
@@ -85,6 +88,13 @@ public class MainFragment extends BaseFragment implements OnClickListener {
 
     public MainFragment() {
         mHandler = new MsgMainFragmentHandler();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Logger.d(TAG, "onAttach");
+
         MsgHandlerCenter.registerMessageHandler(mHandler);
     }
 

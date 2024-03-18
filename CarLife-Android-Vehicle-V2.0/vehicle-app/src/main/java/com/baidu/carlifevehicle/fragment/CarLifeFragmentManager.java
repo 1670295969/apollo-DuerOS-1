@@ -29,6 +29,7 @@ public class CarLifeFragmentManager {
     private static final String TAG = "CarLifeFragmentManager";
     private FragmentManager mFragmentManager;
     private BaseFragment mCurrentFragment;
+    private BaseFragment tmpFragment = new BaseFragment();
 
     public CarLifeFragmentManager(CarlifeActivity activity) {
         try {
@@ -67,6 +68,19 @@ public class CarLifeFragmentManager {
         return mCurrentFragment;
     }
 
+    public void removeCurrentFragment(){
+        try{
+
+            if (mCurrentFragment!=null){
+                FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+                fragmentTransaction.remove(mCurrentFragment);
+                fragmentTransaction.commitAllowingStateLoss();
+                mCurrentFragment = tmpFragment;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     /**
      * @param fragment the fragment to be displayed
      */
