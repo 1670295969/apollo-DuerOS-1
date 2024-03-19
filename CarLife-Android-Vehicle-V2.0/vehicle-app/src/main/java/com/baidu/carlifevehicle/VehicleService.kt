@@ -1,17 +1,26 @@
 package com.baidu.carlifevehicle
 
-import android.app.ActivityManager
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
+import androidx.core.app.NotificationCompat
 import com.baidu.carlife.sdk.CarLifeContext
-import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.internal.transport.TransportListener
+import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.util.PreferenceUtil
+
 
 class VehicleService : Service(), TransportListener {
+
+    companion object {
+        private val NOTIFICATION_ID = 1
+        private val CHANNEL_ID = "foreground_service_channel"
+    }
+
     override fun onBind(intent: Intent?): IBinder? {
         Logger.d("mtg_carlife", "VehicleService onBind")
         return VehicleBind()
@@ -23,12 +32,23 @@ class VehicleService : Service(), TransportListener {
         Logger.d("mtg_carlife", "VehicleService onCreate")
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        showForegroundNotification()
+        return START_STICKY
+        //return super.onStartCommand(intent, flags, startId)
+    }
+
     override fun onConnectionEstablished(context: CarLifeContext) {
         super.onConnectionEstablished(context)
 
         Logger.d("VideoRender", "onConnectionEstablished start CarlifeActivity")
         // 这里先注释掉，如车厂有需求，可以放开
-        // showFront();
+        val sharedPreferences = PreferenceUtil.getInstance().preferences
+        val result = sharedPreferences?.getBoolean("START_ON_SYSTEM_BOOT_SHOW_UI", false) ?: false
+        if (result){
+            showFront()
+        }
+
     }
 
     /**
@@ -57,6 +77,37 @@ class VehicleService : Service(), TransportListener {
         fun serviceStatus(status: Int) {
 
         }
+    }
+
+
+
+
+
+
+
+    private fun showForegroundNotification() {
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle("百度Carlife")
+            .setContentText("服务正在运行")
+            .setSmallIcon(R.drawable.ic_launcher) // 替换为你的通知图标资源ID
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "Channel name", NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+        val notification: Notification = builder.build()
+        startForeground(NOTIFICATION_ID, notification)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // 服务被销毁时移除通知
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.cancel(NOTIFICATION_ID)
     }
 
 }

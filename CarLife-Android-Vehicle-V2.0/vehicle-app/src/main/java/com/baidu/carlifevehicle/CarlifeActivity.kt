@@ -57,6 +57,7 @@ import com.permissionx.guolindev.PermissionX
 
 class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     TransportListener, View.OnClickListener, OnPhoneStateChangeListener, WirlessStatusListener {
+
     public var mIsConnectException = false
     private lateinit var mSurfaceView: RemoteDisplayGLView
     private var mSurface: Surface? = null
@@ -79,6 +80,9 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private var mIsCalling: Boolean = false
     private var mIsCallComing: Boolean = false
     private var mIsInitConfig: Boolean = false
+    companion object{
+        const val TAG = "CarlifeActivity"
+    }
 
     private val mediaSessionCompat by lazy {
         MediaSessionCompat(this, "CarlifeActivity")
@@ -301,6 +305,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        Log.i(TAG,"onKeyUp=$event")
         if (keyCode == KeyEvent.KEYCODE_BACK){
             val message = obtain(
                 MSG_CHANNEL_TOUCH,
@@ -430,6 +435,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
                     CommonParams.MSG_CONNECT_STATUS_CONNECTED -> {
                         saveConnectStatus(true)
+                        //TODO remove
+                      //  mCarLifeFragmentManager?.removeCurrentFragment()
                     }
 
                     CommonParams.MSG_MAIN_DISPLAY_USER_GUIDE_FRAGMENT -> {

@@ -15,6 +15,8 @@
  *****************************************************************************/
 package com.baidu.carlifevehicle.fragment;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
@@ -30,6 +32,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.baidu.carlife.sdk.CarLifeContext;
 import com.baidu.carlife.sdk.receiver.CarLife;
 import com.baidu.carlife.sdk.util.Logger;
 import com.baidu.carlife.sdk.util.TimerUtils;
@@ -38,7 +43,9 @@ import com.baidu.carlifevehicle.R;
 import com.baidu.carlifevehicle.message.MsgBaseHandler;
 import com.baidu.carlifevehicle.message.MsgHandlerCenter;
 import com.baidu.carlifevehicle.util.CommonParams;
+import com.baidu.carlifevehicle.util.PreferenceUtil;
 import com.baidu.carlifevehicle.view.LoadingProgressBar;
+import com.permissionx.guolindev.PermissionX;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -85,6 +92,13 @@ public class MainFragment extends BaseFragment implements OnClickListener {
 
     public MainFragment() {
         mHandler = new MsgMainFragmentHandler();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Logger.d(TAG, "onAttach");
+
         MsgHandlerCenter.registerMessageHandler(mHandler);
     }
 
@@ -278,6 +292,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                         mRellayoutStatus.setVisibility(View.VISIBLE);
                         mImgView.setImageDrawable(getResources().getDrawable(R.drawable.car_ic_connect_error));
                         TimerUtils.INSTANCE.stop(mConnectionTask);
+                        reConnect();
                         break;
                     case CommonParams.MSG_FRAGMENT_REFRESH:
                         if (isAoaNotSupportADBNotOpen) {
@@ -310,83 +325,96 @@ public class MainFragment extends BaseFragment implements OnClickListener {
             }
         }
 
-        @Override
-        public void careAbout() {
-            addMsg(CommonParams.MSG_CONNECT_STATUS_CONNECTED);
-            addMsg(CommonParams.MSG_CONNECT_STATUS_ESTABLISHED);
-            addMsg(CommonParams.MSG_CONNECT_STATUS_DISCONNECTED);
-            addMsg(CommonParams.MSG_CONNECT_FAIL_START);
-            addMsg(CommonParams.MSG_CONNECT_FAIL_NOT_SURPPORT);
-            addMsg(CommonParams.MSG_CONNECT_FAIL_START_BDSC);
-            addMsg(CommonParams.MSG_CONNECT_FAIL);
-            addMsg(CommonParams.MSG_CONNECT_AOA_NO_PERMISSION);
-            addMsg(CommonParams.MSG_CONNECT_AOA_REQUEST_MD_PERMISSION);
-            addMsg(CommonParams.MSG_CONNECT_AOA_NOT_SUPPORT);
-            addMsg(CommonParams.MSG_CONNECT_FAIL_TIMEOUT);
-            addMsg(CommonParams.MSG_CONNECT_FAIL_AUTHEN_FAILED);
+        private void reConnect() {
+            if (PreferenceUtil.getInstance().getInt(CommonParams.CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) == CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) {
+                CarLife.receiver()
+                        .setConnectType(CarLifeContext.CONNECTION_TYPE_WIFIDIRECT);
+                PreferenceUtil.getInstance()
+                        .putInt(
+                                CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
+                                CarLifeContext.CONNECTION_TYPE_WIFIDIRECT
+                        );
 
-            addMsg(CommonParams.MSG_CONNECT_CHANGE_PROGRESS_NUMBER);
-            addMsg(CommonParams.MSG_MAIN_DISPLAY_HELP_MAIN_FRAGMENT);
-
-            addMsg(CommonParams.MSG_CMD_VIDEO_ENCODER_START);
-        }
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        if (mActivity != null) {
-            mActivity.openExitAppDialog();
-        }
-        return true;
-    }
-
-    private Runnable mConnectionTask = new Runnable() {
-        @Override
-        public void run() {
-            Logger.e(TAG, "Carlife Connect Timeout");
-            MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_FAIL_TIMEOUT);
-        }
-    };
-
-    private Runnable mProtocolInteractionTask = new Runnable() {
-        @Override
-        public void run() {
-            Logger.e(TAG, "Carlife Protocol interaction Timeout");
-            MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_FAIL_START);
-        }
-    };
-
-    private void initParams() {
-        if (wParams == null) {
-            connectStatusHeight = getResources().getDimensionPixelSize(R.dimen.connect_status_height);
-            Logger.d(TAG, "connectStatusHeight=" + connectStatusHeight);
-            wParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-            int screenHeigh = 12; // PhoneUtil.getInstance().getScreenHeight();
-            int screenWidth = 13; // PhoneUtil.getInstance().getScreenWidth();
-            Logger.d(TAG, "screenHeigh=" + screenHeigh + ",screenWidth=" + screenWidth);
-            wParams.topMargin = ((screenHeigh - connectStatusHeight) * 2) / 3;
-            wParams.bottomMargin = (screenHeigh - connectStatusHeight) / 3;
-            Logger.d(TAG, "topMargin=" + wParams.topMargin + ",bottomMargin" + wParams.bottomMargin);
-        }
-        if (cParams == null) {
-            cParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            cParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        }
-    }
-
-    public void updateExceptionTips(String exceptionTips) {
-        if (isAoaNotSupportADBNotOpen) {
-            String hintResStr = getResources().getString(R.string.usb_connect_aoa_request_md_permisson);
-            if (hintResStr.equals(exceptionTips)) {
-                return;
             }
         }
 
-        if (!TextUtils.isEmpty(exceptionTips) && mConnectInfo != null) {
-            mConnectProgress.setVisibility(View.GONE);
-            mRellayoutStatus.setVisibility(View.VISIBLE);
-            mImgView.setImageDrawable(getResources().getDrawable(R.drawable.car_ic_connect_error));
-            mConnectInfo.setText(exceptionTips);
+            @Override
+            public void careAbout () {
+                addMsg(CommonParams.MSG_CONNECT_STATUS_CONNECTED);
+                addMsg(CommonParams.MSG_CONNECT_STATUS_ESTABLISHED);
+                addMsg(CommonParams.MSG_CONNECT_STATUS_DISCONNECTED);
+                addMsg(CommonParams.MSG_CONNECT_FAIL_START);
+                addMsg(CommonParams.MSG_CONNECT_FAIL_NOT_SURPPORT);
+                addMsg(CommonParams.MSG_CONNECT_FAIL_START_BDSC);
+                addMsg(CommonParams.MSG_CONNECT_FAIL);
+                addMsg(CommonParams.MSG_CONNECT_AOA_NO_PERMISSION);
+                addMsg(CommonParams.MSG_CONNECT_AOA_REQUEST_MD_PERMISSION);
+                addMsg(CommonParams.MSG_CONNECT_AOA_NOT_SUPPORT);
+                addMsg(CommonParams.MSG_CONNECT_FAIL_TIMEOUT);
+                addMsg(CommonParams.MSG_CONNECT_FAIL_AUTHEN_FAILED);
+
+                addMsg(CommonParams.MSG_CONNECT_CHANGE_PROGRESS_NUMBER);
+                addMsg(CommonParams.MSG_MAIN_DISPLAY_HELP_MAIN_FRAGMENT);
+
+                addMsg(CommonParams.MSG_CMD_VIDEO_ENCODER_START);
+            }
+        }
+
+        @Override
+        public boolean onBackPressed() {
+            if (mActivity != null) {
+                mActivity.openExitAppDialog();
+            }
+            return true;
+        }
+
+        private Runnable mConnectionTask = new Runnable() {
+            @Override
+            public void run() {
+                Logger.e(TAG, "Carlife Connect Timeout");
+                MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_FAIL_TIMEOUT);
+            }
+        };
+
+        private Runnable mProtocolInteractionTask = new Runnable() {
+            @Override
+            public void run() {
+                Logger.e(TAG, "Carlife Protocol interaction Timeout");
+                MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_FAIL_START);
+            }
+        };
+
+        private void initParams() {
+            if (wParams == null) {
+                connectStatusHeight = getResources().getDimensionPixelSize(R.dimen.connect_status_height);
+                Logger.d(TAG, "connectStatusHeight=" + connectStatusHeight);
+                wParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                int screenHeigh = 12; // PhoneUtil.getInstance().getScreenHeight();
+                int screenWidth = 13; // PhoneUtil.getInstance().getScreenWidth();
+                Logger.d(TAG, "screenHeigh=" + screenHeigh + ",screenWidth=" + screenWidth);
+                wParams.topMargin = ((screenHeigh - connectStatusHeight) * 2) / 3;
+                wParams.bottomMargin = (screenHeigh - connectStatusHeight) / 3;
+                Logger.d(TAG, "topMargin=" + wParams.topMargin + ",bottomMargin" + wParams.bottomMargin);
+            }
+            if (cParams == null) {
+                cParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                cParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+            }
+        }
+
+        public void updateExceptionTips(String exceptionTips) {
+            if (isAoaNotSupportADBNotOpen) {
+                String hintResStr = getResources().getString(R.string.usb_connect_aoa_request_md_permisson);
+                if (hintResStr.equals(exceptionTips)) {
+                    return;
+                }
+            }
+
+            if (!TextUtils.isEmpty(exceptionTips) && mConnectInfo != null) {
+                mConnectProgress.setVisibility(View.GONE);
+                mRellayoutStatus.setVisibility(View.VISIBLE);
+                mImgView.setImageDrawable(getResources().getDrawable(R.drawable.car_ic_connect_error));
+                mConnectInfo.setText(exceptionTips);
+            }
         }
     }
-}
