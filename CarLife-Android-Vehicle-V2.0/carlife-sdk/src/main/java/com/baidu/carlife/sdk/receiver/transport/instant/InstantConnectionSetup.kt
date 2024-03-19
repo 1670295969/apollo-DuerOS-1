@@ -43,7 +43,13 @@ class InstantConnectionSetup(private val context: CarLifeContext,
     private val wifiDirectManager = WifiDirectManager(context, this)
 
     private val wifiDirectName: String?
-    get() = context.getConfig(CONFIG_WIFI_DIRECT_NAME)
+    get() {
+        var wifiDirect = context.getConfig<String?>(CONFIG_WIFI_DIRECT_NAME)
+        if (wifiDirect.isNullOrEmpty()){
+            wifiDirect = context.sharedPreferences.getString(CONFIG_WIFI_DIRECT_NAME,wifiDirect)
+        }
+        return wifiDirect
+    }
     private val isProcessing = AtomicBoolean(false)
 
     private var communicator: BluetoothCommunicator? = null

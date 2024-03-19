@@ -218,4 +218,6 @@
     <string name="MUSIC_AUDIO_USE_LEGACY_API">MUSIC_AUDIO_USE_LEGACY_API</string>
     <string name="START_ON_SYSTEM_BOOT">START_ON_SYSTEM_BOOT</string>
     <string name="START_ON_SYSTEM_BOOT_SHOW_UI">START_ON_SYSTEM_BOOT_SHOW_UI</string>
+    <string name="MUSIC_ENABLE_AAC">AAC_SUPPORT</string>
+
 </resources>

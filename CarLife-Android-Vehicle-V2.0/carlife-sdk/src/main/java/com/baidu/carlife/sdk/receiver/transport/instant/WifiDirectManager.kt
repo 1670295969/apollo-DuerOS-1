@@ -31,6 +31,8 @@ class WifiDirectManager(
 
     private val discoverableTask: WifiDirectDiscoverableTask
 
+
+
     var isConnected = false
         private set
 //    private fun reqDirInfo(){
@@ -92,8 +94,11 @@ class WifiDirectManager(
             WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION ->{
                 val device = intent.getParcelableExtra<WifiP2pDevice>(EXTRA_WIFI_P2P_DEVICE)
                 Logger.d(Constants.TAG, "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION device: $device")
-
                 context.setConfig(Configs.CONFIG_WIFI_DIRECT_NAME,device?.deviceName?:"")
+                context.sharedPreferences
+                    .edit()
+                    .putString(Configs.CONFIG_WIFI_DIRECT_NAME,device?.deviceName?:"")
+                    .commit()
 
             }
             WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION -> {

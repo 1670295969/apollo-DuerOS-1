@@ -4,12 +4,15 @@ import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.os.Bundle
 import android.os.Message
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.text.TextUtils
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.KeyEvent
 import android.view.Surface
@@ -25,7 +28,6 @@ import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
 import com.baidu.carlife.protobuf.CarlifeConnectExceptionProto.CarlifeConnectException
 import com.baidu.carlife.sdk.*
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_TOUCH
-import com.baidu.carlife.sdk.Constants.TAG
 import com.baidu.carlife.sdk.Constants.VALUE_PROGRESS_100
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage.Companion.obtain
@@ -80,7 +82,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private var mIsCalling: Boolean = false
     private var mIsCallComing: Boolean = false
     private var mIsInitConfig: Boolean = false
-    companion object{
+
+    companion object {
         const val TAG = "CarlifeActivity"
     }
 
@@ -148,28 +151,30 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         mediaSessionCompat.isActive = true
         MediaControllerCompat.setMediaController(this, mediaSessionCompat.controller)
 
-        mediaSessionCompat.setCallback(object : MediaSessionCompat.Callback(){
+        mediaSessionCompat.setCallback(object : MediaSessionCompat.Callback() {
             override fun onMediaButtonEvent(intent: Intent?): Boolean {
-                Log.d(TAG,"intent=$intent")
+                Log.d(TAG, "intent=$intent")
                 var keyEvent: KeyEvent? = null
-                if(intent!=null){
+                if (intent != null) {
                     if ("android.intent.action.MEDIA_BUTTON" == intent.action) {
-                        keyEvent =  intent.getParcelableExtra(
+                        keyEvent = intent.getParcelableExtra(
                             "android.intent.extra.KEY_EVENT"
                         ) as KeyEvent?
-                        if (keyEvent!=null){
+                        if (keyEvent != null) {
                             val action = keyEvent.action
                             val keyCode = keyEvent.keyCode
-                            if (action == KeyEvent.ACTION_UP){
-                                if (keyCode == KeyEvent.KEYCODE_MEDIA_NEXT){
+                            if (action == KeyEvent.ACTION_UP) {
+                                if (keyCode == KeyEvent.KEYCODE_MEDIA_NEXT) {
                                     sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_ADD)
-                                }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS){
+                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS) {
                                     sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_SUB)
-                                }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
-                                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP){
+                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
+                                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP
+                                ) {
                                     sendHardKeyCodeEvent(CommonParams.KEYCODE_MEDIA_STOP)
-                                }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY
-                                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP){
+                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY
+                                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP
+                                ) {
                                     sendHardKeyCodeEvent(CommonParams.KEYCODE_MEDIA_START)
                                 }
                             }
@@ -181,7 +186,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 return super.onMediaButtonEvent(intent)
             }
 
-        },null)
+        }, null)
 
 
     }
@@ -210,12 +215,12 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         return mCarLifeFragmentManager
     }
 
-    private fun initCarBluetoothInfo(){
+    private fun initCarBluetoothInfo() {
         val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
-        PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_NAME,bluetoothAdapter.name)
-        PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_MAC,bluetoothAdapter.address)
-        receiver().setConfig(Configs.CONFIG_HU_BT_NAME,bluetoothAdapter.name)
-        receiver().setConfig(Configs.CONFIG_HU_BT_MAC,bluetoothAdapter.address)
+        PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_NAME, bluetoothAdapter.name)
+        PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_MAC, bluetoothAdapter.address)
+        receiver().setConfig(Configs.CONFIG_HU_BT_NAME, bluetoothAdapter.name)
+        receiver().setConfig(Configs.CONFIG_HU_BT_MAC, bluetoothAdapter.address)
 //        bluetoothAdapter.name
 //        bluetoothAdapter.address
     }
@@ -306,12 +311,12 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     }
 
     override fun onBackPressed() {
-      //  super.onBackPressed()
+        //  super.onBackPressed()
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.i(TAG,"onKeyUp=$event")
-        if (keyCode == KeyEvent.KEYCODE_BACK){
+        Log.i(TAG, "onKeyUp=$event")
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             val message = obtain(
                 MSG_CHANNEL_TOUCH,
                 ServiceTypes.MSG_TOUCH_CAR_HARD_KEY_CODE,
@@ -441,7 +446,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                     CommonParams.MSG_CONNECT_STATUS_CONNECTED -> {
                         saveConnectStatus(true)
                         //TODO remove
-                      //  mCarLifeFragmentManager?.removeCurrentFragment()
+                        //  mCarLifeFragmentManager?.removeCurrentFragment()
                     }
 
                     CommonParams.MSG_MAIN_DISPLAY_USER_GUIDE_FRAGMENT -> {
@@ -528,6 +533,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                                 message.payload(builder.build())
 
                                 CarLife.receiver().postMessage(message)
+                                changeSize()
                             }
                         } else {
                             if (mCarLifeFragmentManager != null) {
@@ -560,6 +566,34 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         }
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        changeSize()
+    }
+
+    private fun changeSize() {
+        val sharedPreferences: SharedPreferences = PreferenceUtil.getInstance().preferences
+        val forceFullScreen = sharedPreferences.getBoolean("FORCE_FULL_SCREEN", false)
+        if (forceFullScreen) {
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getRealMetrics(displayMetrics)
+            var w = displayMetrics.widthPixels.toString()
+            val forceWidth = sharedPreferences.getString("FORCE_FULL_SCREEN_WIDTH", w)!!
+
+            var h = displayMetrics.heightPixels.toString()
+            val forceHigh = sharedPreferences.getString("FORCE_FULL_SCREEN_HEIGHT", h)!!
+            applicationContext.resources.displayMetrics.widthPixels = forceWidth.toInt()
+            applicationContext.resources.displayMetrics.heightPixels = forceHigh.toInt()
+            val remoteDisplayGLView: RemoteDisplayGLView = this.mSurfaceView
+            remoteDisplayGLView.post {
+                remoteDisplayGLView.onVideoSizeChanged(forceWidth.toInt(), forceHigh.toInt())
+            }
+        }
+
+
+    }
+
 
     fun init() {
         Logger.e(TAG, "++++++++++++++++++++Baidu Carlife Begin++++++++++++++++++++")

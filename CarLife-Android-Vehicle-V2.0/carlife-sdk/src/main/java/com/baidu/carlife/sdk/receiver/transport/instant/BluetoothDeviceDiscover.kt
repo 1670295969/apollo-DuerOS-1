@@ -79,6 +79,12 @@ class BluetoothDeviceDiscover(
     private fun discoverDevice() {
         if (bluetoothAdapter?.isEnabled == false) {
             // 未开启蓝牙，直接return
+//                try {
+//                    bluetoothAdapter?.enable()
+//                }catch (e:Exception){
+//                    e.printStackTrace()
+//                }
+
             Logger.e(Constants.TAG, "bluetoothAdapter?.isEnabled: ${bluetoothAdapter?.isEnabled}, so return")
             return
         }
@@ -125,7 +131,7 @@ class BluetoothDeviceDiscover(
                 callback?.onDeviceConnected(connectedCommunicator!!)
             } else if (connectedDevices.isNotEmpty() && isReady) {
                 // 如果存在已连接设备，则5s之后重新尝试连接
-                context.main().postDelayed(discoverRunnable, 3000)
+                context.main().postDelayed(discoverRunnable, 2000)
             }
         }
     }

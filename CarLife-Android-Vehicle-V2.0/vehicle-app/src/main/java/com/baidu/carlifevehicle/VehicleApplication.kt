@@ -72,6 +72,8 @@ class VehicleApplication : Application() {
         val type = PreferenceUtil.getInstance()
             .getInt(CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT)
 
+        val accSupportEnable = PreferenceUtil.getInstance().getBoolean("AAC_SUPPORT",false)
+        val accSupport = if (accSupportEnable) 1 else 0
         /**
          * 车机端的支持的Feature，会通过协议传给手机端
          */
@@ -79,7 +81,7 @@ class VehicleApplication : Application() {
             FEATURE_CONFIG_USB_MTU to 16 * 1024,
             FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
             FEATURE_CONFIG_CONNECT_TYPE to type,
-            FEATURE_CONFIG_AAC_SUPPORT to 0,
+            FEATURE_CONFIG_AAC_SUPPORT to accSupport,
             FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 0,
             FEATURE_CONFIG_MUSIC_HUD to 1
         )
@@ -103,7 +105,7 @@ class VehicleApplication : Application() {
          */
         CarLife.init(
             this,
-            "20352101",
+            "20029999",
             "12345678",
             features,
             CarlifeActivity::class.java,

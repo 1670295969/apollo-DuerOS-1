@@ -6,6 +6,15 @@
         <androidx.preference.ListPreference android:persistent="true" android:entries="@array/nav_audio_channel" android:title="音乐音频通道" android:key="@string/MUSIC_AUDIO_TRACK_STREAM_TYPE" android:summary="%s" android:dependency="@string/MUSIC_AUDIO_USE_LEGACY_API" android:defaultValue="3" android:entryValues="@array/nav_audio_channel" />
         <androidx.preference.ListPreference android:persistent="true" android:entries="@array/nav_audio_channel" android:title="导航音频通道" android:key="@string/AUDIO_TRACK_STREAM_TYPE" android:summary="%s" android:dependency="@string/MUSIC_AUDIO_USE_LEGACY_API" android:defaultValue="3" android:entryValues="@array/nav_audio_channel" />
         <SeekBarPreference android:persistent="true" android:max="100" android:title="混音声音大小" android:key="@string/MEDIA_DUCT_PERCENTAGE" android:summary="导航播报时音乐声大小" android:defaultValue="30" app:min="0" />
+        <SwitchPreference android:persistent="true" android:title="音乐AAC压缩" android:key="@string/MUSIC_ENABLE_AAC" android:summary="vivo支持，小米暂不支持" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="画面相关">
+        <SwitchPreference android:persistent="true" android:title="是否隐藏导航栏" android:key="@string/HIDE_NAV_BAR" android:defaultValue="true" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
+        <SwitchPreference android:persistent="true" android:title="是否自定义画面拉伸分辨率" android:key="@string/FORCE_FULL_SCREEN" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
+        <EditTextPreference android:persistent="true" android:title="画面拉伸宽" android:key="@string/FORCE_FULL_SCREEN_WIDTH" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />
+        <EditTextPreference android:persistent="true" android:title="画面拉伸高" android:key="@string/FORCE_FULL_SCREEN_HEIGHT" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="CarLife相关">
