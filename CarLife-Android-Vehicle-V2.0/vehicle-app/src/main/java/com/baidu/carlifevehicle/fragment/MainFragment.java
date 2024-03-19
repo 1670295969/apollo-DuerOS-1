@@ -326,16 +326,16 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         }
 
         private void reConnect() {
-            if (PreferenceUtil.getInstance().getInt(CommonParams.CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) == CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) {
-                CarLife.receiver()
-                        .setConnectType(CarLifeContext.CONNECTION_TYPE_WIFIDIRECT);
-                PreferenceUtil.getInstance()
-                        .putInt(
-                                CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
-                                CarLifeContext.CONNECTION_TYPE_WIFIDIRECT
-                        );
-
-            }
+//            if (PreferenceUtil.getInstance().getInt(CommonParams.CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) == CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) {
+//                CarLife.receiver()
+//                        .setConnectType(CarLifeContext.CONNECTION_TYPE_WIFIDIRECT);
+//                PreferenceUtil.getInstance()
+//                        .putInt(
+//                                CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
+//                                CarLifeContext.CONNECTION_TYPE_WIFIDIRECT
+//                        );
+//
+//            }
         }
 
             @Override

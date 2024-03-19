@@ -33,13 +33,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d73b95c-a672-401e-9f31-5ad3c5cdee49" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/vehicle-app/ac8257" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/receiver/BootReceiver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleService.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -587,17 +582,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
-          <line>215</line>
+          <line>219</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
-          <line>214</line>
+          <line>218</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
-          <line>206</line>
+          <line>210</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">

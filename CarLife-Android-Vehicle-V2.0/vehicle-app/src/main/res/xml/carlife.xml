@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="方控相关">
-        <SwitchPreference android:persistent="true" android:title="是否开启媒体按键过滤" android:key="@string/ENABLE_FILTER_MEDIA_KEY" android:summary="是否开启媒体按键过滤" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" />
-    </PreferenceCategory>
     <PreferenceCategory android:title="音频相关">
         <SwitchPreference android:persistent="true" android:title="是否调整音频通道" android:key="@string/MUSIC_AUDIO_USE_LEGACY_API" android:summary="是否调整音频通道" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
         <androidx.preference.ListPreference android:persistent="true" android:entries="@array/nav_audio_channel" android:title="音乐音频通道" android:key="@string/MUSIC_AUDIO_TRACK_STREAM_TYPE" android:summary="%s" android:dependency="@string/MUSIC_AUDIO_USE_LEGACY_API" android:defaultValue="3" android:entryValues="@array/nav_audio_channel" />
