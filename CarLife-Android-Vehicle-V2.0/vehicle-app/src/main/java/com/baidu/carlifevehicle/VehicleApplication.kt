@@ -103,7 +103,7 @@ class VehicleApplication : Application() {
          */
         CarLife.init(
             this,
-            "20029999",
+            "20352101",
             "12345678",
             features,
             CarlifeActivity::class.java,

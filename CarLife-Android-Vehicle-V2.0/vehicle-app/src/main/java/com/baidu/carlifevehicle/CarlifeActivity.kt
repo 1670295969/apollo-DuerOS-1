@@ -165,7 +165,12 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                                     sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_ADD)
                                 }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS){
                                     sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_SUB)
-
+                                }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
+                                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP){
+                                    sendHardKeyCodeEvent(CommonParams.KEYCODE_MEDIA_STOP)
+                                }else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY
+                                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP){
+                                    sendHardKeyCodeEvent(CommonParams.KEYCODE_MEDIA_START)
                                 }
                             }
                         }
