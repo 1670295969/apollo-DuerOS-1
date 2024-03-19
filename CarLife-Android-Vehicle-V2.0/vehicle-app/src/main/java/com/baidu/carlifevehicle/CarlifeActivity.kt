@@ -305,6 +305,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        Log.i(TAG,"onKeyUp=$event")
         if (keyCode == KeyEvent.KEYCODE_BACK){
             val message = obtain(
                 MSG_CHANNEL_TOUCH,

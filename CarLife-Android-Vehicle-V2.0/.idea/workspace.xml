@@ -6,9 +6,9 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="Main" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
+    <option name="TOOL_WINDOW_REGEXP_FILTER" value="false" />
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="NONE" />
@@ -33,16 +33,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1d73b95c-a672-401e-9f31-5ad3c5cdee49" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/vehicle-app/ac8257" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/receiver/BootReceiver.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/CarlifeActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/CarLifeFragmentManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/CarLifeFragmentManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleService.kt" beforeDir="false" afterPath="$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/VehicleService.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[b9776b02]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[0123456789ABCDEF]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -92,10 +96,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Kotlin Class" />
         <option value="Kotlin Interface" />
         <option value="layoutResourceFile" />
         <option value="Class" />
+        <option value="Kotlin Class" />
       </list>
     </option>
   </component>
@@ -136,18 +140,18 @@
     <property name="android-custom-viewD:/tools/android/sdk/sources/android-30/android/view/View.java_SELECTED" value="View" />
     <property name="android-custom-viewD:/work/app/apollo-DuerOS-1/CarLife-Android-Vehicle-V2.0/carlife-sdk/src/main/java/com/baidu/carlife/sdk/receiver/view/RemoteDisplayGLView.kt_SELECTED" value="RemoteDisplayGLView" />
     <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/vehicle-app/src/main/res/values" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/vehicle-app" />
   </component>
   <component name="PsdUISettings">
     <option name="LAST_EDITED_BUILD_TYPE" value="release" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\work\app\apollo-DuerOS-1\CarLife-Android-Vehicle-V2.0\vehicle-app" />
       <recent name="D:\work\app\apollo-DuerOS-1\CarLife-Android-Vehicle-V2.0\vehicle-app\src\main\res\values" />
       <recent name="D:\work\app\apollo-DuerOS-1\CarLife-Android-Vehicle-V2.0\vehicle-app\src\main\res\xml" />
       <recent name="D:\work\app\apollo-DuerOS-1\CarLife-Android-Vehicle-V2.0\vehicle-app\src\main\res\layout" />
       <recent name="$PROJECT_DIR$/vehicle-app/libs" />
-      <recent name="$PROJECT_DIR$/vehicle-app/assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/vehicle-app/libs" />
@@ -583,17 +587,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
-          <line>205</line>
+          <line>215</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
-          <line>204</line>
+          <line>214</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">
           <url>file://$PROJECT_DIR$/vehicle-app/src/main/java/com/baidu/carlifevehicle/fragment/MainFragment.java</url>
-          <line>196</line>
+          <line>206</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="java-line">

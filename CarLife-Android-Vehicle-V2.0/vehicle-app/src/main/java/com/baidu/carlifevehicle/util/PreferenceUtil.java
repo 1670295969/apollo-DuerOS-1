@@ -68,8 +68,7 @@ public class PreferenceUtil {
             carlifeContext = context.createPackageContext(context.getPackageName(),
                     Context.CONTEXT_IGNORE_SECURITY);
             mJarPreferences = carlifeContext.getSharedPreferences(
-                    CommonParams.CONNECT_STATUS_SHARED_PREFERENCES, Context.MODE_WORLD_WRITEABLE
-                            | Context.MODE_WORLD_READABLE | Context.MODE_MULTI_PROCESS);
+                    CommonParams.CONNECT_STATUS_SHARED_PREFERENCES,   Context.MODE_MULTI_PROCESS);
             mJarEditor = mJarPreferences.edit();
         } catch (Exception e) {
             Logger.e(TAG, "init jar sp fail");
