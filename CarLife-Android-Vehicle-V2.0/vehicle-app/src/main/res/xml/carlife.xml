@@ -11,7 +11,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="画面相关">
-        <SwitchPreference android:persistent="true" android:title="是否隐藏导航栏" android:key="@string/HIDE_NAV_BAR" android:defaultValue="true" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
         <SwitchPreference android:persistent="true" android:title="是否自定义画面拉伸分辨率" android:key="@string/FORCE_FULL_SCREEN" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
         <EditTextPreference android:persistent="true" android:title="画面拉伸宽" android:key="@string/FORCE_FULL_SCREEN_WIDTH" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />
         <EditTextPreference android:persistent="true" android:title="画面拉伸高" android:key="@string/FORCE_FULL_SCREEN_HEIGHT" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />

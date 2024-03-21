@@ -3,6 +3,8 @@ package com.baidu.carlife.sdk.util.wifip2p
 import android.net.wifi.p2p.WifiP2pManager
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlife.sdk.util.wifip2p.operations.StopPeerDiscoverOperation
+import java.nio.channels.Channel
 import java.util.concurrent.atomic.AtomicBoolean
 
 class WifiP2pOperationSequence(private val listener: WifiP2pManager.ActionListener)
@@ -15,6 +17,12 @@ class WifiP2pOperationSequence(private val listener: WifiP2pManager.ActionListen
 
     fun add(operation: WifiP2pOperation) {
         sequence.add(operation)
+    }
+
+    fun changeChannel(channel: WifiP2pManager.Channel){
+        sequence.forEach {
+            it.updateChannel(channel)
+        }
     }
 
     fun execute() {

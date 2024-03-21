@@ -102,6 +102,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+        window.addFlags(1024)
 
         //View.SYSTEM_UI_FLAG_IMMERSIVE
         setContentView(R.layout.activity_main)
@@ -218,9 +219,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private fun initCarBluetoothInfo() {
         val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_NAME, bluetoothAdapter.name)
-        PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_MAC, bluetoothAdapter.address)
         receiver().setConfig(Configs.CONFIG_HU_BT_NAME, bluetoothAdapter.name)
-        receiver().setConfig(Configs.CONFIG_HU_BT_MAC, bluetoothAdapter.address)
 //        bluetoothAdapter.name
 //        bluetoothAdapter.address
     }
@@ -232,8 +231,9 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.BLUETOOTH
-            )
+                Manifest.permission.BLUETOOTH,
+                Manifest.permission.CAMERA
+                )
             .onExplainRequestReason { scope, deniedList ->
                 scope.showRequestReasonDialog(
                     deniedList,

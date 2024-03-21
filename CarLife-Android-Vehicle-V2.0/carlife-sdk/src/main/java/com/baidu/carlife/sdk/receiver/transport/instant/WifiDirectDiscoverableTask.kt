@@ -9,7 +9,7 @@ import com.baidu.carlife.sdk.util.wifip2p.operations.DiscoverPeersOperation
 import com.baidu.carlife.sdk.util.wifip2p.operations.StopPeerDiscoverOperation
 
 class WifiDirectDiscoverableTask(val wifiP2pManager: WifiP2pManager,
-                                 val channel: WifiP2pManager.Channel)
+                                 var channel: WifiP2pManager.Channel)
     : WifiP2pManager.ActionListener {
 
     private val operationSequence = WifiP2pOperationSequence(this)
@@ -19,6 +19,10 @@ class WifiDirectDiscoverableTask(val wifiP2pManager: WifiP2pManager,
         operationSequence.add(DiscoverPeersOperation(wifiP2pManager, channel))
     }
 
+    fun updateChannel(channel : WifiP2pManager.Channel){
+        this.channel = channel
+        operationSequence.changeChannel(channel)
+    }
     fun discoverable() {
         operationSequence.execute()
     }
@@ -31,23 +35,23 @@ class WifiDirectDiscoverableTask(val wifiP2pManager: WifiP2pManager,
         stopDiscoverable()
         wifiP2pManager.cancelConnect(channel, object :WifiP2pManager.ActionListener{
             override fun onSuccess() {
-                Logger.d(Constants.TAG, "cancelConnect onSuccess")
+                Logger.d(WifiDirectManager.TAG, "cancelConnect onSuccess")
             }
 
             override fun onFailure(reason: Int) {
-                Logger.d(Constants.TAG, "cancelConnect onFailure")
+                Logger.d(WifiDirectManager.TAG, "cancelConnect onFailure")
             }
         })
     }
 
     // WifiP2pOperationSequence.Callback
     override fun onSuccess() {
-        Logger.d(Constants.TAG, "WifiDirectDiscoverableTask onSuccess")
+        Logger.d(WifiDirectManager.TAG, "WifiDirectDiscoverableTask onSuccess")
         TimerUtils.stop(mDiscoverPeers)
     }
 
     override fun onFailure(error: Int) {
-        Logger.d(Constants.TAG, "WifiDirectDiscoverableTask onFailure ", error)
+        Logger.d(WifiDirectManager.TAG, "WifiDirectDiscoverableTask onFailure ", error)
 
         // 扫描失败后，两秒之后继续扫描
         TimerUtils.schedule(mDiscoverPeers, 2000, 2000)
@@ -55,7 +59,7 @@ class WifiDirectDiscoverableTask(val wifiP2pManager: WifiP2pManager,
 
     private val mDiscoverPeers = Runnable {
         // 每隔2秒扫描一次
-        Logger.d(Constants.TAG, "WifiDirectDiscoverableTask DiscoverPeers")
+        Logger.d(WifiDirectManager.TAG, "WifiDirectDiscoverableTask DiscoverPeers")
         operationSequence.execute()
     }
 }

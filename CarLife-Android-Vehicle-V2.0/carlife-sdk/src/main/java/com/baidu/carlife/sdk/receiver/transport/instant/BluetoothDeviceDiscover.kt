@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Configs.CONFIG_TARGET_BLUETOOTH_NAME
 import com.baidu.carlife.sdk.Constants
@@ -152,9 +153,11 @@ class BluetoothDeviceDiscover(
     // Communicator.Callbacks
     override fun onTerminated(channel: Int) {
         // 如果连接断开了，应该重新尝试连接
+        Log.i(Constants.TAG,"BluetoothDeviceDiscover:onTerminated")
         connectedCommunicator = null
         context.applicationContext.unregisterReceiver(this)
         context.main().removeCallbacks(discoverRunnable)
+        startDiscover()
     }
 
     override fun onReceive(context: Context, intent: Intent) {
