@@ -763,7 +763,7 @@ public class CommonParams {
      */
     public static final String VEHICLE_CHANNEL_PREINSTALL_MARKET = "20000001";
 
-    public static String vehicleChannel = VEHICLE_CHANNEL_AFTER_MARKET;
+    public static String vehicleChannel = "20352101";//VEHICLE_CHANNEL_AFTER_MARKET;
 
     public CommonParams() {
         // TODO Auto-generated constructor stub

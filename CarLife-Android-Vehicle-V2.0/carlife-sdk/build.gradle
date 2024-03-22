@@ -40,7 +40,7 @@ android {
     buildTypes {
         release {
             // TODO 混淆暂时关闭
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
