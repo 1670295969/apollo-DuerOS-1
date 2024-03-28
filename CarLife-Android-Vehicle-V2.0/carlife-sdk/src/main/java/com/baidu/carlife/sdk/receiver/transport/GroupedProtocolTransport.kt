@@ -39,7 +39,7 @@ class GroupedProtocolTransport(private val context: CarLifeContext) :
 
     fun configConnectType() {
         stopConnect()
-        when (context.getFeature(FEATURE_CONFIG_CONNECT_TYPE, CarLifeContext.CONNECTION_TYPE_AOA)) {
+        when (context.getFeature(FEATURE_CONFIG_CONNECT_TYPE, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT)) {
             CarLifeContext.CONNECTION_TYPE_HOTSPOT -> {
                 transports.add(WirlessAPProtocolTransport(context, this))
                 context.connectionType = CarLifeContext.CONNECTION_TYPE_HOTSPOT

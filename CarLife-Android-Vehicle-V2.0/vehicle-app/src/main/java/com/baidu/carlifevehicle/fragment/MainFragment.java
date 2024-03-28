@@ -61,8 +61,8 @@ public class MainFragment extends BaseFragment implements OnClickListener {
     private ImageButton mExitAppBtn = null;
     private Timer mTimer = null;
     private TimerTask mTimerTask = null;
-    public static int connectTimeoutMs = 20 * 1000;
-    public static final int CONNECT_TIMEOUT_MS_WIFI = 20 * 1000;
+    public static int connectTimeoutMs = 15 * 1000;
+    public static final int CONNECT_TIMEOUT_MS_WIFI = 15 * 1000;
     public static final int CONNECT_TIMEOUT_MS_USB = 30 * 1000;
     public static final int CONNECT_TIMEOUT_MS_INSTALL = 60 * 1000;
     private MsgBaseHandler mHandler = null;
@@ -326,6 +326,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         }
 
         private void reConnect() {
+            CarLife.receiver().connect();
 //            if (PreferenceUtil.getInstance().getInt(CommonParams.CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) == CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) {
 //                CarLife.receiver()
 //                        .setConnectType(CarLifeContext.CONNECTION_TYPE_WIFIDIRECT);

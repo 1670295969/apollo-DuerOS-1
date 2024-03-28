@@ -47,6 +47,12 @@ class VehicleApplication : Application() {
         CarlifeConfUtil.getInstance().init()
         initReceiver()
         bindVehicleService()
+
+        val sharedPreferences = PreferenceUtil.getInstance().preferences;
+        val result = sharedPreferences?.getBoolean("START_ON_SYSTEM_BOOT", false) ?: false
+        if (result) {
+            CarLife.receiver().connect()
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
