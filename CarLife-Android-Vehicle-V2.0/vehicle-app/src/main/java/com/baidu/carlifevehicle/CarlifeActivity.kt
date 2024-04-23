@@ -232,6 +232,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         PreferenceUtil.getInstance().putString(Configs.CONFIG_HU_BT_NAME, bluetoothAdapter.name)
         receiver().setConfig(Configs.CONFIG_HU_BT_NAME, bluetoothAdapter.name)
+        receiver().setConfig(Configs.CONFIG_HU_BT_MAC, bluetoothAdapter.address)
 //        bluetoothAdapter.name
 //        bluetoothAdapter.address
     }

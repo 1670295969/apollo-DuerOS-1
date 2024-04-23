@@ -51,10 +51,10 @@ class SettingsActivity: AppCompatActivity() {
         override fun onPreferenceChange(preference: Preference, newValue: Any): Boolean {
             Log.d("SettingsActivity", "preference $preference newValue $newValue")
             when (newValue) {
-                "1920x1080" -> CarLife.receiver().setDisplaySpec(DisplaySpec(activity!!, 1920, 1080, 30))
-                "1280x720" -> CarLife.receiver().setDisplaySpec(DisplaySpec(activity!!, 1280, 720, 30))
-                "1024x576" -> CarLife.receiver().setDisplaySpec(DisplaySpec(activity!!, 1024, 576, 30))
-                "1280x480" -> CarLife.receiver().setDisplaySpec(DisplaySpec(activity!!, 1280, 480, 30))
+                "1920x1080" -> CarLife.receiver().setDisplaySpec(DisplaySpec(requireActivity(), 1920, 1080, 30))
+                "1280x720" -> CarLife.receiver().setDisplaySpec(DisplaySpec(requireActivity(), 1280, 720, 30))
+                "1024x576" -> CarLife.receiver().setDisplaySpec(DisplaySpec(requireActivity(), 1024, 576, 30))
+                "1280x480" -> CarLife.receiver().setDisplaySpec(DisplaySpec(requireActivity(), 1280, 480, 30))
             }
             return true
         }

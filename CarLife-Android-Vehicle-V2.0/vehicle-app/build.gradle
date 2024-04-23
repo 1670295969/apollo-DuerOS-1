@@ -13,11 +13,18 @@ android {
         debug {
             storeFile file("debug.keystore")
         }
+//        release {
+//            storeFile file("carlife.keystore")
+//            keyAlias 'carlife.keystore'
+//            keyPassword 'm5ZRYQe4yrpm6jdx'
+//            storePassword 'm5ZRYQe4yrpm6jdx'
+//        }
+
         release {
-            storeFile file("carlife.keystore")
-            keyAlias 'carlife.keystore'
-            keyPassword 'm5ZRYQe4yrpm6jdx'
-            storePassword 'm5ZRYQe4yrpm6jdx'
+            storeFile file("android.jks")
+            keyAlias 'android'
+            keyPassword 'android'
+            storePassword 'android'
         }
     }
 
