@@ -19,7 +19,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import com.baidu.carlife.protobuf.CarlifeBTHfpCallStatusCoverProto.CarlifeBTHfpCallStatusCover
 import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
 import com.baidu.carlife.protobuf.CarlifeConnectExceptionProto.CarlifeConnectException
@@ -36,7 +35,6 @@ import com.baidu.carlife.sdk.receiver.ConnectProgressListener
 import com.baidu.carlife.sdk.receiver.FileTransferListener
 import com.baidu.carlife.sdk.receiver.OnPhoneStateChangeListener
 import com.baidu.carlife.sdk.receiver.view.RemoteDisplayGLView
-import com.baidu.carlife.sdk.receiver.view.RemoteDisplayView
 import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.fragment.*
@@ -459,6 +457,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
                     CommonParams.MSG_CONNECT_STATUS_CONNECTED -> {
                         saveConnectStatus(true)
+                        hideSystemUi()
                         //TODO remove
                         //  mCarLifeFragmentManager?.removeCurrentFragment()
                     }
@@ -584,7 +583,13 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     override fun onResume() {
         super.onResume()
         changeSize()
+        hideSystemUi()
        // hideStatusAndNaviBar()
+    }
+
+    private fun hideSystemUi() {
+        window.addFlags(1024)
+        window.decorView.systemUiVisibility = 4102
     }
 
     private fun changeSize() {

@@ -14,6 +14,7 @@ import com.baidu.carlife.sdk.Configs.CONFIG_TARGET_BLUETOOTH_NAME
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.internal.transport.communicator.BluetoothCommunicator
 import com.baidu.carlife.sdk.internal.transport.communicator.Communicator
+import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.receiver.transport.instant.bt.CarBtConnector
 import com.baidu.carlife.sdk.util.Logger
 import java.io.IOException
@@ -67,7 +68,12 @@ class BluetoothDeviceDiscover(
             // 避免重复执行
             context.main().removeCallbacks(this)
             if (!isReady) return
-            context.io().execute { discoverDevice() }
+            if (!CarLife.receiver().isConnected()){
+                context.io().execute { discoverDevice() }
+            }else{
+                Log.w(Constants.TAG,"BluetoothDeviceDiscover cafe is connected");
+            }
+
         }
     }
 
