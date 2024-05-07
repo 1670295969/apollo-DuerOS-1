@@ -50,6 +50,7 @@ import com.baidu.carlifevehicle.util.CommonParams
 import com.baidu.carlifevehicle.util.CommonParams.KEYCODE_MAIN
 import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.baidu.carlifevehicle.view.CarlifeMessageDialog
+import com.baidu.carlifevehicle.view.FloatWindowManager
 import com.permissionx.guolindev.PermissionX
 
 
@@ -585,6 +586,15 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         changeSize()
         hideSystemUi()
        // hideStatusAndNaviBar()
+        FloatWindowManager.dismiss()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if(PreferenceUtil.getInstance().getBoolean("show_float",true)){
+            FloatWindowManager.show()
+        }
+
     }
 
     private fun hideSystemUi() {
