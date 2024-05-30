@@ -1,11 +1,12 @@
 package com.baidu.carlifevehicle.access;
 
 import android.accessibilityservice.AccessibilityService
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.KeyEvent
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import com.google.android.material.tabs.TabLayout.TabGravity
 
 public class MyAccessibilityService : AccessibilityService() {
 
@@ -13,8 +14,10 @@ public class MyAccessibilityService : AccessibilityService() {
         const val TAG = "MyAccessibilityService";
     }
 
+    private val handler = Handler(Looper.getMainLooper())
+
     override fun onKeyEvent(event: KeyEvent?): Boolean {
-        Log.i("MyAccessibilityService",""+event)
+        Log.i("MyAccessibilityService", "" + event)
         return super.onKeyEvent(event)
     }
 
@@ -22,8 +25,8 @@ public class MyAccessibilityService : AccessibilityService() {
         if (event == null) return
 
 
-        Log.i("MyAccessibilityService",""+event)
-        if (event.packageName == "android"){
+        Log.i("MyAccessibilityService", "" + event)
+        if (event.packageName == "android") {
             val nodeInfo = event.source
 
             if (nodeInfo != null && event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
@@ -38,11 +41,15 @@ public class MyAccessibilityService : AccessibilityService() {
 
     }
 
-    private fun performClickAction(text : String){
+    private fun performClickAction(text: String) {
         val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText(text)
         tmp?.forEach {
-            if (it.isClickable){
-                it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            if (it.isClickable) {
+                handler.postDelayed({
+                    it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                }, 350)
+
+                return@forEach
             }
         }
     }
