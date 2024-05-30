@@ -44,13 +44,15 @@ class GroupedProtocolTransport(private val context: CarLifeContext) :
                 transports.add(WirlessAPProtocolTransport(context, this))
                 context.connectionType = CarLifeContext.CONNECTION_TYPE_HOTSPOT
             }
-            CarLifeContext.CONNECTION_TYPE_WIFIDIRECT -> {
-                transports.add(WirlessP2PProtocolTransport(context, this))
-                context.connectionType = CarLifeContext.CONNECTION_TYPE_WIFIDIRECT
-            }
-            else -> {
+            CarLifeContext.CONNECTION_TYPE_AOA -> {
                 transports.add(AOAProtocolTransport(context, this))
                 context.connectionType = CarLifeContext.CONNECTION_TYPE_AOA
+            }
+            else -> {
+
+                transports.add(WirlessP2PProtocolTransport(context, this))
+                context.connectionType = CarLifeContext.CONNECTION_TYPE_WIFIDIRECT
+
             }
         }
     }

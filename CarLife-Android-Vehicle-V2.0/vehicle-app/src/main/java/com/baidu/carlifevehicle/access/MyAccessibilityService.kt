@@ -21,28 +21,30 @@ public class MyAccessibilityService : AccessibilityService() {
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
 
+
         Log.i("MyAccessibilityService",""+event)
+        if (event.packageName == "android"){
+            val nodeInfo = event.source
 
-
-        if (event.packageName != "android"){
+            if (nodeInfo != null && event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+                performClickAction("接受")
+            }
+            return
+        } else if (event.packageName == "com.android.systemui") {
+            performClickAction("确定")
             return
         }
 
-        Log.i("MyAccessibilityService",""+event.packageName)
-        Log.i("MyAccessibilityService",""+event.className)
-        Log.i("MyAccessibilityService",""+event.text)
 
-        val nodeInfo = event.source
+    }
 
-
-    if (nodeInfo != null && event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-
-            val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText("接受")
-            tmp?.forEach {
+    private fun performClickAction(text : String){
+        val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText(text)
+        tmp?.forEach {
+            if (it.isClickable){
                 it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
             }
         }
-
     }
 
     override fun onInterrupt() {

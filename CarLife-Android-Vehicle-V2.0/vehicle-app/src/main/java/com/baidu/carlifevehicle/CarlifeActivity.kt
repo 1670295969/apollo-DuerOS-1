@@ -202,6 +202,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         }, null)
 
         AccessibilityUtils.setAccessibilityService(this, ComponentName(this,MyAccessibilityService::class.java))
+        startService(Intent(this,MyAccessibilityService::class.java))
 
     }
 

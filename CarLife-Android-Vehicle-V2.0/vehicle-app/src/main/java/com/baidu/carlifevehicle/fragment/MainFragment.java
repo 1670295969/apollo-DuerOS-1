@@ -153,6 +153,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
 
         connectTimeoutMs = CONNECT_TIMEOUT_MS_WIFI;
         Logger.d(TAG, "set timeout: " + CONNECT_TIMEOUT_MS_WIFI);
+        initRgBtn();
         return mContentView;
     }
 

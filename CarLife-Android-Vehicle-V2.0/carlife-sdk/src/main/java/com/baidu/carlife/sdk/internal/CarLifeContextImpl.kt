@@ -15,6 +15,7 @@ import com.baidu.carlife.sdk.CarLifeContext.Companion.CONNECTION_ATTACHED
 import com.baidu.carlife.sdk.CarLifeContext.Companion.CONNECTION_ESTABLISHED
 import com.baidu.carlife.sdk.CarLifeContext.Companion.CONNECTION_DETACHED
 import com.baidu.carlife.sdk.CarLifeContext.Companion.CONNECTION_REATTACH
+import com.baidu.carlife.sdk.CarLifeContext.Companion.CONNECTION_TYPE_WIFIDIRECT
 import com.baidu.carlife.sdk.Configs.*
 import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
@@ -31,7 +32,7 @@ abstract class CarLifeContextImpl(private val context: Context, configs: Map<Str
     @Volatile
     override var connectionState = CONNECTION_DETACHED
 
-    override var connectionType = CONNECTION_TYPE_AOA
+    override var connectionType = CONNECTION_TYPE_WIFIDIRECT
 
     override var authResult: Boolean = false
 

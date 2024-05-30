@@ -107,7 +107,6 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/white_color_selector"
                 android:textSize="36sp"
-                android:textStyle="bold"
                 android:button="@null"
                 android:padding="20dp"
                 android:text="USB"/>
@@ -118,7 +117,6 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/white_color_selector"
                 android:textSize="36sp"
-                android:textStyle="bold"
                 android:button="@null"
                 android:padding="20dp"
                 android:text="WIFI"/>
@@ -129,7 +127,6 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/white_color_selector"
                 android:textSize="36sp"
-                android:textStyle="bold"
                 android:button="@null"
                 android:padding="20dp"
                 android:text="无感"/>
