@@ -30,7 +30,10 @@ public class MyAccessibilityService : AccessibilityService() {
             val nodeInfo = event.source
 
             if (nodeInfo != null && event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-                performClickAction("接受")
+                val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText("接受")
+                tmp?.forEach {
+                    it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                }
             }
             return
         } else if (event.packageName == "com.android.systemui") {
@@ -44,13 +47,9 @@ public class MyAccessibilityService : AccessibilityService() {
     private fun performClickAction(text: String) {
         val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText(text)
         tmp?.forEach {
-            if (it.isClickable) {
                 handler.postDelayed({
                     it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                }, 350)
-
-                return@forEach
-            }
+                }, 300)
         }
     }
 

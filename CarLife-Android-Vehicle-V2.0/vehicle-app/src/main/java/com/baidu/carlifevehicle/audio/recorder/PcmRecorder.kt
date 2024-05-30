@@ -3,6 +3,7 @@ package com.baidu.carlifevehicle.audio.recorder
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
+import android.os.Build
 import android.os.Process
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Configs.OPEN_RECORD
@@ -24,18 +25,41 @@ class PcmRecorder(private var mContext: CarLifeContext?) : Thread() {
         ).apply { start() }
     }
 
+
+    private fun createRecord() : AudioRecord {
+        return AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION,
+            FREQUENCY,
+            AudioFormat.CHANNEL_IN_MONO,
+            AUDIO_ENCODING,
+            DEFAULT_BUFFER_SIZE
+        )
+    }
     override fun run() {
         Process.setThreadPriority(Process.THREAD_PRIORITY_URGENT_AUDIO)
         if (mRecordInstance == null) {
-            mRecordInstance = AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION,
-                FREQUENCY,
-                    AudioFormat.CHANNEL_IN_MONO,
-                AUDIO_ENCODING,
-                DEFAULT_BUFFER_SIZE
-            )
+
+            mRecordInstance = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                try {
+                    val audioFormatBuilder = AudioFormat.Builder()
+                        .setSampleRate(FREQUENCY)
+                        .setChannelMask(AudioFormat.CHANNEL_IN_MONO)
+                        .setEncoding(AUDIO_ENCODING)
+                    AudioRecord.Builder().setAudioFormat(audioFormatBuilder.build())
+                        .setBufferSizeInBytes(DEFAULT_BUFFER_SIZE)
+                        .build()
+                }catch (e:Exception){
+                    createRecord()
+                }
+
+            }else{
+                createRecord()
+            }
+
+
         }
         var bufferRead = 0
-        val tempBufferBytes = ByteArray(RECORD_DATA_PACKAGE_SIZE)
+        var bufferSize = getMiniBufferSize()
+        val tempBufferBytes = ByteArray(bufferSize)
         var isStoped = false
         while (true) {
             if (!isRecording) {
@@ -59,7 +83,7 @@ class PcmRecorder(private var mContext: CarLifeContext?) : Thread() {
             mPcmSender!!.isRecording = true
             while (isRecording) {
                 bufferRead = mRecordInstance!!.read(tempBufferBytes, 0,
-                    RECORD_DATA_PACKAGE_SIZE
+                    bufferSize
                 )
                 if (bufferRead == AudioRecord.ERROR_INVALID_OPERATION) {
                     isStoped = true
@@ -78,6 +102,15 @@ class PcmRecorder(private var mContext: CarLifeContext?) : Thread() {
         }
         mRecordInstance!!.release()
         mRecordInstance = null
+    }
+
+    private fun getMiniBufferSize() : Int {
+        return AudioRecord.getMinBufferSize(
+                FREQUENCY,
+                AudioFormat.CHANNEL_IN_MONO,
+                AUDIO_ENCODING
+            )
+
     }
     private fun isSupportRecording() : Boolean {
         return PreferenceUtil.getInstance().getBoolean(OPEN_RECORD,true)

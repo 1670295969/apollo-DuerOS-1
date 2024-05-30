@@ -68,11 +68,12 @@ class BluetoothDeviceDiscover(
             // 避免重复执行
             context.main().removeCallbacks(this)
             if (!isReady) return
-            if (!CarLife.receiver().isConnected()){
-                context.io().execute { discoverDevice() }
-            }else{
-                Log.w(Constants.TAG,"BluetoothDeviceDiscover cafe is connected");
-            }
+            context.io().execute { discoverDevice() }
+//            if (!CarLife.receiver().isConnected()){
+//                context.io().execute { discoverDevice() }
+//            }else{
+//                Log.w(Constants.TAG,"BluetoothDeviceDiscover cafe is connected");
+//            }
 
         }
     }
@@ -163,7 +164,7 @@ class BluetoothDeviceDiscover(
         connectedCommunicator = null
         context.applicationContext.unregisterReceiver(this)
         context.main().removeCallbacks(discoverRunnable)
-        startDiscover()
+        //startDiscover()
     }
 
     override fun onReceive(context: Context, intent: Intent) {

@@ -421,7 +421,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         }
 
         private void reConnect() {
-            CarLife.receiver().connect();
+            retryBtnClick();
 //            if (PreferenceUtil.getInstance().getInt(CommonParams.CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) == CarLifeContext.CONNECTION_TYPE_WIFIDIRECT) {
 //                CarLife.receiver()
 //                        .setConnectType(CarLifeContext.CONNECTION_TYPE_WIFIDIRECT);
