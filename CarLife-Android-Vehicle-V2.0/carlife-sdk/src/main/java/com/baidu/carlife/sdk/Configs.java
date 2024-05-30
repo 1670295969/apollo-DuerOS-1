@@ -114,5 +114,10 @@ public class Configs {
      * 设置I帧间隔，可以由服务器指定
      */
     public static final String FEATURE_CONFIG_I_FRAME_INTERVAL = "I_FRAME_INTERVAL";
+
+
+    public static final String OPEN_RECORD = "open_record";
+
+
 }
 

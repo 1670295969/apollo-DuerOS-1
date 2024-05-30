@@ -29,8 +29,10 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -46,7 +48,11 @@ import com.baidu.carlifevehicle.util.CommonParams;
 import com.baidu.carlifevehicle.util.PreferenceUtil;
 import com.baidu.carlifevehicle.view.LoadingProgressBar;
 import com.permissionx.guolindev.PermissionX;
+import com.permissionx.guolindev.callback.ExplainReasonCallback;
+import com.permissionx.guolindev.callback.RequestCallback;
+import com.permissionx.guolindev.request.ExplainScope;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -55,6 +61,8 @@ public class MainFragment extends BaseFragment implements OnClickListener {
     private ImageView mImgView = null;
     private LoadingProgressBar mConnectProgress = null;
     private TextView mConnectInfo = null;
+
+    private RadioGroup rgBtn;
 
     private Button mRetryBtn = null;
     private TextView mHelpBtn = null;
@@ -124,7 +132,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         mImgView = (ImageView) mContentView.findViewById(R.id.main_img_view);
         mConnectProgress = (LoadingProgressBar) mContentView.findViewById(R.id.main_load_round_progress);
         mConnectProgress.setVisibility(View.GONE);
-
+        rgBtn = mContentView.findViewById(R.id.rg_connect_type);
         mContentView.findViewById(R.id.main_btn_settings).setOnClickListener(this);
 
         mConnectInfo = (TextView) mContentView.findViewById(R.id.main_info_text_view);
@@ -146,6 +154,92 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         connectTimeoutMs = CONNECT_TIMEOUT_MS_WIFI;
         Logger.d(TAG, "set timeout: " + CONNECT_TIMEOUT_MS_WIFI);
         return mContentView;
+    }
+
+
+    private void initRgBtn() {
+        int checkId = R.id.rb_dir;
+        switch (CarLife.receiver().getConnectionType()) {
+            case CarLifeContext.CONNECTION_TYPE_AOA:
+                checkId = R.id.rb_usb;
+                break;
+            case CarLifeContext.CONNECTION_TYPE_HOTSPOT:
+                checkId = R.id.rb_wifi;
+                break;
+            default:
+                checkId = R.id.rb_dir;
+        }
+        rgBtn.check(checkId);
+        rgBtn.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_usb: {
+                        saveConnectType(
+                                CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
+                                CarLifeContext.CONNECTION_TYPE_AOA
+                        );
+                        CarLife.receiver().setConnectType(CarLifeContext.CONNECTION_TYPE_AOA);
+                        break;
+                    }
+                    case R.id.rb_wifi: {
+
+                        saveConnectType(
+                                CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
+                                CarLifeContext.CONNECTION_TYPE_HOTSPOT
+                        );
+                        CarLife.receiver()
+                                .setConnectType(CarLifeContext.CONNECTION_TYPE_HOTSPOT);
+                        break;
+                    }
+                    case R.id.rb_dir: {
+                        PermissionX.init(MainFragment.this)
+                                .permissions(
+                                        Manifest.permission.ACCESS_COARSE_LOCATION,
+                                        Manifest.permission.ACCESS_FINE_LOCATION
+                                ).onExplainRequestReason(new ExplainReasonCallback() {
+                                    @Override
+                                    public void onExplainReason(@NonNull ExplainScope scope, @NonNull List<String> deniedList) {
+                                        scope.showRequestReasonDialog(
+                                                deniedList,
+                                                "打开权限",
+                                                "确定",
+                                                "取消"
+                                        );
+                                    }
+                                }).request(new RequestCallback() {
+                                    @Override
+                                    public void onResult(boolean allGranted, @NonNull List<String> grantedList, @NonNull List<String> deniedList) {
+                                        if (!allGranted) {
+                                            Toast.makeText(
+                                                    requireContext(),
+                                                    "权限未打开: $deniedList",
+                                                    Toast.LENGTH_LONG
+                                            ).show();
+                                        } else {
+
+                                            saveConnectType(
+                                                    CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
+                                                    CarLifeContext.CONNECTION_TYPE_WIFIDIRECT
+                                            );
+                                            CarLife.receiver()
+                                                    .setConnectType(CarLifeContext.CONNECTION_TYPE_WIFIDIRECT);
+                                        }
+                                    }
+                                });
+
+                        break;
+
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void saveConnectType(String typeKey, int value) {
+        PreferenceUtil.getInstance()
+                .putInt(typeKey, value);
     }
 
     private void changeUILayout() {
@@ -313,9 +407,9 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                         break;
                     case CommonParams.MSG_MAIN_DISPLAY_HELP_MAIN_FRAGMENT:
                         Logger.d(TAG, "showFragment(HelpMainFragment.getInstance()");
-                        if (mFragmentManager != null) {
-                            mFragmentManager.showFragment(HelpMainFragment.getInstance());
-                        }
+//                        if (mFragmentManager != null) {
+//                            mFragmentManager.showFragment(HelpMainFragment.getInstance());
+//                        }
                         break;
                     default:
                         break;
@@ -339,83 +433,83 @@ public class MainFragment extends BaseFragment implements OnClickListener {
 //            }
         }
 
-            @Override
-            public void careAbout () {
-                addMsg(CommonParams.MSG_CONNECT_STATUS_CONNECTED);
-                addMsg(CommonParams.MSG_CONNECT_STATUS_ESTABLISHED);
-                addMsg(CommonParams.MSG_CONNECT_STATUS_DISCONNECTED);
-                addMsg(CommonParams.MSG_CONNECT_FAIL_START);
-                addMsg(CommonParams.MSG_CONNECT_FAIL_NOT_SURPPORT);
-                addMsg(CommonParams.MSG_CONNECT_FAIL_START_BDSC);
-                addMsg(CommonParams.MSG_CONNECT_FAIL);
-                addMsg(CommonParams.MSG_CONNECT_AOA_NO_PERMISSION);
-                addMsg(CommonParams.MSG_CONNECT_AOA_REQUEST_MD_PERMISSION);
-                addMsg(CommonParams.MSG_CONNECT_AOA_NOT_SUPPORT);
-                addMsg(CommonParams.MSG_CONNECT_FAIL_TIMEOUT);
-                addMsg(CommonParams.MSG_CONNECT_FAIL_AUTHEN_FAILED);
-
-                addMsg(CommonParams.MSG_CONNECT_CHANGE_PROGRESS_NUMBER);
-                addMsg(CommonParams.MSG_MAIN_DISPLAY_HELP_MAIN_FRAGMENT);
-
-                addMsg(CommonParams.MSG_CMD_VIDEO_ENCODER_START);
-            }
-        }
-
         @Override
-        public boolean onBackPressed() {
-            if (mActivity != null) {
-                mActivity.openExitAppDialog();
-            }
-            return true;
-        }
+        public void careAbout() {
+            addMsg(CommonParams.MSG_CONNECT_STATUS_CONNECTED);
+            addMsg(CommonParams.MSG_CONNECT_STATUS_ESTABLISHED);
+            addMsg(CommonParams.MSG_CONNECT_STATUS_DISCONNECTED);
+            addMsg(CommonParams.MSG_CONNECT_FAIL_START);
+            addMsg(CommonParams.MSG_CONNECT_FAIL_NOT_SURPPORT);
+            addMsg(CommonParams.MSG_CONNECT_FAIL_START_BDSC);
+            addMsg(CommonParams.MSG_CONNECT_FAIL);
+            addMsg(CommonParams.MSG_CONNECT_AOA_NO_PERMISSION);
+            addMsg(CommonParams.MSG_CONNECT_AOA_REQUEST_MD_PERMISSION);
+            addMsg(CommonParams.MSG_CONNECT_AOA_NOT_SUPPORT);
+            addMsg(CommonParams.MSG_CONNECT_FAIL_TIMEOUT);
+            addMsg(CommonParams.MSG_CONNECT_FAIL_AUTHEN_FAILED);
 
-        private Runnable mConnectionTask = new Runnable() {
-            @Override
-            public void run() {
-                Logger.e(TAG, "Carlife Connect Timeout");
-                MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_FAIL_TIMEOUT);
-            }
-        };
+            addMsg(CommonParams.MSG_CONNECT_CHANGE_PROGRESS_NUMBER);
+            addMsg(CommonParams.MSG_MAIN_DISPLAY_HELP_MAIN_FRAGMENT);
 
-        private Runnable mProtocolInteractionTask = new Runnable() {
-            @Override
-            public void run() {
-                Logger.e(TAG, "Carlife Protocol interaction Timeout");
-                MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_FAIL_START);
-            }
-        };
-
-        private void initParams() {
-            if (wParams == null) {
-                connectStatusHeight = getResources().getDimensionPixelSize(R.dimen.connect_status_height);
-                Logger.d(TAG, "connectStatusHeight=" + connectStatusHeight);
-                wParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                int screenHeigh = 12; // PhoneUtil.getInstance().getScreenHeight();
-                int screenWidth = 13; // PhoneUtil.getInstance().getScreenWidth();
-                Logger.d(TAG, "screenHeigh=" + screenHeigh + ",screenWidth=" + screenWidth);
-                wParams.topMargin = ((screenHeigh - connectStatusHeight) * 2) / 3;
-                wParams.bottomMargin = (screenHeigh - connectStatusHeight) / 3;
-                Logger.d(TAG, "topMargin=" + wParams.topMargin + ",bottomMargin" + wParams.bottomMargin);
-            }
-            if (cParams == null) {
-                cParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-                cParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-            }
-        }
-
-        public void updateExceptionTips(String exceptionTips) {
-            if (isAoaNotSupportADBNotOpen) {
-                String hintResStr = getResources().getString(R.string.usb_connect_aoa_request_md_permisson);
-                if (hintResStr.equals(exceptionTips)) {
-                    return;
-                }
-            }
-
-            if (!TextUtils.isEmpty(exceptionTips) && mConnectInfo != null) {
-                mConnectProgress.setVisibility(View.GONE);
-                mRellayoutStatus.setVisibility(View.VISIBLE);
-                mImgView.setImageDrawable(getResources().getDrawable(R.drawable.car_ic_connect_error));
-                mConnectInfo.setText(exceptionTips);
-            }
+            addMsg(CommonParams.MSG_CMD_VIDEO_ENCODER_START);
         }
     }
+
+    @Override
+    public boolean onBackPressed() {
+        if (mActivity != null) {
+            mActivity.openExitAppDialog();
+        }
+        return true;
+    }
+
+    private Runnable mConnectionTask = new Runnable() {
+        @Override
+        public void run() {
+            Logger.e(TAG, "Carlife Connect Timeout");
+            MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_FAIL_TIMEOUT);
+        }
+    };
+
+    private Runnable mProtocolInteractionTask = new Runnable() {
+        @Override
+        public void run() {
+            Logger.e(TAG, "Carlife Protocol interaction Timeout");
+            MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_FAIL_START);
+        }
+    };
+
+    private void initParams() {
+        if (wParams == null) {
+            connectStatusHeight = getResources().getDimensionPixelSize(R.dimen.connect_status_height);
+            Logger.d(TAG, "connectStatusHeight=" + connectStatusHeight);
+            wParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+            int screenHeigh = 12; // PhoneUtil.getInstance().getScreenHeight();
+            int screenWidth = 13; // PhoneUtil.getInstance().getScreenWidth();
+            Logger.d(TAG, "screenHeigh=" + screenHeigh + ",screenWidth=" + screenWidth);
+            wParams.topMargin = ((screenHeigh - connectStatusHeight) * 2) / 3;
+            wParams.bottomMargin = (screenHeigh - connectStatusHeight) / 3;
+            Logger.d(TAG, "topMargin=" + wParams.topMargin + ",bottomMargin" + wParams.bottomMargin);
+        }
+        if (cParams == null) {
+            cParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            cParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        }
+    }
+
+    public void updateExceptionTips(String exceptionTips) {
+        if (isAoaNotSupportADBNotOpen) {
+            String hintResStr = getResources().getString(R.string.usb_connect_aoa_request_md_permisson);
+            if (hintResStr.equals(exceptionTips)) {
+                return;
+            }
+        }
+
+        if (!TextUtils.isEmpty(exceptionTips) && mConnectInfo != null) {
+            mConnectProgress.setVisibility(View.GONE);
+            mRellayoutStatus.setVisibility(View.VISIBLE);
+            mImgView.setImageDrawable(getResources().getDrawable(R.drawable.car_ic_connect_error));
+            mConnectInfo.setText(exceptionTips);
+        }
+    }
+}

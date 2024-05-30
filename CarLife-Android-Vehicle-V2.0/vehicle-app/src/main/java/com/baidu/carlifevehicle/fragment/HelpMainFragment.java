@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.baidu.carlife.sdk.util.Logger;
 import com.baidu.carlifevehicle.R;
+import com.baidu.carlifevehicle.access.AccessibilityUtils;
 import com.baidu.carlifevehicle.util.CarlifeConfUtil;
 
 public class HelpMainFragment extends BaseFragment {
@@ -95,6 +96,14 @@ public class HelpMainFragment extends BaseFragment {
                 }
             }
         });
+
+        mContentView.findViewById(R.id.goto_access_layout).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AccessibilityUtils.jump2AccessibilitySettings(requireContext());
+            }
+        });
+
         return mContentView;
     }
 

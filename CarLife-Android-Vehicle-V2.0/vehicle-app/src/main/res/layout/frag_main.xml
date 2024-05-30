@@ -26,7 +26,7 @@
     <RelativeLayout
         android:id="@+id/rellayout_bar"
         android:layout_width="match_parent"
-        android:layout_height="104dp">
+        android:layout_height="90dp">
 
         <ImageButton
             android:id="@+id/exit_img_btn"
@@ -77,7 +77,7 @@
             android:id="@+id/main_img_view"
             android:layout_width="match_parent"
             android:layout_height="216dp"
-            android:layout_marginTop="105dp"
+            android:layout_marginTop="90dp"
             android:src="@drawable/car_ic_usbwifi" />
 
         <TextView
@@ -92,18 +92,63 @@
             android:textColor="@color/cp_cont_d"
             android:textSize="27sp" />
 
-        <Button
-            android:id="@+id/main_retry_btn"
-            android:layout_width="204dp"
-            android:layout_height="66dp"
+        <RadioGroup
+            android:id="@+id/rg_connect_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/main_info_text_view"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="18dp"
+            android:checkedButton="@id/_usb"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_usb"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/white_color_selector"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:button="@null"
+                android:padding="20dp"
+                android:text="USB"/>
+
+            <RadioButton
+                android:id="@+id/rb_wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/white_color_selector"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:button="@null"
+                android:padding="20dp"
+                android:text="WIFI"/>
+
+            <RadioButton
+                android:id="@+id/rb_dir"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/white_color_selector"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:button="@null"
+                android:padding="20dp"
+                android:text="无感"/>
+
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/main_retry_btn"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_below="@id/rg_connect_type"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
             android:background="@drawable/selector_btn_retry"
             android:text="@string/usb_connect_btn_retry"
             android:textColor="@color/cl_text_a4_bgtext"
             android:textSize="24dp"
-            android:visibility="invisible"></Button>
+            android:visibility="visible"/>
     </RelativeLayout>
 
     <LinearLayout

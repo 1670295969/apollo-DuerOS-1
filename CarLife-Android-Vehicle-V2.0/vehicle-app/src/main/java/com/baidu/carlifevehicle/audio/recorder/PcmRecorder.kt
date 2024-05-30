@@ -5,7 +5,10 @@ import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.Process
 import com.baidu.carlife.sdk.CarLifeContext
+import com.baidu.carlife.sdk.Configs.OPEN_RECORD
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.util.PreferenceUtil
+import com.baidu.carlifevehicle.view.FloatWindowManager
 
 class PcmRecorder(private var mContext: CarLifeContext?) : Thread() {
     @Volatile
@@ -76,8 +79,15 @@ class PcmRecorder(private var mContext: CarLifeContext?) : Thread() {
         mRecordInstance!!.release()
         mRecordInstance = null
     }
+    private fun isSupportRecording() : Boolean {
+        return PreferenceUtil.getInstance().getBoolean(OPEN_RECORD,true)
+
+    }
 
     fun setRecording(flag: Boolean) {
+        if (!isSupportRecording()) {
+            return
+        }
         isRecording = flag
         if (isRecording) {
             synchronized(mutex) {

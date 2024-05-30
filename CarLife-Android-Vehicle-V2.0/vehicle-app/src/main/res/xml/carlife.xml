@@ -30,6 +30,7 @@
         <ListPreference android:persistent="true" android:entries="@array/video_framerate_entities" android:title="帧率" android:key="@string/CONFIG_VIDEO_FRAME_RATE" android:summary="%s" android:defaultValue="60" android:entryValues="@array/video_framerate_values" />
     </PreferenceCategory>
     <SwitchPreference android:persistent="true" android:title="显示悬浮窗" android:key="@string/FEATURE_SHOW_FLOAT" android:summary="显示应用悬浮窗" android:defaultValue="true" android:summaryOn="显示" android:summaryOff="不显示" android:switchTextOn="1" android:switchTextOff="0" />
+    <SwitchPreference android:persistent="true" android:title="开启录音" android:key="@string/OPEN_RECORD" android:summary="开启录音" android:defaultValue="true" android:summaryOn="开启" android:summaryOff="不开启" android:switchTextOn="1" android:switchTextOff="0" />
 
     <SwitchPreference android:persistent="true" android:title="是否开机自启" android:key="@string/START_ON_SYSTEM_BOOT" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
     <SwitchPreference android:persistent="true" android:title="是否开机自启并显示界面" android:key="@string/START_ON_SYSTEM_BOOT_SHOW_UI" android:dependency="@string/START_ON_SYSTEM_BOOT" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />

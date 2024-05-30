@@ -2,6 +2,7 @@ package com.baidu.carlifevehicle
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
+import android.content.ComponentName
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
@@ -36,6 +37,8 @@ import com.baidu.carlife.sdk.receiver.FileTransferListener
 import com.baidu.carlife.sdk.receiver.OnPhoneStateChangeListener
 import com.baidu.carlife.sdk.receiver.view.RemoteDisplayGLView
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.access.AccessibilityUtils
+import com.baidu.carlifevehicle.access.MyAccessibilityService
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.fragment.*
 import com.baidu.carlifevehicle.message.MsgBaseHandler
@@ -198,6 +201,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
         }, null)
 
+        AccessibilityUtils.setAccessibilityService(this, ComponentName(this,MyAccessibilityService::class.java))
 
     }
 

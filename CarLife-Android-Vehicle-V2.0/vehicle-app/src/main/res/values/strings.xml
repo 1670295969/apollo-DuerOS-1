@@ -202,6 +202,9 @@
     <string name="FEATURE_CONFIG_ENGINE_TYPE">ENGINE_TYPE</string>
     <string name="FEATURE_CONFIG_FOCUS_UI">FOCUS_UI</string>
     <string name="FEATURE_SHOW_FLOAT">show_float</string>
+
+    <string name="OPEN_RECORD">open_record</string>
+
     <string name="FEATURE_CONFIG_VOICE_MIC">VOICE_MIC</string>
     <string name="FEATURE_CONFIG_VOICE_WAKEUP">VOICE_WAKEUP</string>
     <string name="FORCE_FULL_SCREEN">FORCE_FULL_SCREEN</string>

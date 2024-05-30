@@ -52,7 +52,7 @@
         <item>手机MIC</item>
         <item>⻋机端 MIC不支持</item>
         <item>机端支持回声消噪，排列方式是先左声道右声道</item>
-        <item>⻋机端支持回声消噪，排列方式是先右声道左声 道</item>
+        <item>⻋机端支持回声消噪，排列方式是先右声道左声道</item>
     </string-array>
     <string-array name="voice_mic_values">
         <item>0</item>

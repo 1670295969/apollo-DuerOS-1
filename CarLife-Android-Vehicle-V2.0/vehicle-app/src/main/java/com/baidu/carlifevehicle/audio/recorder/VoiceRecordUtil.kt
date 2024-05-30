@@ -7,6 +7,7 @@ import android.media.AudioManager
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.internal.audio.AudioFocusManager
 import com.baidu.carlife.sdk.util.Logger
+import kotlin.Exception
 
 /**
  * 录音工具
@@ -22,6 +23,15 @@ object VoiceRecordUtil {
 
     fun init(context: CarLifeContext) {
         mContext = context
+        initRecord()
+    }
+
+    private fun initRecord(){
+        if (mPcmRecorder == null || !mPcmRecorder!!.isAlive()) {
+            mPcmRecorder = PcmRecorder(
+                mContext
+            ).apply { start() }
+        }
     }
 
     fun unInit() {
@@ -61,12 +71,9 @@ object VoiceRecordUtil {
     }
 
     fun onWakeUpStart() {
+       // onRecordEnd()
         Logger.e(TAG, "-----MSG_CMD_MIC_RECORD_WAKEUP_START-----")
-        if (mPcmRecorder == null || !mPcmRecorder!!.isAlive()) {
-            mPcmRecorder = PcmRecorder(
-                mContext
-            ).apply { start() }
-        }
+        initRecord()
         mPcmRecorder?.let {
             it.setRecording(true)
             it.setDownSampleStatus(false)
@@ -75,11 +82,7 @@ object VoiceRecordUtil {
 
     fun onVRStart() {
         Logger.e(TAG, "-----MSG_CMD_MIC_RECORD_RECOG_START-----")
-        if (mPcmRecorder == null || !mPcmRecorder!!.isAlive()) {
-            mPcmRecorder = PcmRecorder(
-                mContext
-            ).apply { start() }
-        }
+        initRecord()
         mPcmRecorder?.let {
             it.setRecording(true)
             /** 关闭降采样  */
