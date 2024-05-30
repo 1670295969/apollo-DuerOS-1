@@ -4,7 +4,7 @@ ext {
                minSdkVersion    : 21,
                applicationId    : "com.chen.easy_android",
                versionCode      : 2061,
-               versionName      : "1.0.2.651"]
+               versionName      : "1.4.0.1"]
 
     version = [
             android_database_sqlcipher_version = "3.5.9",
