@@ -145,6 +145,7 @@ class InstantConnectionSetup(private val context: CarLifeContext,
 
     private fun requestIp(communicator: BluetoothCommunicator) {
         try {
+            Logger.e(Constants.BLUETOOH_TAG, "InstantConnectionSetup requestIp MSG_WIRELESS_REQUEST_IP ")
             communicator.write(CarLifeMessage.obtain(MSG_CHANNEL_CMD, MSG_WIRELESS_REQUEST_IP))
         }
         catch (e: Exception) {

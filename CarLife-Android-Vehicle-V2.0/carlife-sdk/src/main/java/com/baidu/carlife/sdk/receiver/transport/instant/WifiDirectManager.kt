@@ -28,7 +28,7 @@ class WifiDirectManager(
         fun onDeviceConnected(info: WifiP2pInfo) {}
     }
     companion object{
-        const val TAG = Constants.TAG + "_WifiDirectManager"
+        const val TAG = Constants.BLUETOOH_TAG + "_WifiDirectManager"
     }
 
     private val wifiP2pManager =
@@ -85,7 +85,7 @@ class WifiDirectManager(
 
         val filter = IntentFilter()
         filter.addAction(WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION)
-        filter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION)
+        //filter.addAction(WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION)
         filter.addAction(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION)
         filter.addAction(WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION)
         context.applicationContext.registerReceiver(this, filter)
@@ -109,12 +109,12 @@ class WifiDirectManager(
     }
 
     override fun onReceive(context1: Context, intent: Intent) {
-        Logger.d(TAG, "WIFI_P2P onReceive intent.action: ", intent.action)
+        //Logger.d(TAG, "WIFI_P2P onReceive intent.action: ", intent.action)
         when (intent.action) {
             WifiP2pManager.WIFI_P2P_PEERS_CHANGED_ACTION -> {
                 val list = intent.getParcelableExtra<WifiP2pDeviceList>(EXTRA_P2P_DEVICE_LIST)
                 list?.deviceList?.forEach {
-                    Log.d(TAG, "----${it.deviceName}")
+                   // Log.d(TAG, "----${it.deviceName}")
 //                    Log.d("---------", "${it.deviceAddress}")
 //                    if (it.deviceName == "liuk"){
 //
@@ -131,7 +131,7 @@ class WifiDirectManager(
             }
             WifiP2pManager.WIFI_P2P_THIS_DEVICE_CHANGED_ACTION -> {
                 val device = intent.getParcelableExtra<WifiP2pDevice>(EXTRA_WIFI_P2P_DEVICE)
-                Logger.d(TAG, "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION device: $device")
+                Logger.d(TAG, "WIFI_P2P_THIS_DEVICE_CHANGED_ACTION device: ${device?.deviceName}")
                 context.setConfig(Configs.CONFIG_WIFI_DIRECT_NAME, device?.deviceName ?: "")
                 context.sharedPreferences
                     .edit()
@@ -143,14 +143,14 @@ class WifiDirectManager(
 
                 val info =
                     intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_INFO) as? WifiP2pInfo
-                Logger.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION info: $info")
+                //Logger.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION info: $info")
                 if (info != null && info.groupFormed) {
                     isConnected = true
                     callbacks.onDeviceConnected(info)
                     val groupInfo =
                         intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_GROUP) as? WifiP2pGroup
                     if (groupInfo != null) {
-                        Logger.d(TAG, "WifiDirectManager group: ", groupInfo)
+                        Logger.d(TAG, "WifiDirectManager group: ", groupInfo.networkName)
                     }
                 } else {
                     isConnected = false
@@ -160,7 +160,7 @@ class WifiDirectManager(
                         discoverableTask.discoverable()
                     }
                 }
-                Logger.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION ", isConnected)
+              //  Logger.d(TAG, "WIFI_P2P_CONNECTION_CHANGED_ACTION ", isConnected)
             }
             WifiP2pManager.WIFI_P2P_STATE_CHANGED_ACTION -> {
                 val p2pIsEnable = intent.getIntExtra(

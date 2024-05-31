@@ -46,7 +46,7 @@ class WifiP2pOperationSequence(private val listener: WifiP2pManager.ActionListen
     }
 
     override fun onFailure(reason: Int) {
-        Logger.d(Constants.TAG, "WifiP2pOperationSequence onFailure ", sequence[currentIndex],
+        Logger.d(Constants.BLUETOOH_TAG, "WifiP2pOperationSequence onFailure ", sequence[currentIndex],
             ", currentIndex: ", currentIndex, ", reason: ", reason)
 
         executing.set(false)

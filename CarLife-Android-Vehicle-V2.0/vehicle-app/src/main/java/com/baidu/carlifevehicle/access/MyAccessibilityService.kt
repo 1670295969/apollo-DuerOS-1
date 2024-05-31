@@ -32,6 +32,7 @@ public class MyAccessibilityService : AccessibilityService() {
             if (nodeInfo != null && event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
                 val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText("接受")
                 tmp?.forEach {
+                    Log.i("MyAccessibilityService", it.viewIdResourceName)
                     it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
                 }
             }
@@ -45,12 +46,14 @@ public class MyAccessibilityService : AccessibilityService() {
     }
 
     private fun performClickAction(text: String) {
-        val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText(text)
-        tmp?.forEach {
-                handler.postDelayed({
+     //   handler.postDelayed({
+            val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText(text)
+            tmp?.forEach {
+                Log.i("MyAccessibilityService", it.viewIdResourceName)
                     it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
-                }, 300)
-        }
+            }
+     //   },300)
+
     }
 
     override fun onInterrupt() {

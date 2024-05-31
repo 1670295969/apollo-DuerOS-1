@@ -319,12 +319,16 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         super.onStart()
         VoiceManager.onActivityStart()
         CarLife.receiver().onActivityStarted()
+        FloatWindowManager.dismiss()
     }
 
     override fun onStop() {
         super.onStop()
         VoiceManager.onActivityStop()
         CarLife.receiver().onActivityStopped()
+        if(PreferenceUtil.getInstance().getBoolean("show_float",true)){
+            FloatWindowManager.show()
+        }
     }
 
     override fun onBackPressed() {
@@ -590,16 +594,11 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         super.onResume()
         changeSize()
         hideSystemUi()
-       // hideStatusAndNaviBar()
-        FloatWindowManager.dismiss()
+        //hideStatusAndNaviBar()
     }
 
     override fun onPause() {
         super.onPause()
-        if(PreferenceUtil.getInstance().getBoolean("show_float",true)){
-            FloatWindowManager.show()
-        }
-
     }
 
     private fun hideSystemUi() {

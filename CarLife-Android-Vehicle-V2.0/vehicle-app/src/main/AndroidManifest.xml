@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:sharedUserId="android.uid.system"
     package="com.baidu.carlifevehicle">
+    <!--
+-->
 
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>

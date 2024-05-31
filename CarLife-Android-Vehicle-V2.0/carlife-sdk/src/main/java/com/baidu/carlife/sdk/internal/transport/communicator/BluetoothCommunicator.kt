@@ -25,7 +25,7 @@ class BluetoothCommunicator(private val socket: BluetoothSocket,
 
         try {
             output.write(message.body, 0, message.size)
-            Logger.d(Constants.TAG, "BluetoothCommunicator onSendMessage ", message)
+            Logger.d(Constants.BLUETOOH_TAG, "BluetoothCommunicator onSendMessage ", message)
         }
         catch (e: Exception) {
             // 如果发生异常，则主动调用terminate
@@ -64,7 +64,7 @@ class BluetoothCommunicator(private val socket: BluetoothSocket,
                 Logger.d(Constants.TAG, "BluetoothCommunicator terminate exception: ", e)
             }
             callbacks?.onTerminated(Constants.MSG_CHANNEL_CMD)
-            Logger.d(Constants.TAG, "BluetoothCommunicator terminated ", this)
+            Logger.d(Constants.BLUETOOH_TAG, "BluetoothCommunicator terminated ", this)
         }
     }
 }
