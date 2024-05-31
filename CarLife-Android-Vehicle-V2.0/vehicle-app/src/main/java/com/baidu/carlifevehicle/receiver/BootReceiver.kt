@@ -10,13 +10,18 @@ import android.util.Log
 import com.baidu.carlifevehicle.CarlifeActivity
 import com.baidu.carlifevehicle.VehicleService
 import com.baidu.carlifevehicle.util.PreferenceUtil
+import com.baidu.carlifevehicle.view.FloatWindowManager
 import java.util.*
 
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.i("CarLifeBootReceiver", "启动广播");
+        Log.i("CarLifeBootReceiver", "启动广播:${intent?.action}");
         val sharedPreferences = PreferenceUtil.getInstance().preferences;
         val result = sharedPreferences?.getBoolean("START_ON_SYSTEM_BOOT", false) ?: false
+
+        if(PreferenceUtil.getInstance().getBoolean("show_float",true)){
+            FloatWindowManager.show()
+        }
         if (!result) {
             return
 
