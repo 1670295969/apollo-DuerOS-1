@@ -45,6 +45,7 @@ import com.baidu.carlifevehicle.R;
 import com.baidu.carlifevehicle.message.MsgBaseHandler;
 import com.baidu.carlifevehicle.message.MsgHandlerCenter;
 import com.baidu.carlifevehicle.util.CommonParams;
+import com.baidu.carlifevehicle.util.HotspotUtils;
 import com.baidu.carlifevehicle.util.PreferenceUtil;
 import com.baidu.carlifevehicle.view.LoadingProgressBar;
 import com.permissionx.guolindev.PermissionX;
@@ -191,9 +192,13 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                         );
                         CarLife.receiver()
                                 .setConnectType(CarLifeContext.CONNECTION_TYPE_HOTSPOT);
+
+                        HotspotUtils.INSTANCE.openHot();
+
                         break;
                     }
                     case R.id.rb_dir: {
+                        HotspotUtils.INSTANCE.closeHot();
                         PermissionX.init(MainFragment.this)
                                 .permissions(
                                         Manifest.permission.ACCESS_COARSE_LOCATION,

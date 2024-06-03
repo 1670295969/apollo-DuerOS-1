@@ -34,4 +34,7 @@
 
     <SwitchPreference android:persistent="true" android:title="是否开机自启" android:key="@string/START_ON_SYSTEM_BOOT" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
     <SwitchPreference android:persistent="true" android:title="是否开机自启并显示界面" android:key="@string/START_ON_SYSTEM_BOOT_SHOW_UI" android:dependency="@string/START_ON_SYSTEM_BOOT" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
+
+    <SwitchPreference android:persistent="true" android:title="WIFI连接时开机车机热点" android:key="@string/OPEN_HOT" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
+
 </androidx.preference.PreferenceScreen>

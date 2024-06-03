@@ -84,8 +84,8 @@ class VehicleApplication : Application() {
          * 车机端的支持的Feature，会通过协议传给手机端
          */
         val features = mapOf(
-            FEATURE_CONFIG_USB_MTU to 16 * 1024,
-            FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
+            FEATURE_CONFIG_USB_MTU to 32 * 1024,
+            FEATURE_CONFIG_I_FRAME_INTERVAL to 200,
             FEATURE_CONFIG_CONNECT_TYPE to type,
             FEATURE_CONFIG_AAC_SUPPORT to accSupport,
             FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 0,
@@ -148,7 +148,7 @@ class VehicleApplication : Application() {
 
     val vehicleConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName?) {
-            TODO("Not yet implemented")
+           // ("Not yet implemented")
         }
 
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -160,7 +160,7 @@ class VehicleApplication : Application() {
      * CarLife起来时，拉起VehicleService服务，用于CarLife后台连接成功时可以自动被拉到前台显示，
      * 车厂可根据需求选择是否需要此服务.
      */
-    fun bindVehicleService() {
+    private fun bindVehicleService() {
         val intent = Intent(this, VehicleService::class.java)
         bindService(intent, vehicleConnection, Context.BIND_AUTO_CREATE)
     }

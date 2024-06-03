@@ -28,9 +28,11 @@ import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.util.Logger.Companion.d
 import com.baidu.carlifevehicle.R
 import com.baidu.carlifevehicle.util.CommonParams
+import com.baidu.carlifevehicle.util.HotspotUtils
+import com.baidu.carlifevehicle.util.HotspotUtils.openHot
 import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.permissionx.guolindev.PermissionX
-import kotlinx.android.synthetic.main.frag_help_android.*
+import kotlinx.android.synthetic.main.frag_help_android._connect_type
 
 class HelpAndroidAOAFragment : BaseFragment() {
     private var mBackBtn: ImageButton? = null
@@ -105,8 +107,11 @@ class HelpAndroidAOAFragment : BaseFragment() {
                             CommonParams.CONNECT_TYPE_SHARED_PREFERENCES,
                             CarLifeContext.CONNECTION_TYPE_HOTSPOT
                         )
+                    HotspotUtils.openHot()
+
                 }
                 R.id._dir -> {
+                    HotspotUtils.closeHot()
                     PermissionX.init(this)
                         .permissions(
                             Manifest.permission.ACCESS_COARSE_LOCATION,

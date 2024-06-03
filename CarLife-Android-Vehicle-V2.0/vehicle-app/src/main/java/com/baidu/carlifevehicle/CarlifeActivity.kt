@@ -14,7 +14,11 @@ import android.support.v4.media.session.MediaSessionCompat
 import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.Surface
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,9 +27,13 @@ import androidx.core.content.ContextCompat
 import com.baidu.carlife.protobuf.CarlifeBTHfpCallStatusCoverProto.CarlifeBTHfpCallStatusCover
 import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
 import com.baidu.carlife.protobuf.CarlifeConnectExceptionProto.CarlifeConnectException
-import com.baidu.carlife.sdk.*
+import com.baidu.carlife.sdk.CarLifeContext
+import com.baidu.carlife.sdk.CarLifeModule
+import com.baidu.carlife.sdk.Configs
+import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_TOUCH
 import com.baidu.carlife.sdk.Constants.VALUE_PROGRESS_100
+import com.baidu.carlife.sdk.WirlessStatusListener
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage.Companion.obtain
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
@@ -40,7 +48,13 @@ import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlifevehicle.access.AccessibilityUtils
 import com.baidu.carlifevehicle.access.MyAccessibilityService
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
-import com.baidu.carlifevehicle.fragment.*
+import com.baidu.carlifevehicle.fragment.BaseFragment
+import com.baidu.carlifevehicle.fragment.CarLifeFragmentManager
+import com.baidu.carlifevehicle.fragment.ExceptionFragment
+import com.baidu.carlifevehicle.fragment.LaunchFragment
+import com.baidu.carlifevehicle.fragment.MainFragment
+import com.baidu.carlifevehicle.fragment.NewUserGuideFragment
+import com.baidu.carlifevehicle.fragment.TouchFragment
 import com.baidu.carlifevehicle.message.MsgBaseHandler
 import com.baidu.carlifevehicle.message.MsgHandlerCenter
 import com.baidu.carlifevehicle.module.MusicModule
@@ -51,6 +65,8 @@ import com.baidu.carlifevehicle.util.CarlifeConfUtil
 import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
 import com.baidu.carlifevehicle.util.CommonParams.KEYCODE_MAIN
+import com.baidu.carlifevehicle.util.HotspotUtils
+import com.baidu.carlifevehicle.util.HotspotUtils.openHot
 import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.baidu.carlifevehicle.view.CarlifeMessageDialog
 import com.baidu.carlifevehicle.view.FloatWindowManager
@@ -301,6 +317,9 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
         CarLife.receiver().unregisterWirlessStatusListeners(this)
         MsgHandlerCenter.unRegisterMessageHandler(mMainActivityHandler)
+        HotspotUtils.openHot()
+
+
     }
 
     override fun onProgress(progress: Int) {
