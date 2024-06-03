@@ -21,6 +21,7 @@ import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.audio.recorder.VoiceMessageHandler
 import com.baidu.carlifevehicle.protocol.ControllerHandler
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
+import com.baidu.carlifevehicle.util.CarlifeConfUtil.KEY_INT_AUDIO_TRANSMISSION_MODE
 import com.baidu.carlifevehicle.util.CommonParams.CONNECT_TYPE_SHARED_PREFERENCES
 import com.baidu.carlifevehicle.util.PreferenceUtil
 
@@ -78,6 +79,11 @@ class VehicleApplication : Application() {
         val type = PreferenceUtil.getInstance()
             .getInt(CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_WIFIDIRECT)
 
+        val audioTransmissionMode = PreferenceUtil.getInstance()
+            .getBoolean(KEY_INT_AUDIO_TRANSMISSION_MODE, false)
+
+        val audioMode = if (audioTransmissionMode) 1 else 0
+
         val accSupportEnable = PreferenceUtil.getInstance().getBoolean("AAC_SUPPORT",false)
         val accSupport = if (accSupportEnable) 1 else 0
         /**
@@ -88,7 +94,7 @@ class VehicleApplication : Application() {
             FEATURE_CONFIG_I_FRAME_INTERVAL to 200,
             FEATURE_CONFIG_CONNECT_TYPE to type,
             FEATURE_CONFIG_AAC_SUPPORT to accSupport,
-            FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to 0,
+            FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to audioMode,
             FEATURE_CONFIG_MUSIC_HUD to 1
         )
 

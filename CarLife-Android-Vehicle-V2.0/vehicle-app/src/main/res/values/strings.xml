@@ -226,4 +226,7 @@
 
     <string name="MUSIC_ENABLE_AAC">AAC_SUPPORT</string>
 
+    <string name="CFG_AUTO_PLAY_BT_MUSIC">AUTO_PLAY_BT_MUSIC</string>
+
+
 </resources>

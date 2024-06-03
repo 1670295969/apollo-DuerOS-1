@@ -15,6 +15,8 @@
  *****************************************************************************/
 package com.baidu.carlifevehicle.util;
 
+import static com.baidu.carlife.sdk.Configs.FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -229,10 +231,12 @@ public class CarlifeConfUtil {
     public static final String KEY_INT_CONNECT_TYPE_IPHONE = "CONNECT_TYPE_IPHONE";
     public static final String KEY_INT_IPHONE_USB_CONNECT_TYPE = "IPHONE_USB_CONNECT_TYPE";
     public static final String KEY_STRING_IPHONE_NCM_ETHERNET_NAME = "IPHONE_NCM_ETHERNET_NAME";
-    public static final String KEY_INT_AUDIO_TRANSMISSION_MODE = "AUDIO_TRANSMISSION_MODE";
+    public static final String KEY_INT_AUDIO_TRANSMISSION_MODE = FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE;
     public static final String KEY_CONTENT_ENCRYPTION = "CONTENT_ENCRYPTION";
     public static final String KEY_BOOL_INPUT_DISABLE = "INPUT_DISABLE";
     public static final String KEY_ENGINE_TYPE = "ENGINE_TYPE";
+
+    public static final String CFG_AUTO_PLAY_BT_MUSIC = "AUTO_PLAY_BT_MUSIC";
 
     /**
      * key code supported

@@ -23,7 +23,8 @@
         <SwitchPreference android:persistent="true" android:title="蓝牙自动匹配" android:key="@string/FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR" android:defaultValue="true" android:summaryOn="匹配" android:summaryOff="不匹配" android:switchTextOn="1" android:switchTextOff="0" />
         <SwitchPreference android:persistent="true" android:title="蓝牙电话" android:key="@string/FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI" android:defaultValue="false" android:summaryOn="可用" android:summaryOff="不可用" android:switchTextOn="1" android:switchTextOff="0" />
         <SwitchPreference android:persistent="true" android:title="MD向HU传输音频流方式" android:key="@string/FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE" android:defaultValue="false" android:summaryOn="蓝牙通道" android:summaryOff="专用音频通道" android:switchTextOn="1" android:switchTextOff="0" />
-        <SwitchPreference android:persistent="true" android:title="是否支持蓝牙音频" android:key="@string/CONFIG_BLUETOOTH_AUDIO" android:defaultValue="false" android:summaryOn="支持" android:summaryOff="不支持" />
+        <SwitchPreference android:persistent="true" android:title="自动播放蓝牙音频" android:key="@string/CFG_AUTO_PLAY_BT_MUSIC" android:defaultValue="false" android:summaryOn="开启" android:summaryOff="关闭" android:switchTextOn="1" android:switchTextOff="0" />
+
         <SwitchPreference android:persistent="true" android:title="运行CarLife的⻋机类型" android:key="@string/FEATURE_CONFIG_ENGINE_TYPE" android:defaultValue="true" android:summaryOn="电动车" android:summaryOff="燃油车" android:switchTextOn="1" android:switchTextOff="0" />
         <EditTextPreference android:persistent="true" android:title="⻋机端蓝牙名称" android:key="@string/CONFIG_HU_BT_NAME" app:useSimpleSummaryProvider="true" />
         <EditTextPreference android:persistent="true" android:title="⻋机端蓝牙MAC地址" android:key="@string/CONFIG_HU_BT_MAC" app:useSimpleSummaryProvider="true" />

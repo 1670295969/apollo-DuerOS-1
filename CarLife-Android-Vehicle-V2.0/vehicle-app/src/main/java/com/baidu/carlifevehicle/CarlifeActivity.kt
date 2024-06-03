@@ -3,11 +3,16 @@ package com.baidu.carlifevehicle
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.Message
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
@@ -21,6 +26,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
@@ -48,6 +54,7 @@ import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlifevehicle.access.AccessibilityUtils
 import com.baidu.carlifevehicle.access.MyAccessibilityService
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
+import com.baidu.carlifevehicle.bt.BtMusicConnection
 import com.baidu.carlifevehicle.fragment.BaseFragment
 import com.baidu.carlifevehicle.fragment.CarLifeFragmentManager
 import com.baidu.carlifevehicle.fragment.ExceptionFragment
@@ -62,6 +69,8 @@ import com.baidu.carlifevehicle.module.NavModule
 import com.baidu.carlifevehicle.module.PhoneModule
 import com.baidu.carlifevehicle.module.VRModule
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
+import com.baidu.carlifevehicle.util.CarlifeConfUtil.CFG_AUTO_PLAY_BT_MUSIC
+import com.baidu.carlifevehicle.util.CarlifeConfUtil.KEY_INT_AUDIO_TRANSMISSION_MODE
 import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
 import com.baidu.carlifevehicle.util.CommonParams.KEYCODE_MAIN
@@ -111,18 +120,23 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 //        WindowCompat.getWindowInsetsController(window, window.decorView)
 //    }
 
+    private val btHandler = Handler(Looper.getMainLooper())
+
 
 // Hide the system bars.
 
 
-    private fun hideStatusAndNaviBar(){
+    private fun hideStatusAndNaviBar() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        );
         window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
@@ -217,13 +231,15 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
         }, null)
 
-        AccessibilityUtils.setAccessibilityService(this, ComponentName(this,MyAccessibilityService::class.java))
-        startService(Intent(this,MyAccessibilityService::class.java))
+        AccessibilityUtils.setAccessibilityService(
+            this,
+            ComponentName(this, MyAccessibilityService::class.java)
+        )
+        startService(Intent(this, MyAccessibilityService::class.java))
         HotspotUtils.openHot()
 
 
     }
-
 
 
     fun sendHardKeyCodeEvent(keycode: Int) {
@@ -268,7 +284,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.BLUETOOTH,
                 Manifest.permission.CAMERA
-                )
+            )
             .onExplainRequestReason { scope, deniedList ->
                 scope.showRequestReasonDialog(
                     deniedList,
@@ -346,7 +362,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         super.onStop()
         VoiceManager.onActivityStop()
         CarLife.receiver().onActivityStopped()
-        if(PreferenceUtil.getInstance().getBoolean("show_float",true)){
+        if (PreferenceUtil.getInstance().getBoolean("show_float", true)) {
             FloatWindowManager.show()
         }
     }
@@ -388,7 +404,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
     override fun onConnectionAttached(context: CarLifeContext) {
         MsgHandlerCenter.dispatchMessage(CommonParams.MSG_CONNECT_STATUS_CONNECTED)
-       // hideStatusAndNaviBar()
+        // hideStatusAndNaviBar()
     }
 
     override fun onConnectionReattached(context: CarLifeContext) {
@@ -488,6 +504,39 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                     CommonParams.MSG_CONNECT_STATUS_CONNECTED -> {
                         saveConnectStatus(true)
                         hideSystemUi()
+                        if (PreferenceUtil.getInstance()
+                                .getBoolean(KEY_INT_AUDIO_TRANSMISSION_MODE, false)
+                        ) {
+                            if (!BtMusicConnection.instance.isPlaying()) {
+                                BtMusicConnection.instance.autoPlay()
+                                if (!PreferenceUtil.getInstance()
+                                        .getBoolean(CFG_AUTO_PLAY_BT_MUSIC, false)
+                                ) {
+                                    val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                                    //am.isStreamMute(AudioManager.STREAM_MUSIC)
+                                    //am.isMusicActive
+                                    val musicVol = am.getStreamVolume(AudioManager.STREAM_MUSIC)
+                                    if (musicVol != 0){
+                                        am.setStreamMute(AudioManager.STREAM_MUSIC,true)
+                                    }
+
+                                    btHandler.postDelayed({
+                                        BtMusicConnection.instance.pause()
+                                        if(musicVol != 0){
+                                            btHandler.postDelayed({
+                                                am.setStreamMute(AudioManager.STREAM_MUSIC,false)
+                                            },150)
+
+                                        }
+                                    }, 300)
+
+
+                                }
+                            }
+
+
+                        }
+
                         //TODO remove
                         //  mCarLifeFragmentManager?.removeCurrentFragment()
                     }
