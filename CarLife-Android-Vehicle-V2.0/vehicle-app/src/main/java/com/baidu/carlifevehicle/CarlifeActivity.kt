@@ -219,6 +219,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
         AccessibilityUtils.setAccessibilityService(this, ComponentName(this,MyAccessibilityService::class.java))
         startService(Intent(this,MyAccessibilityService::class.java))
+        HotspotUtils.openHot()
+
 
     }
 
@@ -317,7 +319,6 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
         CarLife.receiver().unregisterWirlessStatusListeners(this)
         MsgHandlerCenter.unRegisterMessageHandler(mMainActivityHandler)
-        HotspotUtils.openHot()
 
 
     }

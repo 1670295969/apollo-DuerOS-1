@@ -2,6 +2,7 @@ package com.baidu.carlifevehicle.util
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.ConnectivityManager
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiManager.LocalOnlyHotspotCallback
@@ -35,6 +36,7 @@ object HotspotUtils {
 
 
     fun openHot() {
+        Log.i(TAG,"connectionType="+CarLife.receiver().connectionType);
         if (CarLifeContext.CONNECTION_TYPE_HOTSPOT != CarLife.receiver().connectionType){
             return
         }
@@ -65,6 +67,8 @@ object HotspotUtils {
             }
             try {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Log.e(TAG, "close hot")
+
                     closeHotWithO()
                 } else {
                     disableWifiAp()
@@ -200,16 +204,17 @@ object HotspotUtils {
     }
 
 
-    private fun closeHotWithO() : Boolean {
-
-        return try {
-            val method = wifiManager.javaClass.getDeclaredMethod("stopSoftAp")
+    private fun closeHotWithO()  {
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        try {
+            val method = ConnectivityManager::class.java.getDeclaredMethod("stopTethering",
+                 Int::class.java)
             method.isAccessible = true // Make the method accessible
-            method.invoke(wifiManager) as Boolean
+            method.invoke(connectivityManager,0)
         } catch (e: java.lang.Exception) {
             e.printStackTrace()
-            Log.e("MainActivity", "Error checking hotspot status: " + e.message)
-            false
+            Log.e(TAG, "Error checking hotspot status: " + e.message)
         }
        // mReservation?.close()
     }

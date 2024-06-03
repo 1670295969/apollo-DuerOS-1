@@ -198,7 +198,6 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                         break;
                     }
                     case R.id.rb_dir: {
-                        HotspotUtils.INSTANCE.closeHot();
                         PermissionX.init(MainFragment.this)
                                 .permissions(
                                         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -233,7 +232,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                                         }
                                     }
                                 });
-
+                        HotspotUtils.INSTANCE.closeHot();
                         break;
 
                     }
