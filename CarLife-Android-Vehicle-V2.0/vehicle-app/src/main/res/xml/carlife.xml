@@ -28,13 +28,13 @@
         <SwitchPreference android:persistent="true" android:title="运行CarLife的⻋机类型" android:key="@string/FEATURE_CONFIG_ENGINE_TYPE" android:defaultValue="true" android:summaryOn="电动车" android:summaryOff="燃油车" android:switchTextOn="1" android:switchTextOff="0" />
         <EditTextPreference android:persistent="true" android:title="⻋机端蓝牙名称" android:key="@string/CONFIG_HU_BT_NAME" app:useSimpleSummaryProvider="true" />
         <EditTextPreference android:persistent="true" android:title="⻋机端蓝牙MAC地址" android:key="@string/CONFIG_HU_BT_MAC" app:useSimpleSummaryProvider="true" />
-        <ListPreference android:persistent="true" android:entries="@array/video_framerate_entities" android:title="帧率" android:key="@string/CONFIG_VIDEO_FRAME_RATE" android:summary="%s" android:defaultValue="60" android:entryValues="@array/video_framerate_values" />
+        <ListPreference android:persistent="true" android:entries="@array/video_framerate_entities" android:title="帧率" android:key="@string/CONFIG_VIDEO_FRAME_RATE" android:summary="%s" android:defaultValue="30" android:entryValues="@array/video_framerate_values" />
     </PreferenceCategory>
     <SwitchPreference android:persistent="true" android:title="显示悬浮窗" android:key="@string/FEATURE_SHOW_FLOAT" android:summary="显示应用悬浮窗" android:defaultValue="true" android:summaryOn="显示" android:summaryOff="不显示" android:switchTextOn="1" android:switchTextOff="0" />
     <SwitchPreference android:persistent="true" android:title="开启录音" android:key="@string/OPEN_RECORD" android:summary="开启录音" android:defaultValue="true" android:summaryOn="开启" android:summaryOff="不开启" android:switchTextOn="1" android:switchTextOff="0" />
     <SwitchPreference android:persistent="true" android:title="USB拉起界面" android:key="@string/CFG_USB_SHOW_UI" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
 
-    <SwitchPreference android:persistent="true" android:title="连接成功后拉起界面" android:key="@string/CONNECT_SUCCESS_SHOW_UI" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
+    <SwitchPreference android:persistent="true" android:title="后台自动连接，成功后拉起界面" android:key="@string/CONNECT_SUCCESS_SHOW_UI" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
 
     <SwitchPreference android:persistent="true" android:title="是否开机自启并显示界面" android:key="@string/START_ON_SYSTEM_BOOT_SHOW_UI" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
 

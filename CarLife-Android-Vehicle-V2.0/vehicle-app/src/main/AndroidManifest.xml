@@ -108,19 +108,19 @@
             </intent-filter>
         </receiver>
 
-<!--        <receiver android:name=".receiver.BootReceiver"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="true"-->
-<!--            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">-->
-<!--            <intent-filter android:priority="10000">-->
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
-<!--            </intent-filter>-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>-->
-<!--            </intent-filter>-->
+        <receiver android:name=".receiver.BootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter android:priority="10000">
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
+            </intent-filter>
 
-<!--        </receiver>-->
+        </receiver>
 
 
         <service
