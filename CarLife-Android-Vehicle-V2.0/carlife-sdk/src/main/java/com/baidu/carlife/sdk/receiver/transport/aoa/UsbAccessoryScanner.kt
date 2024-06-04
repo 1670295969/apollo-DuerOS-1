@@ -82,6 +82,9 @@ class UsbAccessoryScanner(
             Logger.d(Constants.TAG, "this device is null")
             return false
         }
+        if (device?.vendorId == 11388) {
+            return true
+        }
 
         if (STORAGE_INTERFACE_CONUT == device.interfaceCount) {
             val usbInter = device.getInterface(STORAGE_INTERFACE_ID)

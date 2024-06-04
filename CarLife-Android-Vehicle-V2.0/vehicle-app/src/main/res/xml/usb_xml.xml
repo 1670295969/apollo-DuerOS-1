@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--设备过滤文件-->
+
+    <!-- devices vendor-id= 0x1F3A product-id=0x1007-->
+    <!--小米-->
+    <usb-device vendor-id="0x2717" />
+    <!--vivo-->
+    <usb-device vendor-id="0x183d"  />
+
+    <!--oppo-->
+    <usb-device vendor-id="0x22d9"  />
+
+    <!--meizhu-->
+    <usb-device vendor-id="0x2a45"  />
+
+
+    <!--huawei-->
+    <usb-device vendor-id="0x12d1"  />
+    <usb-device vendor-id="0x1742"  />
+
+
+    <!--google-->
+    <usb-device vendor-id="0x18d1"  />
+
+    <!--vivo-->
+
+
+</resources>

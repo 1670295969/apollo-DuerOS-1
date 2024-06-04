@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
     package="com.baidu.carlifevehicle">
-    <!--
+    <!--     android:sharedUserId="android.uid.system"
+
 -->
 
 
@@ -16,7 +16,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-feature android:name="android.hardware.usb.host" />
+    <uses-feature android:name="android.hardware.usb.host"
+        android:required="true"/>
     <uses-feature
         android:name="android.hardware.wifi.direct"
         android:required="true" />
@@ -57,6 +58,8 @@
     <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
+
 
 
 
@@ -105,19 +108,19 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".receiver.BootReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-            <intent-filter android:priority="10000">
-                <category android:name="android.intent.category.DEFAULT" />
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>
-            </intent-filter>
+<!--        <receiver android:name=".receiver.BootReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true"-->
+<!--            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">-->
+<!--            <intent-filter android:priority="10000">-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <action android:name="android.intent.action.BOOT_COMPLETED"/>-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED"/>-->
+<!--            </intent-filter>-->
 
-        </receiver>
+<!--        </receiver>-->
 
 
         <service
@@ -130,6 +133,21 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
+        <receiver android:name=".receiver.UsbReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <!--获取USB操作的通知-->
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/>
+            </intent-filter>
+
+<!--            <meta-data-->
+<!--                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"-->
+<!--                android:resource="@xml/usb_xml"/>-->
+        </receiver>
+
+        <!-- android设备的信息过滤 -->
+
 
     </application>
 

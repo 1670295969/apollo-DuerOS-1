@@ -224,6 +224,10 @@
     <string name="START_ON_SYSTEM_BOOT_SHOW_UI">START_ON_SYSTEM_BOOT_SHOW_UI</string>
     <string name="OPEN_HOT">open_hot</string>
 
+    <string name="CONNECT_SUCCESS_SHOW_UI">CONNECT_SUCCESS_SHOW_UI</string>
+    <string name="CFG_USB_SHOW_UI">USB_SHOW_UI</string>
+
+
     <string name="MUSIC_ENABLE_AAC">AAC_SUPPORT</string>
 
     <string name="CFG_AUTO_PLAY_BT_MUSIC">AUTO_PLAY_BT_MUSIC</string>

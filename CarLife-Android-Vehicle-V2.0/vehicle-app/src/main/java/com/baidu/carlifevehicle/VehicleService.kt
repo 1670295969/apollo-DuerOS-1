@@ -11,6 +11,7 @@ import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.internal.transport.TransportListener
 import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.util.Logger
+import com.baidu.carlifevehicle.util.CarlifeConfUtil
 import com.baidu.carlifevehicle.util.PreferenceUtil
 
 
@@ -44,7 +45,7 @@ class VehicleService : Service(), TransportListener {
         Logger.d("VideoRender", "onConnectionEstablished start CarlifeActivity")
         // 这里先注释掉，如车厂有需求，可以放开
         val sharedPreferences = PreferenceUtil.getInstance().preferences
-        val result = sharedPreferences?.getBoolean("START_ON_SYSTEM_BOOT_SHOW_UI", false) ?: false
+        val result = sharedPreferences?.getBoolean(CarlifeConfUtil.CONNECT_SUCCESS_SHOW_UI, false) ?: false
         if (result){
             showFront()
         }

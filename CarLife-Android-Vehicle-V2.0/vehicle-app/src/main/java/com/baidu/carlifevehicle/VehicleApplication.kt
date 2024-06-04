@@ -21,6 +21,7 @@ import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.audio.recorder.VoiceMessageHandler
 import com.baidu.carlifevehicle.protocol.ControllerHandler
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
+import com.baidu.carlifevehicle.util.CarlifeConfUtil.CONNECT_SUCCESS_SHOW_UI
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.KEY_INT_AUDIO_TRANSMISSION_MODE
 import com.baidu.carlifevehicle.util.CommonParams.CONNECT_TYPE_SHARED_PREFERENCES
 import com.baidu.carlifevehicle.util.PreferenceUtil
@@ -49,8 +50,8 @@ class VehicleApplication : Application() {
         initReceiver()
         bindVehicleService()
 
-        val sharedPreferences = PreferenceUtil.getInstance().preferences;
-        val result = sharedPreferences?.getBoolean("START_ON_SYSTEM_BOOT", false) ?: false
+        val sharedPreferences = PreferenceUtil.getInstance().preferences
+        val result = sharedPreferences?.getBoolean(CONNECT_SUCCESS_SHOW_UI, false) ?: false
         if (result) {
             CarLife.receiver().connect()
         }

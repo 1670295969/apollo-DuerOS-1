@@ -238,6 +238,11 @@ public class CarlifeConfUtil {
 
     public static final String CFG_AUTO_PLAY_BT_MUSIC = "AUTO_PLAY_BT_MUSIC";
 
+    public static final String CONNECT_SUCCESS_SHOW_UI = "CONNECT_SUCCESS_SHOW_UI";
+
+    public static final String CFG_USB_SHOW_UI = "USB_SHOW_UI";
+
+
     /**
      * key code supported
      */
