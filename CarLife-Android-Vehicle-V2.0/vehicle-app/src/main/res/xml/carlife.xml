@@ -40,4 +40,5 @@
 
     <SwitchPreference android:persistent="true" android:title="WIFI连接时开机车机热点" android:key="@string/OPEN_HOT" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
 
+
 </androidx.preference.PreferenceScreen>

@@ -223,6 +223,9 @@
     <string name="START_ON_SYSTEM_BOOT">START_ON_SYSTEM_BOOT</string>
     <string name="START_ON_SYSTEM_BOOT_SHOW_UI">START_ON_SYSTEM_BOOT_SHOW_UI</string>
     <string name="OPEN_HOT">open_hot</string>
+    <string name="CFG_HIDE_STATUS_BAR">CFG_HIDE_STATUS_BAR</string>
+    <string name="CFG_HIDE_NAVI_BAR">CFG_HIDE_NAVI_BAR</string>
+
 
     <string name="CONNECT_SUCCESS_SHOW_UI">CONNECT_SUCCESS_SHOW_UI</string>
     <string name="CFG_USB_SHOW_UI">USB_SHOW_UI</string>

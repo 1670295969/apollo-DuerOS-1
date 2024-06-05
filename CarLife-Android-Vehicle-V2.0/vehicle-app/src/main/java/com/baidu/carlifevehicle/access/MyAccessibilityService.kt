@@ -30,15 +30,35 @@ public class MyAccessibilityService : AccessibilityService() {
             val nodeInfo = event.source
 
             if (nodeInfo != null && event.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
-                val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText("接受")
-                tmp?.forEach {
-                    Log.i("MyAccessibilityService", it.viewIdResourceName)
-                    it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                try {
+                    val tmp = rootInActiveWindow.findAccessibilityNodeInfosByText("接受")
+                    tmp?.forEach {
+                        Log.i("MyAccessibilityService", it.viewIdResourceName)
+                        it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                    }
+                }catch (e:java.lang.Exception){
+                    e.printStackTrace()
                 }
+
             }
             return
         } else if (event.packageName == "com.android.systemui") {
-            performClickAction("确定")
+            //
+            try{
+                val tmp = rootInActiveWindow.findAccessibilityNodeInfosByViewId("com.android.systemui:id/mAlwaysUse")
+                tmp?.forEach {
+                    Log.i("MyAccessibilityService", "mAlwaysUse:${it.className}")
+                    it.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+            try {
+                performClickAction("确定")
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
+
             return
         }
 

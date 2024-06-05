@@ -49,6 +49,8 @@ public class UsbReceiver extends BroadcastReceiver {
     }
 
 
+    private Runnable launcherRunnable;
+
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
@@ -57,7 +59,10 @@ public class UsbReceiver extends BroadcastReceiver {
         }
 
 
-        handler.postDelayed(new Runnable() {
+        if (launcherRunnable != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+        launcherRunnable = new Runnable() {
             @Override
             public void run() {
                 UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
@@ -80,8 +85,10 @@ public class UsbReceiver extends BroadcastReceiver {
                     }
 
                 }
+                launcherRunnable = null;
             }
-        },50);
+        };
+        handler.postDelayed(launcherRunnable, 5000);
     }
 }
 
