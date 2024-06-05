@@ -21,14 +21,17 @@ import android.util.Log
 import android.view.KeyEvent
 import android.view.Surface
 import android.view.View
+import android.view.View.SYSTEM_UI_FLAG_VISIBLE
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.baidu.carlife.protobuf.CarlifeBTHfpCallStatusCoverProto.CarlifeBTHfpCallStatusCover
 import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
 import com.baidu.carlife.protobuf.CarlifeConnectExceptionProto.CarlifeConnectException
@@ -78,7 +81,6 @@ import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.baidu.carlifevehicle.view.CarlifeMessageDialog
 import com.baidu.carlifevehicle.view.FloatWindowManager
 import com.permissionx.guolindev.PermissionX
-import java.util.Objects
 
 
 class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
@@ -109,6 +111,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
     companion object {
         const val TAG = "CarlifeActivity"
+        const val TYPE_SHOW_NAVI_BAR = 1
+        const val TYPE_SHOW_STATUS_BAR = 2
     }
 
     private val mediaSessionCompat by lazy {
@@ -121,72 +125,135 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
     private val btHandler = Handler(Looper.getMainLooper())
 
+    private val systemBarHandler = object : Handler(Looper.getMainLooper()){
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            when(msg.what){
+                TYPE_SHOW_NAVI_BAR -> {
+                    showNavi()
+                }
+                TYPE_SHOW_STATUS_BAR-> {
+                    showStatus()
+                }
+            }
+        }
+    }
+
+    private fun removeAllStatusBarMsg(){
+        systemBarHandler.removeCallbacksAndMessages(null)
+    }
+
+    private fun sendShowNaviMsg(){
+        removeAllStatusBarMsg()
+        systemBarHandler.sendEmptyMessageDelayed(TYPE_SHOW_NAVI_BAR,3000)
+    }
+
+    private fun sendShowStatusBarMsg(){
+        removeAllStatusBarMsg()
+        systemBarHandler.sendEmptyMessageDelayed(TYPE_SHOW_STATUS_BAR,3000)
+    }
+
 
 // Hide the system bars.
 
 
     private fun hideStatusAndNaviBar() {
-        //<string name="CFG_HIDE_STATUS_BAR">CFG_HIDE_STATUS_BAR</string>
-        //    <string name="CFG_HIDE_NAVI_BAR">CFG_HIDE_NAVI_BAR</string>
-        val statusBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_STATUS_BAR",true)
-        val naviBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_NAVI_BAR",true)
-        if (statusBar && naviBar){
-            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_FULLSCREEN
-                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            );
-            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        } else if (statusBar){
-            hideStatus()
-           // showNavi()
-        }else if (naviBar){
-            hideNavi()
-          //  showStatus()
-        }else {
-            showSystemUI()
+        hideSystemUi()
+//        //<string name="CFG_HIDE_STATUS_BAR">CFG_HIDE_STATUS_BAR</string>
+//        //    <string name="CFG_HIDE_NAVI_BAR">CFG_HIDE_NAVI_BAR</string>
+//        val statusBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_STATUS_BAR",true)
+//        val naviBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_NAVI_BAR",true)
+//        if (statusBar && naviBar){
+//            window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                    or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                    or View.SYSTEM_UI_FLAG_FULLSCREEN
+//                    or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
+//            window.setFlags(
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FULLSCREEN
+//            );
+//            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//        } else if (statusBar){
+//            showNavi()
+//           // showNavi()
+//        }else if (naviBar){
+//            hideNavi()
+//          //  showStatus()
+//        }else {
+//            showSystemUI()
+//        }
+
+    }
+
+    fun getNavigationBarHeight(context: Context): Int {
+        val resources = context.resources
+        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return (if (resourceId > 0) {
+            resources.getDimensionPixelSize(resourceId)
+        } else 0).apply {
+            Log.i("-----","getNavigationBarHeight=$this")
         }
-
     }
 
-    private fun hideStatus() {
-        window.decorView.systemUiVisibility = (
-                 View.SYSTEM_UI_FLAG_FULLSCREEN
-                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE)
-    }
-
-    private fun hideNavi() {
-        window.decorView.setSystemUiVisibility(
-             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-        )
+    fun getStatusBarHeight(): Int {
+        var result = 0
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            result = resources.getDimensionPixelSize(resourceId)
+        }
+        Log.i("-----","getStatusBarHeight=$result")
+        return result
     }
 
     private fun showStatus(){
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController?.show(WindowInsetsCompat.Type.statusBars()) // 隐藏状态栏
+        windowInsetsController?.hide(WindowInsetsCompat.Type.navigationBars()) // 隐藏导航栏
+        setDockerViewPadding(getStatusBarHeight(),0)
+
+        sendShowStatusBarMsg()
     }
 
     private fun showNavi(){
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController?.hide(WindowInsetsCompat.Type.statusBars()) // 隐藏状态栏
+        windowInsetsController?.show(WindowInsetsCompat.Type.navigationBars()) // 隐藏导航栏
+        setDockerViewPadding(0,getNavigationBarHeight(this@CarlifeActivity))
+        sendShowNaviMsg()
+
+
     }
 
     private fun showSystemUI() {
+        //WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or SYSTEM_UI_FLAG_VISIBLE)
+        setDockerViewPadding(getStatusBarHeight(),getNavigationBarHeight(this@CarlifeActivity))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
         // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
-        hideStatusAndNaviBar()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { view, insets ->
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            Log.i("OnApplyWindowInsetsListener","$systemBarsInsets")
+//            view.setPadding(
+//                view.paddingLeft,
+//                systemBarsInsets.top,
+//                view.paddingRight,
+//                systemBarsInsets.bottom
+//            )
+            insets
+        }
+      //  hideStatusAndNaviBar()
 
         //View.SYSTEM_UI_FLAG_IMMERSIVE
         setContentView(R.layout.activity_main)
@@ -712,24 +779,35 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         super.onPause()
     }
 
-    private fun hideSystemUi() {
-        window.addFlags(1024)
-        window.decorView.systemUiVisibility = 4102
 
-//        val statusBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_STATUS_BAR",true)
-//        val naviBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_NAVI_BAR",true)
-//        if (statusBar && naviBar){
-//            window.addFlags(1024)
-//            window.decorView.systemUiVisibility = 4102
-//        } else if (statusBar){
-//            hideStatus()
-//            //showNavi()
-//        }else if (naviBar){
-//            hideNavi()
-//            //showStatus()
-//        }else {
-//            showSystemUI()
-//        }
+    private fun setDockerViewPadding(top : Int,bottom : Int){
+        window.decorView.post {
+            window.decorView.apply {
+                setPadding(this.paddingLeft,top,this.paddingRight,bottom)
+            }
+        }
+    }
+    private fun hideSystemUi() {
+//        window.addFlags(1024)
+//        window.decorView.systemUiVisibility = 4102
+        removeAllStatusBarMsg()
+        val statusBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_STATUS_BAR",true)
+        val naviBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_NAVI_BAR",true)
+        if (statusBar && naviBar){
+            window.addFlags(1024)
+            window.decorView.systemUiVisibility = 4102
+            setDockerViewPadding(0,0)
+
+        } else if (statusBar){
+            window.clearFlags(1024)
+         //   hideStatus()
+            showNavi()
+        }else if (naviBar){
+            //hideNavi()
+            showStatus()
+        }else {
+            showSystemUI()
+        }
     }
 
     private fun changeSize() {
