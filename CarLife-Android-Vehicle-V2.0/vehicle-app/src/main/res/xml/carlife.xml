@@ -43,5 +43,7 @@
 
     <SwitchPreference android:persistent="true" android:title="隐藏导航栏" android:key="@string/CFG_HIDE_NAVI_BAR" android:defaultValue="true" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
 
+    <ListPreference android:persistent="true" android:entries="@array/navi_pos" android:title="导航栏位置" android:key="@string/CONFIG_NAVI_POS" android:summary="%s" android:defaultValue="0" android:entryValues="@array/navi_pos_value" />
+
 
 </androidx.preference.PreferenceScreen>

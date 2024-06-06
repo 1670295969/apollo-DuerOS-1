@@ -202,6 +202,8 @@
     <string name="FEATURE_CONFIG_ENGINE_TYPE">ENGINE_TYPE</string>
     <string name="FEATURE_CONFIG_FOCUS_UI">FOCUS_UI</string>
     <string name="FEATURE_SHOW_FLOAT">show_float</string>
+    <string name="CONFIG_NAVI_POS">CONFIG_NAVI_POS</string>
+
 
     <string name="OPEN_RECORD">open_record</string>
 

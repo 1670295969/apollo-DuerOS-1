@@ -11,6 +11,7 @@ import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbManager
 import android.os.IBinder
 import android.util.Log
+import android.view.WindowManager
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Configs.*
 import com.baidu.carlife.sdk.Constants
@@ -39,10 +40,24 @@ class VehicleApplication : Application() {
 
     }
 
+//    private fun getDisplayId() : Int {
+//        return display?.displayId ?: 0
+//    }
+
+
+    public fun getNowDisplayId() : Int {
+        val wm  = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        return wm.defaultDisplay.displayId
+    }
 
     override fun onCreate() {
         super.onCreate()
         app = this
+        Log.d(
+            "VehicleApplication",
+            "VehicleApplication getNowDisplayId = ${getNowDisplayId()}"
+        )
+
 
         PreferenceUtil.getInstance().init(this)
         resetUsbDeviceIfNecessary()
@@ -74,6 +89,10 @@ class VehicleApplication : Application() {
             frameRate.toInt()
         )
 
+        if (!PreferenceUtil.getInstance().contains(CONNECT_TYPE_SHARED_PREFERENCES)){
+            PreferenceUtil.getInstance()
+                .putInt(CONNECT_TYPE_SHARED_PREFERENCES, CarLifeContext.CONNECTION_TYPE_AOA)
+        }
         /**
          * 连接方式默认直连连接
          */

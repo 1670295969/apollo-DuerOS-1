@@ -8,6 +8,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.hardware.display.DisplayManager
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
@@ -42,6 +43,7 @@ import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.Constants.MSG_CHANNEL_TOUCH
 import com.baidu.carlife.sdk.Constants.VALUE_PROGRESS_100
 import com.baidu.carlife.sdk.WirlessStatusListener
+import com.baidu.carlife.sdk.internal.DisplaySpec
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage.Companion.obtain
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
@@ -77,6 +79,7 @@ import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
 import com.baidu.carlifevehicle.util.CommonParams.KEYCODE_MAIN
 import com.baidu.carlifevehicle.util.HotspotUtils
+import com.baidu.carlifevehicle.util.NaviPos
 import com.baidu.carlifevehicle.util.PreferenceUtil
 import com.baidu.carlifevehicle.view.CarlifeMessageDialog
 import com.baidu.carlifevehicle.view.FloatWindowManager
@@ -211,7 +214,11 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController?.show(WindowInsetsCompat.Type.statusBars()) // 隐藏状态栏
         windowInsetsController?.hide(WindowInsetsCompat.Type.navigationBars()) // 隐藏导航栏
-        setDockerViewPadding(getStatusBarHeight(),0)
+        if (isInPip()){
+            setDockerViewPadding(0,0)
+        }else {
+            setDockerViewPadding(getStatusBarHeight(), 0)
+        }
 
         sendShowStatusBarMsg()
     }
@@ -220,7 +227,12 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController?.hide(WindowInsetsCompat.Type.statusBars()) // 隐藏状态栏
         windowInsetsController?.show(WindowInsetsCompat.Type.navigationBars()) // 隐藏导航栏
-        setDockerViewPadding(0,getNavigationBarHeight(this@CarlifeActivity))
+        if (isInPip()){
+            setDockerViewPadding(0,0)
+        }else{
+            setDockerViewPadding(0,getNavigationBarHeight(this@CarlifeActivity))
+        }
+
         sendShowNaviMsg()
 
 
@@ -234,9 +246,43 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or SYSTEM_UI_FLAG_VISIBLE)
-        setDockerViewPadding(getStatusBarHeight(),getNavigationBarHeight(this@CarlifeActivity))
+        if (isInPip()){
+            setDockerViewPadding(0,0)
+        }else {
+            setDockerViewPadding(getStatusBarHeight(), getNavigationBarHeight(this@CarlifeActivity))
+        }
     }
 
+
+    private fun getDisplayId() : Int {
+        return windowManager.defaultDisplay.displayId
+    }
+
+    private fun isInPip() : Boolean {
+        return getDisplayId() != 0
+    }
+
+    private fun resetRanderDisplay(){
+        if (getDisplayId()!=0){
+            windowManager.defaultDisplay.apply {
+                Log.d(
+                    "VehicleApplication",
+                    "CarlifeActivity ${this.width}:${this.height}"
+                )
+
+                val frameRate = PreferenceUtil.getInstance().getString("CONFIG_VIDEO_FRAME_RATE","30")
+                val displaySpec = DisplaySpec(
+                    applicationContext,
+                    width,
+                    height,
+                    frameRate.toInt()
+                )
+                CarLife.receiver().setDisplaySpec(displaySpec)
+            }
+
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
@@ -245,21 +291,21 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { view, insets ->
             val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             Log.i("OnApplyWindowInsetsListener","$systemBarsInsets")
-//            view.setPadding(
-//                view.paddingLeft,
-//                systemBarsInsets.top,
-//                view.paddingRight,
-//                systemBarsInsets.bottom
-//            )
             insets
         }
       //  hideStatusAndNaviBar()
 
         //View.SYSTEM_UI_FLAG_IMMERSIVE
+        resetRanderDisplay()
         setContentView(R.layout.activity_main)
         mSurfaceView = findViewById(R.id.video_surface_view)
         supportActionBar?.hide()
         //hideSystemUi()
+
+        Log.d(
+            "VehicleApplication",
+            "CarlifeActivity getDisplayId = ${getDisplayId()}"
+        )
 
         mRootView = findViewById(R.id.root_view)
 
@@ -783,7 +829,14 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private fun setDockerViewPadding(top : Int,bottom : Int){
         window.decorView.post {
             window.decorView.apply {
-                setPadding(this.paddingLeft,top,this.paddingRight,bottom)
+                if (NaviPos.isNone()){
+                    setPadding(this.paddingLeft,top,this.paddingRight,0)
+                }else if (NaviPos.isLeft()){
+                    setPadding(bottom,top,this.paddingRight,this.bottom)
+                }else{
+                    setPadding(this.paddingLeft,top,this.paddingRight,bottom)
+                }
+
             }
         }
     }
@@ -813,10 +866,15 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private fun changeSize() {
         val sharedPreferences: SharedPreferences = PreferenceUtil.getInstance().preferences
         val forceFullScreen = sharedPreferences.getBoolean("FORCE_FULL_SCREEN", false)
-        if (forceFullScreen) {
+
+     if (forceFullScreen || getDisplayId() != 0) {
+         mSurfaceView.post {
+             Log.i("VehicleApp--------","${mSurfaceView.width}:${mSurfaceView.height}")
+         }
             val displayMetrics = DisplayMetrics()
             windowManager.defaultDisplay.getRealMetrics(displayMetrics)
             var w = displayMetrics.widthPixels.toString()
+         Log.i("VehicleApp--------","displayMetrics:${displayMetrics.widthPixels}:${displayMetrics.heightPixels}")
             val forceWidth = sharedPreferences.getString("FORCE_FULL_SCREEN_WIDTH", w)!!
 
             var h = displayMetrics.heightPixels.toString()
@@ -827,6 +885,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             remoteDisplayGLView.post {
                 remoteDisplayGLView.onVideoSizeChanged(forceWidth.toInt(), forceHigh.toInt())
             }
+        }else{
+
         }
 
 

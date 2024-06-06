@@ -42,6 +42,8 @@
         <item>30</item>
         <item>60</item>
     </string-array>
+
+
     <string-array name="video_framerate_values">
         <item>25</item>
         <item>30</item>
@@ -60,5 +62,18 @@
         <item>2</item>
         <item>3</item>
         <item>4</item>
+    </string-array>
+
+
+    <string-array name="navi_pos">
+        <item>底部</item>
+        <item>左侧</item>
+        <item>无导航栏</item>
+    </string-array>
+
+    <string-array name="navi_pos_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
     </string-array>
 </resources>

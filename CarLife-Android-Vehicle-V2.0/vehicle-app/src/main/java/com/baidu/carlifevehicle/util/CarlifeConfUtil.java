@@ -242,6 +242,9 @@ public class CarlifeConfUtil {
 
     public static final String CFG_USB_SHOW_UI = "USB_SHOW_UI";
 
+    public static final String CFG_NAVI_POS = "CONFIG_NAVI_POS";
+
+
 
     /**
      * key code supported
