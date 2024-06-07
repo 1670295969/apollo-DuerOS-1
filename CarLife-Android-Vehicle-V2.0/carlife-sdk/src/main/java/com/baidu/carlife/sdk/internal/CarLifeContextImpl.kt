@@ -139,7 +139,7 @@ abstract class CarLifeContextImpl(private val context: Context, configs: Map<Str
     }
 
     override val sharedPreferences: SharedPreferences by lazy {
-        applicationContext.getSharedPreferences("CarLifeSDK", Context.MODE_PRIVATE)
+        applicationContext.getSharedPreferences("Carlife", Context.MODE_PRIVATE)
     }
 
     override fun isConnected(): Boolean {

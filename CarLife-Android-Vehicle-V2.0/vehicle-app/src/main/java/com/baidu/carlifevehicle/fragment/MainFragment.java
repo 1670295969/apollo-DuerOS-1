@@ -15,6 +15,8 @@
  *****************************************************************************/
 package com.baidu.carlifevehicle.fragment;
 
+import static com.baidu.carlifevehicle.CarlifeActivity.TYPE_SETTINGS_RESULT;
+
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -316,7 +318,10 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                 mFragmentManager.showFragment(HelpMainFragment.getInstance());
                 break;
             case R.id.main_btn_settings:
-                startActivity(new Intent(getContext(), CustomSettingsActivity.class));
+                if (getMainActivity()!=null){
+                    getMainActivity().startActivityForResult(new Intent(getContext(), CustomSettingsActivity.class),TYPE_SETTINGS_RESULT);
+
+                }
                 break;
             case R.id.exit_img_btn:
                 if (mActivity != null) {

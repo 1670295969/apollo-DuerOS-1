@@ -8,6 +8,7 @@ import android.opengl.GLSurfaceView
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import com.baidu.carlife.sdk.Configs
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.internal.opengl.RenderableTexture
 import com.baidu.carlife.sdk.internal.opengl.grafika.FullFrameRect
@@ -68,8 +69,14 @@ class RemoteDisplayGLView @JvmOverloads constructor(context: Context, attrs: Att
 
             texture?.setDefaultBufferSize(width, height)
             CarLife.receiver().onSurfaceSizeChanged(width, height)
+            Logger.d(Constants.TAG, "RemoteDisplayView onSurfaceChanged ", width, " ", height,"---","${CarLife.receiver().sharedPreferences}")
+            if(CarLife.receiver().sharedPreferences.getBoolean("FORCE_FULL_SCREEN",false)){
+                val displaySpec = CarLife.receiver().getDisplaySpec()
+                Logger.d(Constants.TAG, "RemoteDisplayView onSurfaceChanged.displaySpec ", displaySpec.width, " ", displaySpec.height)
+                viewRef.get()?.onVideoSizeChanged(displaySpec.width, displaySpec.height)
+            }
 
-            Logger.d(Constants.TAG, "RemoteDisplayView onSurfaceChanged ", width, " ", height)
+
         }
 
         override fun onDrawFrame(gl: GL10) {
@@ -109,6 +116,8 @@ class RemoteDisplayGLView @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     override fun onVideoSizeChanged(videoWidth: Int, videoHeight: Int) {
+        Logger.d(Constants.TAG, "RemoteDisplayView onVideoSizeChanged ", width, " ", height)
+
         post {
             val ratio = videoWidth.toFloat() / videoHeight
             val screenWidth = context.applicationContext.resources.displayMetrics.widthPixels

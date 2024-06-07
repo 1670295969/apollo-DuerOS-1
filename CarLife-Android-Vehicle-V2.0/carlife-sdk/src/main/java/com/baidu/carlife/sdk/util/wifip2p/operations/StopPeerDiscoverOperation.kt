@@ -7,11 +7,7 @@ import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlife.sdk.util.wifip2p.WifiP2pOperation
 
 class StopPeerDiscoverOperation(private val wifiP2pManager: WifiP2pManager,
-                                private var channel: WifiP2pManager.Channel): WifiP2pOperation {
-
-    override fun updateChannel(channel: WifiP2pManager.Channel){
-        this.channel = channel
-    }
+                                private val channel: WifiP2pManager.Channel): WifiP2pOperation {
     @SuppressLint("MissingPermission")
     override fun execute(listener: WifiP2pManager.ActionListener) {
         wifiP2pManager.stopPeerDiscovery(channel, object: WifiP2pManager.ActionListener {

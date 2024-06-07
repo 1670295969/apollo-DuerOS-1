@@ -53,9 +53,7 @@ class WifiDirectManager(
 //        }
 ////
 //    }
-    private fun updateChannel() {
-        discoverableTask.updateChannel(channel)
-    }
+
 
     init {
         channel = wifiP2pManager.initialize(
@@ -99,7 +97,6 @@ class WifiDirectManager(
     }
 
     fun discoverable() {
-        updateChannel()
         discoverableTask.discoverable()
     }
 

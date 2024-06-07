@@ -6,11 +6,14 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Point
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbManager
 import android.os.IBinder
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.DisplayCutout
 import android.view.WindowManager
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Configs.*
@@ -25,6 +28,8 @@ import com.baidu.carlifevehicle.util.CarlifeConfUtil
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.CONNECT_SUCCESS_SHOW_UI
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.KEY_INT_AUDIO_TRANSMISSION_MODE
 import com.baidu.carlifevehicle.util.CommonParams.CONNECT_TYPE_SHARED_PREFERENCES
+import com.baidu.carlifevehicle.util.DisplayUtils
+import com.baidu.carlifevehicle.util.NaviPos
 import com.baidu.carlifevehicle.util.PreferenceUtil
 
 class VehicleApplication : Application() {
@@ -48,6 +53,10 @@ class VehicleApplication : Application() {
     public fun getNowDisplayId() : Int {
         val wm  = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         return wm.defaultDisplay.displayId
+    }
+
+    fun getNeedMetrics() : Point {
+        return DisplayUtils.getNeedMetrics(this)
     }
 
     override fun onCreate() {
@@ -79,13 +88,18 @@ class VehicleApplication : Application() {
          * 获取屏幕的宽高，默认采用16：9的分辨率
          * 如车厂为宽屏车机，车厂可自定义修改为8：3
          */
-        val screenWidth = resources.displayMetrics.widthPixels
-        val screenHeight = resources.displayMetrics.heightPixels
+        val screenPoint = getNeedMetrics();
+        val screenWidth = screenPoint.x
+        val screenHeight = screenPoint.y
+        Log.d(
+            "VehicleApplication",
+            "VehicleApplication.oncreate ${screenWidth}:${screenHeight}"
+        )
         val frameRate = PreferenceUtil.getInstance().getString("CONFIG_VIDEO_FRAME_RATE","30")
         val displaySpec = DisplaySpec(
             this,
-            screenWidth.coerceAtLeast(screenHeight).coerceAtMost(screenWidth),
-            screenWidth.coerceAtMost(screenHeight).coerceAtMost(screenHeight),
+            screenWidth,
+            screenHeight,
             frameRate.toInt()
         )
 

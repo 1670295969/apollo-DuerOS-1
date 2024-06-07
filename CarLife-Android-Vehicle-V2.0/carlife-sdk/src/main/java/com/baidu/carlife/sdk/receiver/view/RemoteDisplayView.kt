@@ -45,6 +45,10 @@ class RemoteDisplayView @JvmOverloads constructor(context: Context, attrs: Attri
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
         CarLife.receiver().onSurfaceSizeChanged(width, height)
+        if(CarLife.receiver().sharedPreferences.getBoolean("FORCE_FULL_SCREEN",false)){
+            val displaySpec = CarLife.receiver().getDisplaySpec()
+            onVideoSizeChanged(displaySpec.width, displaySpec.height)
+        }
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {

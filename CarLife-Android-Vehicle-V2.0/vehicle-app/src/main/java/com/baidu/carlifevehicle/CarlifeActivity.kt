@@ -1,6 +1,7 @@
 package com.baidu.carlifevehicle
 
 import android.Manifest
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
@@ -8,7 +9,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.hardware.display.DisplayManager
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.Handler
@@ -78,6 +78,7 @@ import com.baidu.carlifevehicle.util.CarlifeConfUtil.KEY_INT_AUDIO_TRANSMISSION_
 import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
 import com.baidu.carlifevehicle.util.CommonParams.KEYCODE_MAIN
+import com.baidu.carlifevehicle.util.DisplayUtils
 import com.baidu.carlifevehicle.util.HotspotUtils
 import com.baidu.carlifevehicle.util.NaviPos
 import com.baidu.carlifevehicle.util.PreferenceUtil
@@ -116,6 +117,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         const val TAG = "CarlifeActivity"
         const val TYPE_SHOW_NAVI_BAR = 1
         const val TYPE_SHOW_STATUS_BAR = 2
+        const val TYPE_SETTINGS_RESULT = 0x101
     }
 
     private val mediaSessionCompat by lazy {
@@ -128,32 +130,33 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
     private val btHandler = Handler(Looper.getMainLooper())
 
-    private val systemBarHandler = object : Handler(Looper.getMainLooper()){
+    private val systemBarHandler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
-            when(msg.what){
+            when (msg.what) {
                 TYPE_SHOW_NAVI_BAR -> {
                     showNavi()
                 }
-                TYPE_SHOW_STATUS_BAR-> {
+
+                TYPE_SHOW_STATUS_BAR -> {
                     showStatus()
                 }
             }
         }
     }
 
-    private fun removeAllStatusBarMsg(){
+    private fun removeAllStatusBarMsg() {
         systemBarHandler.removeCallbacksAndMessages(null)
     }
 
-    private fun sendShowNaviMsg(){
+    private fun sendShowNaviMsg() {
         removeAllStatusBarMsg()
-        systemBarHandler.sendEmptyMessageDelayed(TYPE_SHOW_NAVI_BAR,3000)
+        systemBarHandler.sendEmptyMessageDelayed(TYPE_SHOW_NAVI_BAR, 3000)
     }
 
-    private fun sendShowStatusBarMsg(){
+    private fun sendShowStatusBarMsg() {
         removeAllStatusBarMsg()
-        systemBarHandler.sendEmptyMessageDelayed(TYPE_SHOW_STATUS_BAR,3000)
+        systemBarHandler.sendEmptyMessageDelayed(TYPE_SHOW_STATUS_BAR, 3000)
     }
 
 
@@ -196,7 +199,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         return (if (resourceId > 0) {
             resources.getDimensionPixelSize(resourceId)
         } else 0).apply {
-            Log.i("-----","getNavigationBarHeight=$this")
+            Log.i("-----", "getNavigationBarHeight=$this")
         }
     }
 
@@ -206,31 +209,31 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         if (resourceId > 0) {
             result = resources.getDimensionPixelSize(resourceId)
         }
-        Log.i("-----","getStatusBarHeight=$result")
+        Log.i("-----", "getStatusBarHeight=$result")
         return result
     }
 
-    private fun showStatus(){
+    private fun showStatus() {
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController?.show(WindowInsetsCompat.Type.statusBars()) // 隐藏状态栏
         windowInsetsController?.hide(WindowInsetsCompat.Type.navigationBars()) // 隐藏导航栏
-        if (isInPip()){
-            setDockerViewPadding(0,0)
-        }else {
+        if (isInPip()) {
+            setDockerViewPadding(0, 0)
+        } else {
             setDockerViewPadding(getStatusBarHeight(), 0)
         }
 
         sendShowStatusBarMsg()
     }
 
-    private fun showNavi(){
+    private fun showNavi() {
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController?.hide(WindowInsetsCompat.Type.statusBars()) // 隐藏状态栏
         windowInsetsController?.show(WindowInsetsCompat.Type.navigationBars()) // 隐藏导航栏
-        if (isInPip()){
-            setDockerViewPadding(0,0)
-        }else{
-            setDockerViewPadding(0,getNavigationBarHeight(this@CarlifeActivity))
+        if (isInPip()) {
+            setDockerViewPadding(0, 0)
+        } else {
+            setDockerViewPadding(0, getNavigationBarHeight(this@CarlifeActivity))
         }
 
         sendShowNaviMsg()
@@ -246,31 +249,32 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 or SYSTEM_UI_FLAG_VISIBLE)
-        if (isInPip()){
-            setDockerViewPadding(0,0)
-        }else {
+        if (isInPip()) {
+            setDockerViewPadding(0, 0)
+        } else {
             setDockerViewPadding(getStatusBarHeight(), getNavigationBarHeight(this@CarlifeActivity))
         }
     }
 
 
-    private fun getDisplayId() : Int {
+    private fun getDisplayId(): Int {
         return windowManager.defaultDisplay.displayId
     }
 
-    private fun isInPip() : Boolean {
+    private fun isInPip(): Boolean {
         return getDisplayId() != 0
     }
 
-    private fun resetRanderDisplay(){
-        if (getDisplayId()!=0){
+    private fun resetRanderDisplayWithPIP() {
+        if (getDisplayId() != 0) {
             windowManager.defaultDisplay.apply {
                 Log.d(
                     "VehicleApplication",
-                    "CarlifeActivity ${this.width}:${this.height}"
+                    "CarlifeActivity.onCreate ${this.width}:${this.height}"
                 )
 
-                val frameRate = PreferenceUtil.getInstance().getString("CONFIG_VIDEO_FRAME_RATE","30")
+                val frameRate =
+                    PreferenceUtil.getInstance().getString("CONFIG_VIDEO_FRAME_RATE", "30")
                 val displaySpec = DisplaySpec(
                     applicationContext,
                     width,
@@ -283,6 +287,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         }
 
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
@@ -290,13 +295,13 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { view, insets ->
             val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            Log.i("OnApplyWindowInsetsListener","$systemBarsInsets")
+            Log.i("OnApplyWindowInsetsListener", "$systemBarsInsets")
             insets
         }
-      //  hideStatusAndNaviBar()
+        //  hideStatusAndNaviBar()
 
         //View.SYSTEM_UI_FLAG_IMMERSIVE
-        resetRanderDisplay()
+        resetRanderDisplayWithPIP()
         setContentView(R.layout.activity_main)
         mSurfaceView = findViewById(R.id.video_surface_view)
         supportActionBar?.hide()
@@ -526,6 +531,51 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         //  super.onBackPressed()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        if (requestCode == TYPE_SETTINGS_RESULT) {
+            if (getDisplayId() == 0) {
+                Log.d(
+                    "VehicleApplication",
+                    "CarlifeActivity.onActivityResult"
+                )
+                setCarLifeDisplay()
+            }
+
+        }
+    }
+
+    private fun setCarLifeDisplay() {
+        val point = DisplayUtils.getNeedMetrics(this)
+        Log.d(
+            "VehicleApplication",
+            "CarlifeActivity.onCreate ${point.x}:${point.y}"
+        )
+        if (!CarLife.receiver().isConnected()) {
+            val frameRate =
+                PreferenceUtil.getInstance().getString("CONFIG_VIDEO_FRAME_RATE", "30")
+            val displaySpec = DisplaySpec(
+                applicationContext,
+                point.x,
+                point.y,
+                frameRate.toInt()
+            )
+            CarLife.receiver().setDisplaySpec(displaySpec)
+        }
+
+
+
+        mSurfaceView.post {
+            val lp = mSurfaceView.layoutParams
+            lp.width = point.x
+            lp.height = point.y
+            mSurfaceView.layoutParams = lp
+        }
+    }
+
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
         Log.i(TAG, "onKeyUp=$event")
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -639,7 +689,9 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             try {
                 Logger.d(
                     TAG,
-                    "MsgMainActivityHandler handleMessage get msg: " + CommonParams.getMsgName(msg.what)
+                    "MsgMainActivityHandler handleMessage get msg: " + CommonParams.getMsgName(
+                        msg.what
+                    )
                 )
                 when (msg.what) {
                     CommonParams.MSG_CONNECT_INIT -> {
@@ -667,20 +719,24 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                                 if (!PreferenceUtil.getInstance()
                                         .getBoolean(CFG_AUTO_PLAY_BT_MUSIC, false)
                                 ) {
-                                    val am = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                                    val am =
+                                        getSystemService(Context.AUDIO_SERVICE) as AudioManager
                                     //am.isStreamMute(AudioManager.STREAM_MUSIC)
                                     //am.isMusicActive
                                     val musicVol = am.getStreamVolume(AudioManager.STREAM_MUSIC)
-                                    if (musicVol != 0){
-                                        am.setStreamMute(AudioManager.STREAM_MUSIC,true)
+                                    if (musicVol != 0) {
+                                        am.setStreamMute(AudioManager.STREAM_MUSIC, true)
                                     }
 
                                     btHandler.postDelayed({
                                         BtMusicConnection.instance.pause()
-                                        if(musicVol != 0){
+                                        if (musicVol != 0) {
                                             btHandler.postDelayed({
-                                                am.setStreamMute(AudioManager.STREAM_MUSIC,false)
-                                            },150)
+                                                am.setStreamMute(
+                                                    AudioManager.STREAM_MUSIC,
+                                                    false
+                                                )
+                                            }, 150)
 
                                         }
                                     }, 300)
@@ -826,70 +882,61 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     }
 
 
-    private fun setDockerViewPadding(top : Int,bottom : Int){
+    private fun setDockerViewPadding(top: Int, bottom: Int) {
         window.decorView.post {
             window.decorView.apply {
-                if (NaviPos.isNone()){
-                    setPadding(this.paddingLeft,top,this.paddingRight,0)
-                }else if (NaviPos.isLeft()){
-                    setPadding(bottom,top,this.paddingRight,this.bottom)
-                }else{
-                    setPadding(this.paddingLeft,top,this.paddingRight,bottom)
+                if (NaviPos.isNone()) {
+                    setPadding(this.paddingLeft, top, this.paddingRight, 0)
+                } else if (NaviPos.isLeft()) {
+                    setPadding(bottom, top, this.paddingRight, this.bottom)
+                } else {
+                    setPadding(this.paddingLeft, top, this.paddingRight, bottom)
                 }
 
             }
         }
     }
+
     private fun hideSystemUi() {
 //        window.addFlags(1024)
 //        window.decorView.systemUiVisibility = 4102
         removeAllStatusBarMsg()
-        val statusBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_STATUS_BAR",true)
-        val naviBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_NAVI_BAR",true)
-        if (statusBar && naviBar){
+        val statusBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_STATUS_BAR", true)
+        val naviBar = PreferenceUtil.getInstance().getBoolean("CFG_HIDE_NAVI_BAR", true)
+        if (statusBar && naviBar) {
             window.addFlags(1024)
             window.decorView.systemUiVisibility = 4102
-            setDockerViewPadding(0,0)
+            setDockerViewPadding(0, 0)
 
-        } else if (statusBar){
+        } else if (statusBar) {
             window.clearFlags(1024)
-         //   hideStatus()
+            //   hideStatus()
             showNavi()
-        }else if (naviBar){
+        } else if (naviBar) {
             //hideNavi()
             showStatus()
-        }else {
+        } else {
             showSystemUI()
         }
     }
 
     private fun changeSize() {
-        val sharedPreferences: SharedPreferences = PreferenceUtil.getInstance().preferences
-        val forceFullScreen = sharedPreferences.getBoolean("FORCE_FULL_SCREEN", false)
-
-     if (forceFullScreen || getDisplayId() != 0) {
-         mSurfaceView.post {
-             Log.i("VehicleApp--------","${mSurfaceView.width}:${mSurfaceView.height}")
-         }
-            val displayMetrics = DisplayMetrics()
-            windowManager.defaultDisplay.getRealMetrics(displayMetrics)
-            var w = displayMetrics.widthPixels.toString()
-         Log.i("VehicleApp--------","displayMetrics:${displayMetrics.widthPixels}:${displayMetrics.heightPixels}")
-            val forceWidth = sharedPreferences.getString("FORCE_FULL_SCREEN_WIDTH", w)!!
-
-            var h = displayMetrics.heightPixels.toString()
-            val forceHigh = sharedPreferences.getString("FORCE_FULL_SCREEN_HEIGHT", h)!!
-            applicationContext.resources.displayMetrics.widthPixels = forceWidth.toInt()
-            applicationContext.resources.displayMetrics.heightPixels = forceHigh.toInt()
-            val remoteDisplayGLView: RemoteDisplayGLView = this.mSurfaceView
-            remoteDisplayGLView.post {
-                remoteDisplayGLView.onVideoSizeChanged(forceWidth.toInt(), forceHigh.toInt())
-            }
-        }else{
-
+        mSurfaceView.post {
+            Log.i("VehicleApp--------", "${mSurfaceView.width}:${mSurfaceView.height}")
         }
-
-
+        val displayMetrics = DisplayUtils.getNeedMetrics(this)
+        var w = displayMetrics.x
+        Log.i(
+            "VehicleApp--------",
+            "displayMetrics:${displayMetrics.x}:${displayMetrics.y}"
+        )
+        var h = displayMetrics.y
+        applicationContext.resources.displayMetrics.widthPixels = w
+        applicationContext.resources.displayMetrics.heightPixels = h
+        val remoteDisplayGLView: RemoteDisplayGLView = this.mSurfaceView
+        remoteDisplayGLView.post {
+            remoteDisplayGLView.onVideoSizeChanged(w, h)
+        }
     }
 
 
@@ -900,7 +947,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         CarLife.receiver().run {
             setFeature(
                 Configs.FEATURE_CONFIG_VOICE_WAKEUP,
-                CarlifeConfUtil.getInstance().getIntProperty(Configs.FEATURE_CONFIG_VOICE_WAKEUP)
+                CarlifeConfUtil.getInstance()
+                    .getIntProperty(Configs.FEATURE_CONFIG_VOICE_WAKEUP)
             )
             setFeature(
                 Configs.FEATURE_CONFIG_VOICE_MIC,
@@ -928,12 +976,14 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         }
 
         if (!TextUtils.isEmpty(
-                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME)
+                CarlifeConfUtil.getInstance()
+                    .getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME)
             )
         ) {
             CarLife.receiver().setConfig(
                 Configs.CONFIG_TARGET_BLUETOOTH_NAME,
-                CarlifeConfUtil.getInstance().getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME)
+                CarlifeConfUtil.getInstance()
+                    .getStringFromMap(Configs.CONFIG_TARGET_BLUETOOTH_NAME)
             )
         }
 

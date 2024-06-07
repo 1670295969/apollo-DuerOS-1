@@ -19,12 +19,6 @@ class WifiP2pOperationSequence(private val listener: WifiP2pManager.ActionListen
         sequence.add(operation)
     }
 
-    fun changeChannel(channel: WifiP2pManager.Channel){
-        sequence.forEach {
-            it.updateChannel(channel)
-        }
-    }
-
     fun execute() {
         if (!executing.getAndSet(true)) {
             currentIndex = 0

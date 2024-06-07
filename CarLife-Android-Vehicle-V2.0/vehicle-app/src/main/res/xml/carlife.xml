@@ -1,49 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.preference.PreferenceScreen
-  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory android:title="音频相关">
-        <SwitchPreference android:persistent="true" android:title="是否调整音频通道" android:key="@string/MUSIC_AUDIO_USE_LEGACY_API" android:summary="是否调整音频通道" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
-        <androidx.preference.ListPreference android:persistent="true" android:entries="@array/nav_audio_channel" android:title="音乐音频通道" android:key="@string/MUSIC_AUDIO_TRACK_STREAM_TYPE" android:summary="%s" android:dependency="@string/MUSIC_AUDIO_USE_LEGACY_API" android:defaultValue="3" android:entryValues="@array/nav_audio_channel" />
-        <androidx.preference.ListPreference android:persistent="true" android:entries="@array/nav_audio_channel" android:title="导航音频通道" android:key="@string/AUDIO_TRACK_STREAM_TYPE" android:summary="%s" android:dependency="@string/MUSIC_AUDIO_USE_LEGACY_API" android:defaultValue="3" android:entryValues="@array/nav_audio_channel" />
-        <SeekBarPreference android:persistent="true" android:max="100" android:title="混音声音大小" android:key="@string/MEDIA_DUCT_PERCENTAGE" android:summary="导航播报时音乐声大小" android:defaultValue="30" app:min="0" />
-        <SwitchPreference android:persistent="true" android:title="音乐AAC压缩" android:key="@string/MUSIC_ENABLE_AAC" android:summary="vivo支持，小米暂不支持" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/MUSIC_AUDIO_USE_LEGACY_API"
+            android:persistent="true"
+            android:summary="是否调整音频通道"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="是否调整音频通道" />
+        <androidx.preference.ListPreference
+            android:defaultValue="3"
+            android:dependency="@string/MUSIC_AUDIO_USE_LEGACY_API"
+            android:entries="@array/nav_audio_channel"
+            android:entryValues="@array/nav_audio_channel"
+            android:key="@string/MUSIC_AUDIO_TRACK_STREAM_TYPE"
+            android:persistent="true"
+            android:summary="%s"
+            android:title="音乐音频通道" />
+        <androidx.preference.ListPreference
+            android:defaultValue="3"
+            android:dependency="@string/MUSIC_AUDIO_USE_LEGACY_API"
+            android:entries="@array/nav_audio_channel"
+            android:entryValues="@array/nav_audio_channel"
+            android:key="@string/AUDIO_TRACK_STREAM_TYPE"
+            android:persistent="true"
+            android:summary="%s"
+            android:title="导航音频通道" />
+        <SeekBarPreference
+            android:defaultValue="30"
+            android:key="@string/MEDIA_DUCT_PERCENTAGE"
+            android:max="100"
+            android:persistent="true"
+            android:summary="导航播报时音乐声大小"
+            android:title="混音声音大小"
+            app:min="0" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/MUSIC_ENABLE_AAC"
+            android:persistent="true"
+            android:summary="vivo支持，小米暂不支持"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="音乐AAC压缩" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="画面相关">
-        <SwitchPreference android:persistent="true" android:title="是否自定义画面拉伸分辨率" android:key="@string/FORCE_FULL_SCREEN" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
-        <EditTextPreference android:persistent="true" android:title="画面拉伸宽" android:key="@string/FORCE_FULL_SCREEN_WIDTH" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />
-        <EditTextPreference android:persistent="true" android:title="画面拉伸高" android:key="@string/FORCE_FULL_SCREEN_HEIGHT" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/CFG_HIDE_STATUS_BAR"
+            android:persistent="true"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="隐藏状态栏" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/CFG_HIDE_NAVI_BAR"
+            android:persistent="true"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="隐藏导航栏" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/navi_pos"
+            android:entryValues="@array/navi_pos_value"
+            android:key="@string/CONFIG_NAVI_POS"
+            android:persistent="true"
+            android:summary="%s"
+            android:title="导航栏位置" />
+
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/FORCE_FULL_SCREEN"
+            android:persistent="true"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="拉伸画面" />
+        <!--        <EditTextPreference android:persistent="true" android:title="画面拉伸宽" android:key="@string/FORCE_FULL_SCREEN_WIDTH" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />-->
+        <!--        <EditTextPreference android:persistent="true" android:title="画面拉伸高" android:key="@string/FORCE_FULL_SCREEN_HEIGHT" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />-->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="CarLife相关">
-        <SwitchPreference android:persistent="true" android:title="焦点态" android:key="@string/FEATURE_CONFIG_FOCUS_UI" android:summary="用于非触屏设备焦点" android:defaultValue="false" android:summaryOn="可用" android:summaryOff="不可用" android:switchTextOn="1" android:switchTextOff="0" />
-        <androidx.preference.ListPreference android:persistent="true" android:entries="@array/voice_mic_entities" android:title="语音MIC" android:key="@string/FEATURE_CONFIG_VOICE_MIC" android:summary="%s" android:defaultValue="0" android:entryValues="@array/voice_mic_values" />
-        <SwitchPreference android:persistent="true" android:title="⻋机是否支持语音唤醒" android:key="@string/FEATURE_CONFIG_VOICE_WAKEUP" android:defaultValue="true" android:summaryOn="支持" android:summaryOff="不支持" android:switchTextOn="1" android:switchTextOff="0" />
-        <SwitchPreference android:persistent="true" android:title="蓝牙自动匹配" android:key="@string/FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR" android:defaultValue="true" android:summaryOn="匹配" android:summaryOff="不匹配" android:switchTextOn="1" android:switchTextOff="0" />
-        <SwitchPreference android:persistent="true" android:title="蓝牙电话" android:key="@string/FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI" android:defaultValue="false" android:summaryOn="可用" android:summaryOff="不可用" android:switchTextOn="1" android:switchTextOff="0" />
-        <SwitchPreference android:persistent="true" android:title="MD向HU传输音频流方式" android:key="@string/FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE" android:defaultValue="false" android:summaryOn="蓝牙通道" android:summaryOff="专用音频通道" android:switchTextOn="1" android:switchTextOff="0" />
-        <SwitchPreference android:persistent="true" android:title="自动播放蓝牙音频" android:key="@string/CFG_AUTO_PLAY_BT_MUSIC" android:defaultValue="false" android:summaryOn="开启" android:summaryOff="关闭" android:switchTextOn="1" android:switchTextOff="0" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/FEATURE_CONFIG_FOCUS_UI"
+            android:persistent="true"
+            android:summary="用于非触屏设备焦点"
+            android:summaryOff="不可用"
+            android:summaryOn="可用"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="焦点态" />
+        <androidx.preference.ListPreference
+            android:defaultValue="0"
+            android:entries="@array/voice_mic_entities"
+            android:entryValues="@array/voice_mic_values"
+            android:key="@string/FEATURE_CONFIG_VOICE_MIC"
+            android:persistent="true"
+            android:summary="%s"
+            android:title="语音MIC" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/FEATURE_CONFIG_VOICE_WAKEUP"
+            android:persistent="true"
+            android:summaryOff="不支持"
+            android:summaryOn="支持"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="⻋机是否支持语音唤醒" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/FEATURE_CONFIG_BLUETOOTH_AUTO_PAIR"
+            android:persistent="true"
+            android:summaryOff="不匹配"
+            android:summaryOn="匹配"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="蓝牙自动匹配" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI"
+            android:persistent="true"
+            android:summaryOff="不可用"
+            android:summaryOn="可用"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="蓝牙电话" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE"
+            android:persistent="true"
+            android:summaryOff="专用音频通道"
+            android:summaryOn="蓝牙通道"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="MD向HU传输音频流方式" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/CFG_AUTO_PLAY_BT_MUSIC"
+            android:persistent="true"
+            android:summaryOff="关闭"
+            android:summaryOn="开启"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="自动播放蓝牙音频" />
 
-        <SwitchPreference android:persistent="true" android:title="运行CarLife的⻋机类型" android:key="@string/FEATURE_CONFIG_ENGINE_TYPE" android:defaultValue="true" android:summaryOn="电动车" android:summaryOff="燃油车" android:switchTextOn="1" android:switchTextOff="0" />
-        <EditTextPreference android:persistent="true" android:title="⻋机端蓝牙名称" android:key="@string/CONFIG_HU_BT_NAME" app:useSimpleSummaryProvider="true" />
-        <EditTextPreference android:persistent="true" android:title="⻋机端蓝牙MAC地址" android:key="@string/CONFIG_HU_BT_MAC" app:useSimpleSummaryProvider="true" />
-        <ListPreference android:persistent="true" android:entries="@array/video_framerate_entities" android:title="帧率" android:key="@string/CONFIG_VIDEO_FRAME_RATE" android:summary="%s" android:defaultValue="30" android:entryValues="@array/video_framerate_values" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/FEATURE_CONFIG_ENGINE_TYPE"
+            android:persistent="true"
+            android:summaryOff="燃油车"
+            android:summaryOn="电动车"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="运行CarLife的⻋机类型" />
+        <EditTextPreference
+            android:key="@string/CONFIG_HU_BT_NAME"
+            android:persistent="true"
+            android:title="⻋机端蓝牙名称"
+            app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            android:key="@string/CONFIG_HU_BT_MAC"
+            android:persistent="true"
+            android:title="⻋机端蓝牙MAC地址"
+            app:useSimpleSummaryProvider="true" />
+        <ListPreference
+            android:defaultValue="30"
+            android:entries="@array/video_framerate_entities"
+            android:entryValues="@array/video_framerate_values"
+            android:key="@string/CONFIG_VIDEO_FRAME_RATE"
+            android:persistent="true"
+            android:summary="%s"
+            android:title="帧率" />
     </PreferenceCategory>
-    <SwitchPreference android:persistent="true" android:title="显示悬浮窗" android:key="@string/FEATURE_SHOW_FLOAT" android:summary="显示应用悬浮窗" android:defaultValue="true" android:summaryOn="显示" android:summaryOff="不显示" android:switchTextOn="1" android:switchTextOff="0" />
-    <SwitchPreference android:persistent="true" android:title="开启录音" android:key="@string/OPEN_RECORD" android:summary="开启录音" android:defaultValue="true" android:summaryOn="开启" android:summaryOff="不开启" android:switchTextOn="1" android:switchTextOff="0" />
-    <SwitchPreference android:persistent="true" android:title="USB拉起界面" android:key="@string/CFG_USB_SHOW_UI" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
+    <PreferenceCategory android:title="其他功能">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/FEATURE_SHOW_FLOAT"
+            android:persistent="true"
+            android:summary="显示应用悬浮窗"
+            android:summaryOff="不显示"
+            android:summaryOn="显示"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="显示悬浮窗" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/OPEN_RECORD"
+            android:persistent="true"
+            android:summary="开启录音"
+            android:summaryOff="不开启"
+            android:summaryOn="开启"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="开启录音" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/CFG_USB_SHOW_UI"
+            android:persistent="true"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="USB拉起界面" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/CONNECT_SUCCESS_SHOW_UI"
+            android:persistent="true"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="后台自动连接，成功后拉起界面" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/START_ON_SYSTEM_BOOT_SHOW_UI"
+            android:persistent="true"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="是否开机自启并显示界面" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/OPEN_HOT"
+            android:persistent="true"
+            android:summaryOff="否"
+            android:summaryOn="是"
+            android:switchTextOff="0"
+            android:switchTextOn="1"
+            android:title="WIFI连接时开机车机热点" />
 
-    <SwitchPreference android:persistent="true" android:title="后台自动连接，成功后拉起界面" android:key="@string/CONNECT_SUCCESS_SHOW_UI" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
-
-    <SwitchPreference android:persistent="true" android:title="是否开机自启并显示界面" android:key="@string/START_ON_SYSTEM_BOOT_SHOW_UI" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
-
-    <SwitchPreference android:persistent="true" android:title="WIFI连接时开机车机热点" android:key="@string/OPEN_HOT" android:defaultValue="false" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
-    <SwitchPreference android:persistent="true" android:title="隐藏状态栏" android:key="@string/CFG_HIDE_STATUS_BAR" android:defaultValue="true" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
-
-    <SwitchPreference android:persistent="true" android:title="隐藏导航栏" android:key="@string/CFG_HIDE_NAVI_BAR" android:defaultValue="true" android:summaryOn="是" android:summaryOff="否" android:switchTextOn="1" android:switchTextOff="0" />
-
-    <ListPreference android:persistent="true" android:entries="@array/navi_pos" android:title="导航栏位置" android:key="@string/CONFIG_NAVI_POS" android:summary="%s" android:defaultValue="0" android:entryValues="@array/navi_pos_value" />
+    </PreferenceCategory>
 
 
 </androidx.preference.PreferenceScreen>

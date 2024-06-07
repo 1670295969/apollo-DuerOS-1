@@ -21,7 +21,6 @@ class WifiDirectDiscoverableTask(val wifiP2pManager: WifiP2pManager,
 
     fun updateChannel(channel : WifiP2pManager.Channel){
         this.channel = channel
-        operationSequence.changeChannel(channel)
     }
     fun discoverable() {
         operationSequence.execute()
