@@ -106,9 +106,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="@color/white_color_selector"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 android:button="@null"
-                android:padding="20dp"
+                android:padding="23dp"
                 android:text="USB"/>
 
             <RadioButton
@@ -116,9 +116,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="@color/white_color_selector"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 android:button="@null"
-                android:padding="20dp"
+                android:padding="23dp"
                 android:text="WIFI"/>
 
             <RadioButton
@@ -126,9 +126,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textColor="@color/white_color_selector"
-                android:textSize="36sp"
+                android:textSize="30sp"
                 android:button="@null"
-                android:padding="20dp"
+                android:padding="23dp"
                 android:text="无感"/>
 
         </RadioGroup>
