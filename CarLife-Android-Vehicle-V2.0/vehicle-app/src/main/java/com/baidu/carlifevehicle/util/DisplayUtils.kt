@@ -1,10 +1,24 @@
 package com.baidu.carlifevehicle.util
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.Service
 import android.content.Context
 import android.graphics.Point
+import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.WindowManager
+import androidx.core.app.NotificationCompat
+import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
+import com.baidu.carlife.sdk.Constants
+import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
+import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
+import com.baidu.carlife.sdk.receiver.CarLife
+import com.baidu.carlifevehicle.CarlifeActivity
+import com.baidu.carlifevehicle.R
+import com.baidu.carlifevehicle.VehicleService
 
 object DisplayUtils {
 
@@ -58,6 +72,47 @@ object DisplayUtils {
             }
         }
         return Point(needWidth,needHeight)
+    }
+
+    @JvmStatic
+    fun sendHardKeyCodeEvent(keycode: Int) {
+        try {
+            Log.d(CarlifeActivity.TAG, "sendHardKeyCodeEvent: keycode = $keycode")
+            val message = CarLifeMessage.obtain(
+                Constants.MSG_CHANNEL_TOUCH,
+                ServiceTypes.MSG_TOUCH_CAR_HARD_KEY_CODE,
+                0
+            )
+            message.serviceType = CommonParams.MSG_TOUCH_CAR_HARD_KEY_CODE
+            message.payload(
+                CarlifeCarHardKeyCodeProto.CarlifeCarHardKeyCode.newBuilder()
+                    .setKeycode(keycode)
+                    .build()
+            )
+            CarLife.receiver().postMessage(message)
+        } catch (ex: java.lang.Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    fun showForegroundNotification(context: Service,channelId : String,notificationID : Int) {
+        val builder: NotificationCompat.Builder = NotificationCompat.Builder(context,
+            channelId
+        )
+            .setContentTitle("百度Carlife媒体服务")
+            .setContentText("服务正在运行")
+            .setSmallIcon(R.drawable.ic_launcher) // 替换为你的通知图标资源ID
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        val notificationManager = context.getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Channel name", NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+        val notification: Notification = builder.build()
+        context.startForeground(notificationID, notification)
     }
 
 }

@@ -2,6 +2,7 @@ package com.baidu.carlife.sdk.receiver.protocol.v1
 
 import android.os.Build
 import android.text.TextUtils
+import android.util.Log
 import com.baidu.carlife.protobuf.*
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Constants
@@ -42,12 +43,21 @@ class ConnectionEstablishHandler(private val context: CarLifeContext) : Transpor
             Logger.e(Constants.TAG, "ConnectionEstablishHandler heartbeat timeout")
             context.terminate()
         } else {
-            Logger.v(
+            Log.i(
                 Constants.TAG,
                 "ConnectionEstablishHandler message delay ${System.currentTimeMillis() - lastReceiveMessageTime}"
             )
-            context.postMessage(MSG_CHANNEL_VIDEO, ServiceTypes.MSG_VIDEO_HEARTBEAT)
+            sendHeartMsg()
         }
+    }
+
+    private fun sendHeartMsg(){
+        Log.i(
+            Constants.TAG,
+            "ConnectionEstablishHandler sendHeartMsg"
+        )
+        context.postMessage(MSG_CHANNEL_VIDEO, ServiceTypes.MSG_VIDEO_HEARTBEAT)
+
     }
 
     override fun onReceiveMessage(context: CarLifeContext, message: CarLifeMessage): Boolean {
@@ -57,6 +67,9 @@ class ConnectionEstablishHandler(private val context: CarLifeContext) : Transpor
             MSG_CMD_MD_INFO -> handleMDInfo(context, message)
             ServiceTypes.MSG_CMD_MD_AUTH_RESPONSE -> handleAuthResponse(context, message)
             MSG_CMD_MD_AUTH_RESULT -> handleAuthResult(context, message)
+        }
+        if (context.isConnected()){
+            sendHeartMsg()
         }
         return false
     }

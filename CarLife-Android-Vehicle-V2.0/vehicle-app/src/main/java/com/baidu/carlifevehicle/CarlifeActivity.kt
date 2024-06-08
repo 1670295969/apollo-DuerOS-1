@@ -120,10 +120,6 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         const val TYPE_SETTINGS_RESULT = 0x101
     }
 
-    private val mediaSessionCompat by lazy {
-        MediaSessionCompat(this, "CarlifeActivity")
-    }
-
 //    val windowInsetsController by lazy {
 //        WindowCompat.getWindowInsetsController(window, window.decorView)
 //    }
@@ -351,78 +347,16 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             500
         )
 
-        mediaSessionCompat.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-
-        mediaSessionCompat.isActive = true
-        MediaControllerCompat.setMediaController(this, mediaSessionCompat.controller)
-
-        mediaSessionCompat.setCallback(object : MediaSessionCompat.Callback() {
-            override fun onMediaButtonEvent(intent: Intent?): Boolean {
-                Log.d(TAG, "intent=$intent")
-                var keyEvent: KeyEvent? = null
-                if (intent != null) {
-                    if ("android.intent.action.MEDIA_BUTTON" == intent.action) {
-                        keyEvent = intent.getParcelableExtra(
-                            "android.intent.extra.KEY_EVENT"
-                        ) as KeyEvent?
-                        if (keyEvent != null) {
-                            val action = keyEvent.action
-                            val keyCode = keyEvent.keyCode
-                            if (action == KeyEvent.ACTION_UP) {
-                                if (keyCode == KeyEvent.KEYCODE_MEDIA_NEXT) {
-                                    sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_ADD)
-                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS) {
-                                    sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_SUB)
-                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
-                                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP
-                                ) {
-                                    sendHardKeyCodeEvent(CommonParams.KEYCODE_MEDIA_STOP)
-                                } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY
-                                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP
-                                ) {
-                                    sendHardKeyCodeEvent(CommonParams.KEYCODE_MEDIA_START)
-                                }
-                            }
-                        }
-
-                    }
-                }
-
-                return super.onMediaButtonEvent(intent)
-            }
-
-        }, null)
-
         AccessibilityUtils.setAccessibilityService(
             this,
             ComponentName(this, MyAccessibilityService::class.java)
         )
         startService(Intent(this, MyAccessibilityService::class.java))
         HotspotUtils.openHot()
-
-
     }
 
 
-    fun sendHardKeyCodeEvent(keycode: Int) {
-        try {
-            Log.d(TAG, "sendHardKeyCodeEvent: keycode = $keycode")
-            val message = obtain(
-                MSG_CHANNEL_TOUCH,
-                ServiceTypes.MSG_TOUCH_CAR_HARD_KEY_CODE,
-                0
-            )
-            message.serviceType = CommonParams.MSG_TOUCH_CAR_HARD_KEY_CODE
-            message.payload(
-                CarlifeCarHardKeyCodeProto.CarlifeCarHardKeyCode.newBuilder()
-                    .setKeycode(keycode)
-                    .build()
-            )
-            receiver().postMessage(message)
-        } catch (ex: java.lang.Exception) {
-            ex.printStackTrace()
-        }
-    }
+
 
     fun getCarLifeVehicleFragmentManager(): CarLifeFragmentManager? {
         return mCarLifeFragmentManager

@@ -10,6 +10,7 @@ import android.graphics.Point
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbManager
+import android.os.Build
 import android.os.IBinder
 import android.util.DisplayMetrics
 import android.util.Log
@@ -21,6 +22,7 @@ import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.Constants.TAG
 import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.internal.DisplaySpec
+import com.baidu.carlife.sdk.receiver.CarLifeReceiverService
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.audio.recorder.VoiceMessageHandler
 import com.baidu.carlifevehicle.protocol.ControllerHandler
@@ -78,6 +80,12 @@ class VehicleApplication : Application() {
         val result = sharedPreferences?.getBoolean(CONNECT_SUCCESS_SHOW_UI, false) ?: false
         if (result) {
             CarLife.receiver().connect()
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(Intent(this, MyMediaSessionService::class.java))
+        } else {
+            startService(Intent(this, MyMediaSessionService::class.java))
         }
     }
 

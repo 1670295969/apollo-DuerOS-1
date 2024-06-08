@@ -102,12 +102,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <receiver android:name="androidx.media.session.MediaButtonReceiver" android:exported="false">
-            <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.MEDIA_BUTTON"/>
-            </intent-filter>
-        </receiver>
-
         <receiver android:name=".receiver.BootReceiver"
             android:enabled="true"
             android:exported="true"
@@ -140,13 +134,15 @@
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"/>
             </intent-filter>
-
-<!--            <meta-data-->
-<!--                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"-->
-<!--                android:resource="@xml/usb_xml"/>-->
         </receiver>
 
         <!-- android设备的信息过滤 -->
+
+        <service android:name=".MyMediaSessionService" android:enabled="true" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON"/>
+            </intent-filter>
+        </service>
 
 
     </application>
