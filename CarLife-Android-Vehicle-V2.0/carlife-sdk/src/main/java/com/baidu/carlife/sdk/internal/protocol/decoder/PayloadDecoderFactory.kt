@@ -165,6 +165,15 @@ object PayloadDecoderFactory {
                 CarlifeMusicInitProto.CarlifeMusicInit
                     .parseFrom(CodedInputStream.newInstance(payload, offset, length))
             }
+        decoders[ServiceTypes.MSG_CMD_MEDIA_INFO] =  PayloadDecoder { payload, offset, length ->
+            CarlifeMediaInfoProto.CarlifeMediaInfo
+                .parseFrom(CodedInputStream.newInstance(payload, offset, length))
+        }
+
+        decoders[ServiceTypes.MSG_CMD_MEDIA_PROGRESS_BAR] =  PayloadDecoder { payload, offset, length ->
+            CarlifeMediaProgressBarProto.CarlifeMediaProgressBar
+                .parseFrom(CodedInputStream.newInstance(payload, offset, length))
+        }
 
         val ttsInitDecoder = PayloadDecoder { payload, offset, length ->
             CarlifeTTSInitProto.CarlifeTTSInit

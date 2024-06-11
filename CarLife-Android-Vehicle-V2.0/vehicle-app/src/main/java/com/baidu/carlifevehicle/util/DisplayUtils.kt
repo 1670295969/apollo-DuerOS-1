@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.WindowManager
 import androidx.core.app.NotificationCompat
 import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
+import com.baidu.carlife.protobuf.CarlifeMediaInfoProto
 import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.internal.protocol.CarLifeMessage
 import com.baidu.carlife.sdk.internal.protocol.ServiceTypes
@@ -55,22 +56,20 @@ object DisplayUtils {
         if (hideStatusBar && hideNaviBar){
             needHeight = displayMetrics.heightPixels
             needWidth = displayMetrics.widthPixels
-        }else if (hideStatusBar){
-            needHeight -= statusHeight
-        }else if (hideNaviBar){
-            if (NaviPos.isBottom()){
-                needHeight -= naviHeight
-            }else if(NaviPos.isLeft()){
-                needWidth -= naviHeight
+        } else {
+            if (!hideStatusBar){
+                needHeight -= statusHeight
             }
-        }else {
-            needHeight -= statusHeight
-            if (NaviPos.isBottom()){
-                needHeight -= naviHeight
-            }else if(NaviPos.isLeft()){
-                needWidth -= naviHeight
+
+            if (!hideNaviBar){
+                if (NaviPos.isBottom()){
+                    needHeight -= naviHeight
+                }else if(NaviPos.isLeft()){
+                    needWidth -= naviHeight
+                }
             }
         }
+         Log.d("-------","$needWidth == $needHeight")
         return Point(needWidth,needHeight)
     }
 
@@ -87,6 +86,25 @@ object DisplayUtils {
             message.payload(
                 CarlifeCarHardKeyCodeProto.CarlifeCarHardKeyCode.newBuilder()
                     .setKeycode(keycode)
+                    .build()
+            )
+            CarLife.receiver().postMessage(message)
+        } catch (ex: java.lang.Exception) {
+            ex.printStackTrace()
+        }
+    }
+
+    @JvmStatic
+    fun sendMediaEvent() {
+        try {
+            val message = CarLifeMessage.obtain(
+                Constants.MSG_CHANNEL_AUDIO,
+                ServiceTypes.MSG_CMD_MEDIA_INFO,
+                0
+            )
+            message.serviceType = CommonParams.MSG_CMD_MEDIA_INFO
+            message.payload(
+                CarlifeMediaInfoProto.CarlifeMediaInfo.newBuilder()
                     .build()
             )
             CarLife.receiver().postMessage(message)

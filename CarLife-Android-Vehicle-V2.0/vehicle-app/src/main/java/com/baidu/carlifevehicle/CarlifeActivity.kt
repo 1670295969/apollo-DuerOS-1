@@ -36,6 +36,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.baidu.carlife.protobuf.CarlifeBTHfpCallStatusCoverProto.CarlifeBTHfpCallStatusCover
 import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
 import com.baidu.carlife.protobuf.CarlifeConnectExceptionProto.CarlifeConnectException
+import com.baidu.carlife.protobuf.CarlifeMediaInfoProto
+import com.baidu.carlife.protobuf.CarlifeMediaProgressBarProto
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.CarLifeModule
 import com.baidu.carlife.sdk.Configs
@@ -264,7 +266,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private fun resetRanderDisplayWithPIP() {
         if (getDisplayId() != 0) {
             windowManager.defaultDisplay.apply {
-                Log.d(
+                Logger.d(
                     "VehicleApplication",
                     "CarlifeActivity.onCreate ${this.width}:${this.height}"
                 )
@@ -484,7 +486,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
     private fun setCarLifeDisplay() {
         val point = DisplayUtils.getNeedMetrics(this)
-        Log.d(
+        Logger.d(
             "VehicleApplication",
             "CarlifeActivity.onCreate ${point.x}:${point.y}"
         )
@@ -558,6 +560,17 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             ServiceTypes.MSG_CMD_CONNECT_EXCEPTION -> {
                 val response = message.protoPayload as CarlifeConnectException
                 handleConnectException(response)
+            }
+            ServiceTypes.MSG_CMD_MEDIA_INFO -> {
+//                val mediaInfo = message.protoPayload as CarlifeMediaInfoProto.CarlifeMediaInfo
+//                Log.d("MSG_CMD_MEDIA_INFO","${mediaInfo.song}")
+//                Log.d("MSG_CMD_MEDIA_INFO","${mediaInfo.albumArt}")
+//                Log.d("MSG_CMD_MEDIA_INFO","${mediaInfo.artist}")
+               // DisplayUtils.sendMediaEvent()
+            }
+            ServiceTypes.MSG_CMD_MEDIA_PROGRESS_BAR-> {
+//                val mediaInfo = message.protoPayload as CarlifeMediaProgressBarProto.CarlifeMediaProgressBar
+//                Log.d("MSG_CMD_MEDIA_INFO","${mediaInfo.progressBar}")
             }
         }
         return false
@@ -817,14 +830,15 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
 
     private fun setDockerViewPadding(top: Int, bottom: Int) {
+        Log.d("--------","$top === $bottom")
         window.decorView.post {
             window.decorView.apply {
                 if (NaviPos.isNone()) {
-                    setPadding(this.paddingLeft, top, this.paddingRight, 0)
+                    setPadding(0, top, this.paddingRight, 0)
                 } else if (NaviPos.isLeft()) {
-                    setPadding(bottom, top, this.paddingRight, this.bottom)
+                    setPadding(bottom, top, this.paddingRight, 0)
                 } else {
-                    setPadding(this.paddingLeft, top, this.paddingRight, bottom)
+                    setPadding(0, top, this.paddingRight, bottom)
                 }
 
             }

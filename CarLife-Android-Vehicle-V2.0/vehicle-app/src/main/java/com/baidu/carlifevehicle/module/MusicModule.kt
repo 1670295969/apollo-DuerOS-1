@@ -1,6 +1,9 @@
 package com.baidu.carlifevehicle.module
 
 import android.media.AudioManager
+import android.util.Log
+import com.baidu.carlife.protobuf.CarlifeMediaInfoProto
+import com.baidu.carlife.protobuf.CarlifeMediaInfoProto.CarlifeMediaInfo
 import com.baidu.carlife.protobuf.CarlifeModuleStatusProto
 import com.baidu.carlife.protobuf.CarlifeMusicInitProto
 import com.baidu.carlife.sdk.CarLifeContext
@@ -70,7 +73,9 @@ class MusicModule(private val context: CarLifeContext): CarLifeModule(),
                     end()
                     state = MUSIC_STATUS_IDLE
                 }
-                ServiceTypes.MSG_MEDIA_DATA -> source?.feed(message)
+                ServiceTypes.MSG_MEDIA_DATA ->{
+                    source?.feed(message)
+                }
                 ServiceTypes.MSG_MEDIA_DATA_ENCODER -> source?.feed(message, true)
             }
         }

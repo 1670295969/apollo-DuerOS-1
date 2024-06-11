@@ -1,6 +1,7 @@
 package com.baidu.carlife.sdk.receiver.protocol.v1
 
 import android.os.Build
+import android.os.SystemClock
 import android.text.TextUtils
 import android.util.Log
 import com.baidu.carlife.protobuf.*
@@ -51,11 +52,17 @@ class ConnectionEstablishHandler(private val context: CarLifeContext) : Transpor
         }
     }
 
+    private var preSendMills = 0L
+
     private fun sendHeartMsg(){
+        if (SystemClock.uptimeMillis() - preSendMills < 500){
+            return
+        }
         Log.i(
             Constants.TAG,
             "ConnectionEstablishHandler sendHeartMsg"
         )
+        preSendMills = SystemClock.uptimeMillis()
         context.postMessage(MSG_CHANNEL_VIDEO, ServiceTypes.MSG_VIDEO_HEARTBEAT)
 
     }

@@ -12,7 +12,7 @@ public object NaviPos {
         return NAVI_NONE == PreferenceUtil.getInstance().getString(CFG_NAVI_POS,NAVI_BOTTOM);
     }
 
-    public fun isBottom() : Boolean{
+    public fun isBottom() : Boolean {
         return NAVI_BOTTOM == PreferenceUtil.getInstance().getString(CFG_NAVI_POS,NAVI_BOTTOM);
     }
 

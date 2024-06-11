@@ -21,6 +21,15 @@ class ProtocolTracer(private val isReceiver: Boolean) : TransportListener {
     private var byteCount = 0L
     private var mIsDiscardMsg = true;
 
+    //    /**
+    //     * Media通道相关消息
+    //     */
+    //    public static final int MSG_MEDIA_INIT = 0x00030001;
+    //    public static final int MSG_MEDIA_STOP = 0x00030002;
+    //    public static final int MSG_MEDIA_PAUSE = 0x00030003;
+    //    public static final int MSG_MEDIA_RESUME_PLAY = 0x00030004;
+    //    public static final int MSG_MEDIA_SEEK_TO = 0x00030005;
+    //    public static final int MSG_MEDIA_DATA = 0x00030006;
     override fun onReceiveMessage(context: CarLifeContext, message: CarLifeMessage): Boolean {
         val serviceType = message.serviceType
         when (serviceType) {
@@ -42,6 +51,7 @@ class ProtocolTracer(private val isReceiver: Boolean) : TransportListener {
                 || serviceType == MSG_VR_AUDIO_DATA
                 || serviceType == MSG_NAV_TTS_DATA
             ) {
+                //处理音频相关信息
                 Logger.v(
                     Constants.TAG, "ProtocolTracer onReceiveMessage ", message,
                     " @" + ServiceTypes.getMsgName(serviceType)
@@ -68,7 +78,7 @@ class ProtocolTracer(private val isReceiver: Boolean) : TransportListener {
             && serviceType != MSG_CMD_MEDIA_PROGRESS_BAR
         ) {
             if (serviceType == MSG_VIDEO_HEARTBEAT) {
-                Logger.v(
+                Logger.e(
                     Constants.TAG, "ProtocolTracer onSendMessage ", message,
                     " @MSG_VIDEO_HEARTBEAT"
                 )

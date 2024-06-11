@@ -15,7 +15,7 @@ import com.baidu.carlifevehicle.util.CommonParams;
 import com.baidu.carlifevehicle.util.DisplayUtils;
 
 public class CarlifeMediaSessionService extends Service {
-    private static final String TAG = "MyMediaSessionService";
+    public static final String TAG = "CarlifeMediaSessionService";
 
     private static final int NOTIFICATION_ID = 101;
     private static final String CHANNEL_ID = "foreground_service_channel_media";
@@ -31,14 +31,14 @@ public class CarlifeMediaSessionService extends Service {
 
     public void onCreate() {
         super.onCreate();
-        Log.i("MyMediaSessionService", "MyMediaSessionService onCreate");
+        Log.i(TAG, "MyMediaSessionService onCreate");
         initMediaSession();
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i("MyMediaSessionService", "onStartCommand : " + intent);
+        Log.i(TAG, "onStartCommand : " + intent);
         if (intent!=null){
-            Log.i("MyMediaSessionService", "onStartCommand : " + intent.getAction());
+            Log.i(TAG, "onStartCommand : " + intent.getAction());
 
         }
         DisplayUtils.INSTANCE.showForegroundNotification(this,CHANNEL_ID,NOTIFICATION_ID);
@@ -50,6 +50,9 @@ public class CarlifeMediaSessionService extends Service {
         super.onDestroy();
         MediaSessionCompat mediaSessionCompat = this.mMediaSession;
         if (mediaSessionCompat != null) {
+            mediaSessionCompat.setCallback(null);
+            mediaSessionCompat.setActive(false);
+
             mediaSessionCompat.release();
         }
         // 服务被销毁时移除通知
@@ -61,42 +64,10 @@ public class CarlifeMediaSessionService extends Service {
         this.mMediaSession = new MediaSessionCompat(this, "MyMediaSessionService");
         mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
                 | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        mMediaSession.setActive(true);
-        this.mMediaSession.setCallback(new MediaSessionCompat.Callback() {
-            public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
-                KeyEvent keyEvent = (KeyEvent) mediaButtonIntent.getParcelableExtra("android.intent.extra.KEY_EVENT");
-                Log.i("MyMediaSessionService", "onMediaButtonEvent : " + keyEvent.getKeyCode());
-                if (keyEvent.getKeyCode() != 87 && keyEvent.getKeyCode() != 88) {
-                    return super.onMediaButtonEvent(mediaButtonIntent);
-                }
-                CarlifeMediaSessionService.this.performMediaButton(keyEvent);
-                return true;
-            }
-        }, (Handler) null);
+        this.mMediaSession.setCallback(new MediaSessionCallBack(this));
         this.mMediaSession.setActive(true);
     }
 
-    public void performMediaButton(KeyEvent keyEvent) {
-        int action = keyEvent.getAction();
-        int keyCode = keyEvent.getKeyCode();
-        if (action == KeyEvent.ACTION_UP) {
-            if (keyCode == KeyEvent.KEYCODE_MEDIA_NEXT) {
-                sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_ADD);
-            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PREVIOUS) {
-                sendHardKeyCodeEvent(CommonParams.KEYCODE_SEEK_SUB);
-            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP
-            ) {
-                sendHardKeyCodeEvent(CommonParams.KEYCODE_MEDIA_STOP);
-            } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY
-                    || keyCode == KeyEvent.KEYCODE_MEDIA_STOP
-            ) {
-                sendHardKeyCodeEvent(CommonParams.KEYCODE_MEDIA_START);
-            }
-        }
-    }
 
-    private void sendHardKeyCodeEvent(int keycode) {
-        DisplayUtils.sendHardKeyCodeEvent(keycode);
-    }
+
 }
