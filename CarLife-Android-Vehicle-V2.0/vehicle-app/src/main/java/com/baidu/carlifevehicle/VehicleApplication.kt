@@ -59,7 +59,7 @@ class VehicleApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         app = this
-        Log.d(
+        Logger.d(
             "VehicleApplication",
             "VehicleApplication getNowDisplayId = ${getNowDisplayId()}"
         )
@@ -74,6 +74,7 @@ class VehicleApplication : Application() {
         val sharedPreferences = PreferenceUtil.getInstance().preferences
         val result = sharedPreferences?.getBoolean(CONNECT_SUCCESS_SHOW_UI, false) ?: false
         if (result) {
+            HotspotUtils.openHot()
             CarLife.receiver().connect()
         }
 
@@ -83,7 +84,6 @@ class VehicleApplication : Application() {
             startService(Intent(this, CarlifeMediaSessionService::class.java))
         }
 
-        HotspotUtils.openHot()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -96,7 +96,7 @@ class VehicleApplication : Application() {
         val screenPoint = getNeedMetrics();
         val screenWidth = screenPoint.x
         val screenHeight = screenPoint.y
-        Log.d(
+        Logger.d(
             "VehicleApplication",
             "VehicleApplication.oncreate ${screenWidth}:${screenHeight}"
         )

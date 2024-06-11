@@ -122,6 +122,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         const val TYPE_SETTINGS_RESULT = 0x101
     }
 
+
 //    val windowInsetsController by lazy {
 //        WindowCompat.getWindowInsetsController(window, window.decorView)
 //    }
@@ -301,6 +302,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         //View.SYSTEM_UI_FLAG_IMMERSIVE
         resetRanderDisplayWithPIP()
         setContentView(R.layout.activity_main)
+        setDockerViewPadding(0,0)
+
         mSurfaceView = findViewById(R.id.video_surface_view)
         supportActionBar?.hide()
         //hideSystemUi()
@@ -355,6 +358,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         )
         startService(Intent(this, MyAccessibilityService::class.java))
         HotspotUtils.openHot()
+        CarlifeMediaSessionService.start(this)
     }
 
 
@@ -834,11 +838,11 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         window.decorView.post {
             window.decorView.apply {
                 if (NaviPos.isNone()) {
-                    setPadding(0, top, this.paddingRight, 0)
+                    setPadding(0, top, 0, 0)
                 } else if (NaviPos.isLeft()) {
-                    setPadding(bottom, top, this.paddingRight, 0)
+                    setPadding(bottom, top, 0, 0)
                 } else {
-                    setPadding(0, top, this.paddingRight, bottom)
+                    setPadding(0, top, 0, bottom)
                 }
 
             }
@@ -870,21 +874,22 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
 
     private fun changeSize() {
         mSurfaceView.post {
-            Log.i("VehicleApp--------", "${mSurfaceView.width}:${mSurfaceView.height}")
+            Logger.e("VehicleApp--------", "${mSurfaceView.width}:${mSurfaceView.height}")
+            val displayMetrics = DisplayUtils.getNeedMetrics(this)
+            var w = displayMetrics.x
+            Logger.e(
+                "VehicleApp--------",
+                "displayMetrics:${displayMetrics.x}:${displayMetrics.y}"
+            )
+            var h = displayMetrics.y
+//            applicationContext.resources.displayMetrics.widthPixels = w
+//            applicationContext.resources.displayMetrics.heightPixels = h
+            val remoteDisplayGLView: RemoteDisplayGLView = this.mSurfaceView
+            remoteDisplayGLView.post {
+                remoteDisplayGLView.onVideoSizeChanged(w, h)
+            }
         }
-        val displayMetrics = DisplayUtils.getNeedMetrics(this)
-        var w = displayMetrics.x
-        Log.i(
-            "VehicleApp--------",
-            "displayMetrics:${displayMetrics.x}:${displayMetrics.y}"
-        )
-        var h = displayMetrics.y
-        applicationContext.resources.displayMetrics.widthPixels = w
-        applicationContext.resources.displayMetrics.heightPixels = h
-        val remoteDisplayGLView: RemoteDisplayGLView = this.mSurfaceView
-        remoteDisplayGLView.post {
-            remoteDisplayGLView.onVideoSizeChanged(w, h)
-        }
+
     }
 
 

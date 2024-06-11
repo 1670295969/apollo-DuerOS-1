@@ -120,9 +120,9 @@ class RemoteDisplayGLView @JvmOverloads constructor(context: Context, attrs: Att
 
         post {
             val ratio = videoWidth.toFloat() / videoHeight
-            val screenWidth = context.applicationContext.resources.displayMetrics.widthPixels
-            val screenHeight = context.applicationContext.resources.displayMetrics.heightPixels
-            val (destWidth, destHeight) = ScaleUtils.inside(screenWidth, screenHeight, ratio)
+//            val screenWidth = context.applicationContext.resources.displayMetrics.widthPixels
+//            val screenHeight = context.applicationContext.resources.displayMetrics.heightPixels
+            val (destWidth, destHeight) = ScaleUtils.inside(videoWidth, videoHeight, ratio)
             layoutParams = layoutParams.apply {
                 width = destWidth
                 height = destHeight

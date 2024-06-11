@@ -126,7 +126,11 @@ class BluetoothDeviceDiscover(
             for (connectedDevice in connectedDevices) {
                 try {
                     Logger.d(Constants.TAG, "start connect to bondedDevices: ", connectedDevice.name)
-                    connectedSocket = connect(connectedDevice)
+                    if (!context.isConnected()){
+                        connectedSocket = connect(connectedDevice)
+                    }else{
+                        Logger.e(Constants.TAG, "BluetoothDeviceDiscover isconnected ")
+                    }
                     Logger.d(Constants.TAG, "connected to ", connectedDevice.name)
                     break
                 } catch (e: IOException) {
