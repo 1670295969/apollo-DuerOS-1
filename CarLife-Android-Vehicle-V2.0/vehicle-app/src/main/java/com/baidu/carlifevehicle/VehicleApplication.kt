@@ -12,9 +12,7 @@ import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbManager
 import android.os.Build
 import android.os.IBinder
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.DisplayCutout
 import android.view.WindowManager
 import com.baidu.carlife.sdk.CarLifeContext
 import com.baidu.carlife.sdk.Configs.*
@@ -22,17 +20,14 @@ import com.baidu.carlife.sdk.Constants
 import com.baidu.carlife.sdk.Constants.TAG
 import com.baidu.carlife.sdk.receiver.CarLife
 import com.baidu.carlife.sdk.internal.DisplaySpec
-import com.baidu.carlife.sdk.receiver.CarLifeReceiverService
+import com.baidu.carlife.sdk.util.Logger
 import com.baidu.carlifevehicle.audio.recorder.VoiceManager
 import com.baidu.carlifevehicle.audio.recorder.VoiceMessageHandler
 import com.baidu.carlifevehicle.protocol.ControllerHandler
-import com.baidu.carlifevehicle.util.CarlifeConfUtil
+import com.baidu.carlifevehicle.util.*
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.CONNECT_SUCCESS_SHOW_UI
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.KEY_INT_AUDIO_TRANSMISSION_MODE
 import com.baidu.carlifevehicle.util.CommonParams.CONNECT_TYPE_SHARED_PREFERENCES
-import com.baidu.carlifevehicle.util.DisplayUtils
-import com.baidu.carlifevehicle.util.NaviPos
-import com.baidu.carlifevehicle.util.PreferenceUtil
 
 class VehicleApplication : Application() {
 
@@ -83,10 +78,12 @@ class VehicleApplication : Application() {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(Intent(this, MyMediaSessionService::class.java))
+            startForegroundService(Intent(this, CarlifeMediaSessionService::class.java))
         } else {
-            startService(Intent(this, MyMediaSessionService::class.java))
+            startService(Intent(this, CarlifeMediaSessionService::class.java))
         }
+
+        HotspotUtils.openHot()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -133,7 +130,7 @@ class VehicleApplication : Application() {
          */
         val features = mapOf(
             FEATURE_CONFIG_USB_MTU to 32 * 1024,
-            FEATURE_CONFIG_I_FRAME_INTERVAL to 200,
+            FEATURE_CONFIG_I_FRAME_INTERVAL to 300,
             FEATURE_CONFIG_CONNECT_TYPE to type,
             FEATURE_CONFIG_AAC_SUPPORT to accSupport,
             FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE to audioMode,
@@ -149,7 +146,7 @@ class VehicleApplication : Application() {
             CONFIG_PROTOCOL_VERSION to 4
         )
 
-        Log.d(
+        Logger.d(
             Constants.TAG,
             "VehicleApplication initReceiver $screenWidth, $screenHeight $displaySpec"
         )

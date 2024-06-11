@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -15,7 +14,7 @@ import androidx.media.session.MediaButtonReceiver;
 import com.baidu.carlifevehicle.util.CommonParams;
 import com.baidu.carlifevehicle.util.DisplayUtils;
 
-public class MyMediaSessionService extends Service {
+public class CarlifeMediaSessionService extends Service {
     private static final String TAG = "MyMediaSessionService";
 
     private static final int NOTIFICATION_ID = 101;
@@ -23,7 +22,7 @@ public class MyMediaSessionService extends Service {
     private MediaSessionCompat mMediaSession;
 
     public static void start(Context context) {
-        context.startService(new Intent(context, MyMediaSessionService.class));
+        context.startService(new Intent(context, CarlifeMediaSessionService.class));
     }
 
     public IBinder onBind(Intent intent) {
@@ -59,11 +58,10 @@ public class MyMediaSessionService extends Service {
     }
 
     private void initMediaSession() {
-        this.mMediaSession = new MediaSessionCompat((Context) this, "MyMediaSessionService");
-        //        mediaSessionCompat.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
-        //        or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        PlaybackStateCompat build = new PlaybackStateCompat.Builder().setActions(566).build();
-        MediaSessionCompat mediaSessionCompat = this.mMediaSession;
+        this.mMediaSession = new MediaSessionCompat(this, "MyMediaSessionService");
+        mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
+                | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mMediaSession.setActive(true);
         this.mMediaSession.setCallback(new MediaSessionCompat.Callback() {
             public boolean onMediaButtonEvent(Intent mediaButtonIntent) {
                 KeyEvent keyEvent = (KeyEvent) mediaButtonIntent.getParcelableExtra("android.intent.extra.KEY_EVENT");
@@ -71,7 +69,7 @@ public class MyMediaSessionService extends Service {
                 if (keyEvent.getKeyCode() != 87 && keyEvent.getKeyCode() != 88) {
                     return super.onMediaButtonEvent(mediaButtonIntent);
                 }
-                MyMediaSessionService.this.performMediaButton(keyEvent);
+                CarlifeMediaSessionService.this.performMediaButton(keyEvent);
                 return true;
             }
         }, (Handler) null);

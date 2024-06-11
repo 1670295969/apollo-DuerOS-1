@@ -477,7 +477,7 @@ class AudioPlayTask(
         val changeMediaChannel = PreferenceUtil.getInstance().getBoolean("MUSIC_AUDIO_USE_LEGACY_API",false)
         var mediaChanel = AudioManager.STREAM_MUSIC
         mediaChanel = if(channel == Constants.MSG_CHANNEL_AUDIO_TTS){
-            val mediaChanelStr = PreferenceUtil.getInstance().getString("MUSIC_AUDIO_TRACK_STREAM_TYPE","${AudioManager.STREAM_MUSIC}")
+            val mediaChanelStr = PreferenceUtil.getInstance().getString("AUDIO_TRACK_STREAM_TYPE","${AudioManager.STREAM_MUSIC}")
             mediaChanelStr.toInt()
         }else{
             val mediaChanelStr = PreferenceUtil.getInstance().getString("MUSIC_AUDIO_TRACK_STREAM_TYPE","${AudioManager.STREAM_MUSIC}")

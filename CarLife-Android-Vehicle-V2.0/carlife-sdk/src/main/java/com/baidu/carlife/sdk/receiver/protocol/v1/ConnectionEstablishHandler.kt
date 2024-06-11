@@ -134,7 +134,7 @@ class ConnectionEstablishHandler(private val context: CarLifeContext) : Transpor
 
             onProgress(Constants.VALUE_PROGRESS_30)
             // 收到第一条回复之后再开启心跳计时
-            TimerUtils.schedule(heartBeatTask, 10, 1000)
+            TimerUtils.schedule(heartBeatTask, 10, 500)
         } else {
             // 版本不匹配时，设置为false.如果连接再次建立成功后，再还原为true
             context.isVersionSupport = false
