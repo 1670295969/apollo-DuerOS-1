@@ -61,9 +61,9 @@ public class CarlifeMediaSessionService extends Service {
     }
 
     private void initMediaSession() {
-        this.mMediaSession = new MediaSessionCompat(this, "MyMediaSessionService");
-        mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
-                | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        this.mMediaSession = new MediaSessionCompat(this, "CarlifeMediaSessionService");
+//        mMediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS
+//                | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         this.mMediaSession.setCallback(new MediaSessionCallBack(this));
         this.mMediaSession.setActive(true);
     }

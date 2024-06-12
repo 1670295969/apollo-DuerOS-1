@@ -74,6 +74,7 @@ import com.baidu.carlifevehicle.module.MusicModule
 import com.baidu.carlifevehicle.module.NavModule
 import com.baidu.carlifevehicle.module.PhoneModule
 import com.baidu.carlifevehicle.module.VRModule
+import com.baidu.carlifevehicle.util.ActivityHelper
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.CFG_AUTO_PLAY_BT_MUSIC
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.KEY_INT_AUDIO_TRANSMISSION_MODE
@@ -81,6 +82,7 @@ import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
 import com.baidu.carlifevehicle.util.CommonParams.KEYCODE_MAIN
 import com.baidu.carlifevehicle.util.DisplayUtils
+import com.baidu.carlifevehicle.util.HookCustomKey
 import com.baidu.carlifevehicle.util.HotspotUtils
 import com.baidu.carlifevehicle.util.NaviPos
 import com.baidu.carlifevehicle.util.PreferenceUtil
@@ -99,7 +101,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private lateinit var btHardKeyCode: Button
     private lateinit var mVehicleControlHandler: TransportListener
     private lateinit var mPhoneModule: CarLifeModule
-    private lateinit var mMusicModule: CarLifeModule
+    var mMusicModule: MusicModule?=null
     private lateinit var mNavModule: CarLifeModule
     private lateinit var mVRModule: CarLifeModule
     private var mCarLifeFragmentManager: CarLifeFragmentManager? = null
@@ -328,7 +330,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         mNavModule = NavModule(CarLife.receiver())
         mVRModule = VRModule(CarLife.receiver())
         CarLife.receiver().addModule(mPhoneModule)
-        CarLife.receiver().addModule(mMusicModule)
+        CarLife.receiver().addModule(mMusicModule!!)
         CarLife.receiver().addModule(mNavModule)
         CarLife.receiver().addModule(mVRModule)
         CarLife.receiver().addConnectProgressListener(this)
@@ -359,6 +361,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         startService(Intent(this, MyAccessibilityService::class.java))
         HotspotUtils.openHot()
         CarlifeMediaSessionService.start(this)
+        ActivityHelper.setActivity(this)
     }
 
 
@@ -429,12 +432,13 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         CarLife.receiver().unregisterTransportListener(mVehicleControlHandler)
         CarLife.receiver().setFileTransferListener(null)
         CarLife.receiver().removeModule(mPhoneModule)
-        CarLife.receiver().removeModule(mMusicModule)
+        CarLife.receiver().removeModule(mMusicModule!!)
         CarLife.receiver().removeModule(mNavModule)
         CarLife.receiver().removeModule(mVRModule)
 
         CarLife.receiver().unregisterWirlessStatusListeners(this)
         MsgHandlerCenter.unRegisterMessageHandler(mMainActivityHandler)
+        ActivityHelper.removeActivity()
 
 
     }
@@ -531,6 +535,10 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             )
             receiver().postMessage(message)
             return true
+        } else {
+            if (HookCustomKey.handleCustomKey("Main",keyCode,mMusicModule?.isPlaying() == true)){
+                return true
+            }
         }
         return super.onKeyUp(keyCode, event)
     }

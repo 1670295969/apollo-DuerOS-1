@@ -33,6 +33,9 @@ class MusicModule(private val context: CarLifeContext): CarLifeModule(),
 
     override val id: Int = Constants.MUSIC_MODULE_ID
 
+    fun isPlaying() : Boolean {
+        return player.state == AudioPlayer.STATE_PLAYING
+    }
     override fun onModuleStateChanged(newState: Int, oldState: Int) {
         Logger.d(Constants.TAG, "MusicModule onModuleStateChanged ", oldState, "->", newState)
         // receiver 端不需要把状态变化分发给CarLifeContext，直接自己处理

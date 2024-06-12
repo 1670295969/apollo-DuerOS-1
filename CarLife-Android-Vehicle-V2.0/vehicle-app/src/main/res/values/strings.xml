@@ -227,6 +227,8 @@
     <string name="OPEN_HOT">open_hot</string>
     <string name="CFG_HIDE_STATUS_BAR">CFG_HIDE_STATUS_BAR</string>
     <string name="CFG_HIDE_NAVI_BAR">CFG_HIDE_NAVI_BAR</string>
+    <string name="KEYCODE_VOICE">KEYCODE_VOICE</string>
+
 
 
     <string name="CONNECT_SUCCESS_SHOW_UI">CONNECT_SUCCESS_SHOW_UI</string>

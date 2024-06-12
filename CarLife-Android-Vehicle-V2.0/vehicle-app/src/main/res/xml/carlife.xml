@@ -42,7 +42,6 @@
             android:defaultValue="false"
             android:key="@string/MUSIC_ENABLE_AAC"
             android:persistent="true"
-            android:summary="vivo支持，小米暂不支持"
             android:summaryOff="否"
             android:summaryOn="是"
             android:switchTextOff="0"
@@ -246,5 +245,11 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="按键功能">
 
+
+    <EditTextPreference android:persistent="true" android:title="播放暂停" android:key="@string/KEYCODE_PLAY_PAUSE" android:defaultValue="-1" app:useSimpleSummaryProvider="true"  />
+    <EditTextPreference android:persistent="true" android:title="语音助手" android:key="@string/KEYCODE_VOICE" android:defaultValue="-1" app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

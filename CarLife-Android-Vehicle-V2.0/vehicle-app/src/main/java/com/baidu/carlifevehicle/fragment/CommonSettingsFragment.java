@@ -4,8 +4,12 @@ import static com.baidu.carlife.sdk.Configs.FEATURE_CONFIG_FOCUS_UI;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.InputType;
+import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
@@ -28,6 +32,12 @@ public class CommonSettingsFragment extends PreferenceFragmentCompat implements 
       getPreferenceManager().setSharedPreferencesName(CommonParams.CARLIFE_NORMAL_PREFERENCES);
         addPreferencesFromResource(R.xml.carlife);
         //findPreference(FEATURE_CONFIG_FOCUS_UI).setOnPreferenceChangeListener(this);
+        EditTextPreference etPlayPause = findPreference("KEYCODE_PLAY_PAUSE");
+        etPlayPause.setOnBindEditTextListener(editText -> editText.setInputType(InputType.TYPE_CLASS_NUMBER));
+        EditTextPreference etVoice = findPreference("KEYCODE_VOICE");
+        etVoice.setOnBindEditTextListener(editText -> editText.setInputType(InputType.TYPE_CLASS_NUMBER));
+
+
     }
 
     @Override
