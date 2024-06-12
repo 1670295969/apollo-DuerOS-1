@@ -2,10 +2,14 @@ package com.baidu.carlifevehicle.util
 
 import android.util.Log
 import android.view.KeyEvent
+import com.baidu.carlife.sdk.receiver.CarLife
 
 object HookCustomKey {
 
     fun handleCustomKey(from :String,keyCode: Int, isPlayIng: Boolean): Boolean {
+        if(!CarLife.receiver().isConnected()){
+            return false
+        }
         val keyCodePlayPause = try {
             PreferenceUtil.getInstance().getString("KEYCODE_PLAY_PAUSE", "-1").toInt()//303
         } catch (e: Exception) {

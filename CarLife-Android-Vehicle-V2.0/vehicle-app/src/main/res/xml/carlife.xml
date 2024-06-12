@@ -89,7 +89,7 @@
             android:switchTextOn="1"
             android:title="拉伸画面" />
         <!--        <EditTextPreference android:persistent="true" android:title="画面拉伸宽" android:key="@string/FORCE_FULL_SCREEN_WIDTH" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />-->
-        <!--        <EditTextPreference android:persistent="true" android:title="画面拉伸高" android:key="@string/FORCE_FULL_SCREEN_HEIGHT" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />-->
+        <!--        <EditTextPrefer nce android:persistent="true" android:title="画面拉伸高" android:key="@string/FORCE_FULL_SCREEN_HEIGHT" android:dependency="@string/FORCE_FULL_SCREEN" app:useSimpleSummaryProvider="true" />-->
     </PreferenceCategory>
 
     <PreferenceCategory android:title="CarLife相关">
@@ -129,15 +129,15 @@
             android:switchTextOff="0"
             android:switchTextOn="1"
             android:title="蓝牙自动匹配" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI"
-            android:persistent="true"
-            android:summaryOff="不可用"
-            android:summaryOn="可用"
-            android:switchTextOff="0"
-            android:switchTextOn="1"
-            android:title="蓝牙电话" />
+<!--        <SwitchPreference-->
+<!--            android:defaultValue="false"-->
+<!--            android:key="@string/FEATURE_CONFIG_BLUETOOTH_INTERNAL_UI"-->
+<!--            android:persistent="true"-->
+<!--            android:summaryOff="不可用"-->
+<!--            android:summaryOn="可用"-->
+<!--            android:switchTextOff="0"-->
+<!--            android:switchTextOn="1"-->
+<!--            android:title="蓝牙电话" />-->
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/FEATURE_CONFIG_AUDIO_TRANSMISSION_MODE"
@@ -166,16 +166,16 @@
             android:switchTextOff="0"
             android:switchTextOn="1"
             android:title="运行CarLife的⻋机类型" />
-        <EditTextPreference
-            android:key="@string/CONFIG_HU_BT_NAME"
-            android:persistent="true"
-            android:title="⻋机端蓝牙名称"
-            app:useSimpleSummaryProvider="true" />
-        <EditTextPreference
-            android:key="@string/CONFIG_HU_BT_MAC"
-            android:persistent="true"
-            android:title="⻋机端蓝牙MAC地址"
-            app:useSimpleSummaryProvider="true" />
+<!--        <EditTextPreference-->
+<!--            android:key="@string/CONFIG_HU_BT_NAME"-->
+<!--            android:persistent="true"-->
+<!--            android:title="⻋机端蓝牙名称"-->
+<!--            app:useSimpleSummaryProvider="true" />-->
+<!--        <EditTextPreference-->
+<!--            android:key="@string/CONFIG_HU_BT_MAC"-->
+<!--            android:persistent="true"-->
+<!--            android:title="⻋机端蓝牙MAC地址"-->
+<!--            app:useSimpleSummaryProvider="true" />-->
         <ListPreference
             android:defaultValue="30"
             android:entries="@array/video_framerate_entities"

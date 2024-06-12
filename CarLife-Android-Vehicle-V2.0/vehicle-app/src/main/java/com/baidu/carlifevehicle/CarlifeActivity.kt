@@ -33,6 +33,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.preference.PreferenceGroup
 import com.baidu.carlife.protobuf.CarlifeBTHfpCallStatusCoverProto.CarlifeBTHfpCallStatusCover
 import com.baidu.carlife.protobuf.CarlifeCarHardKeyCodeProto
 import com.baidu.carlife.protobuf.CarlifeConnectExceptionProto.CarlifeConnectException
@@ -77,6 +78,8 @@ import com.baidu.carlifevehicle.module.VRModule
 import com.baidu.carlifevehicle.util.ActivityHelper
 import com.baidu.carlifevehicle.util.CarlifeConfUtil
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.CFG_AUTO_PLAY_BT_MUSIC
+import com.baidu.carlifevehicle.util.CarlifeConfUtil.CFG_HIDE_NAVI_BAR
+import com.baidu.carlifevehicle.util.CarlifeConfUtil.CFG_HIDE_STATUS_BAR
 import com.baidu.carlifevehicle.util.CarlifeConfUtil.KEY_INT_AUDIO_TRANSMISSION_MODE
 import com.baidu.carlifevehicle.util.CarlifeUtil
 import com.baidu.carlifevehicle.util.CommonParams
@@ -116,6 +119,9 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
     private var mIsCalling: Boolean = false
     private var mIsCallComing: Boolean = false
     private var mIsInitConfig: Boolean = false
+
+    private var isHideNaviBar = true
+    private var isHideStatusBar = true
 
     companion object {
         const val TAG = "CarlifeActivity"
@@ -285,6 +291,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                 CarLife.receiver().setDisplaySpec(displaySpec)
             }
 
+        }else{
+            setCarLifeDisplay()
         }
 
     }
@@ -295,7 +303,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         // 全屏显示，隐藏状态栏和导航栏，拉出状态栏和导航栏显示一会儿后消失。
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(window.decorView) { view, insets ->
-            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
             Log.i("OnApplyWindowInsetsListener", "$systemBarsInsets")
             insets
         }
@@ -304,7 +312,6 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         //View.SYSTEM_UI_FLAG_IMMERSIVE
         resetRanderDisplayWithPIP()
         setContentView(R.layout.activity_main)
-        setDockerViewPadding(0,0)
 
         mSurfaceView = findViewById(R.id.video_surface_view)
         supportActionBar?.hide()
@@ -362,6 +369,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         HotspotUtils.openHot()
         CarlifeMediaSessionService.start(this)
         ActivityHelper.setActivity(this)
+        isHideStatusBar = PreferenceUtil.getInstance().getBoolean(CFG_HIDE_STATUS_BAR,true)
+        isHideNaviBar = PreferenceUtil.getInstance().getBoolean(CFG_HIDE_NAVI_BAR,true)
     }
 
 
@@ -487,6 +496,13 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
                     "CarlifeActivity.onActivityResult"
                 )
                 setCarLifeDisplay()
+                // 状态栏相关设置有变动才需要recreate
+                val isNowHideStatusBar = PreferenceUtil.getInstance().getBoolean(CFG_HIDE_STATUS_BAR,true)
+                val isNowHideNaviBar = PreferenceUtil.getInstance().getBoolean(CFG_HIDE_NAVI_BAR,true)
+                if (isNowHideNaviBar != isHideNaviBar || isNowHideStatusBar != isHideStatusBar) {
+                    recreate()
+                }
+
             }
 
         }
@@ -511,13 +527,15 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         }
 
 
+//        if(::mSurfaceView.isInitialized){
+//            mSurfaceView.post {
+//                val lp = mSurfaceView.layoutParams
+//                lp.width = point.x
+//                lp.height = point.y
+//                mSurfaceView.layoutParams = lp
+//            }
+//        }
 
-        mSurfaceView.post {
-            val lp = mSurfaceView.layoutParams
-            lp.width = point.x
-            lp.height = point.y
-            mSurfaceView.layoutParams = lp
-        }
     }
 
     override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
@@ -845,6 +863,8 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
         Log.d("--------","$top === $bottom")
         window.decorView.post {
             window.decorView.apply {
+                Log.d("--------","decorView.h=${window.decorView.height}")
+                Log.d("--------","mSurfaceView.h=${mSurfaceView.height}")
                 if (NaviPos.isNone()) {
                     setPadding(0, top, 0, 0)
                 } else if (NaviPos.isLeft()) {
@@ -874,6 +894,7 @@ class CarlifeActivity : AppCompatActivity(), ConnectProgressListener,
             showNavi()
         } else if (naviBar) {
             //hideNavi()
+            window.clearFlags(1024)
             showStatus()
         } else {
             showSystemUI()

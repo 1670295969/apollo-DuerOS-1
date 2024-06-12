@@ -244,6 +244,13 @@ public class CarlifeConfUtil {
 
     public static final String CFG_NAVI_POS = "CONFIG_NAVI_POS";
 
+    public static final String CONFIG_VIDEO_FRAME_RATE = "CONFIG_VIDEO_FRAME_RATE";
+    //<string name="CFG_HIDE_STATUS_BAR">CFG_HIDE_STATUS_BAR</string>
+    //<string name="CFG_HIDE_NAVI_BAR">CFG_HIDE_NAVI_BAR</string>
+
+    public static final String CFG_HIDE_STATUS_BAR = "CFG_HIDE_STATUS_BAR";
+    public static final String CFG_HIDE_NAVI_BAR = "CFG_HIDE_NAVI_BAR";
+
 
 
     /**
